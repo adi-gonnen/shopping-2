@@ -23,10 +23,10 @@ export default {
   }),
   computed: {
     ...mapGetters({
-      defaultList: "list/defaultList"
+      defaultList: "user/defaultList"
     }),
     ...mapState({
-      lists: state => state.list.lists
+      lists: state => state.user.lists
     })
   },
   mounted() {
@@ -37,7 +37,6 @@ export default {
       getItems: "list/getItems"
     }),
       changeSelect(value) {
-          console.log('value', value);
           this.getItems(value.id)
       }
   }

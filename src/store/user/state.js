@@ -3,8 +3,6 @@ export default function () {
     auth: true,
     lists: null,
     defaultList: null,
-    listId: null,
-    items: null,
-    // markedItems: []
+    profile: null,
   }
 }

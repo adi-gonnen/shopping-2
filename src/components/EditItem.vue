@@ -1,6 +1,6 @@
 <template>
   <div class="row justify-between no-wrap">
-    <q-btn flat label="+" size="xl" color="white" @click="modal=true"/>
+    <q-btn flat class="edit-btn" :icon="icon" @click.stop="modal = true"/>
     <q-dialog v-model="modal">
       <q-card>
         <q-card-section class="row items-center q-pb-none">
@@ -8,11 +8,17 @@
         </q-card-section>
 
         <q-card-section>
-          <q-input bg-color="white" outlined v-model="newItem" autofocus placeholder="הוסף פריט"/>
           <q-input
             bg-color="white"
             outlined
-            v-model="quantity"
+            v-model="newItem.name"
+            autofocus
+            placeholder="הוסף פריט"
+          />
+          <q-input
+            bg-color="white"
+            outlined
+            v-model="newItem.quantity"
             type="number"
             class="quan-input q-my-md"
           >
@@ -20,7 +26,7 @@
           </q-input>
           <q-btn
             flat
-            label="+"
+            :label="btnText"
             size="xl"
             color="white"
             class="add-btn full-width"
@@ -36,26 +42,37 @@
 import { mapActions } from "vuex";
 export default {
   name: "AddItem",
+  props: ["item"],
   data: () => ({
-    newItem: null,
-    quantity: 1,
+    newItem: {},
     modal: false
   }),
+  computed: {
+    btnText() {
+      return this.item ? "עדכן פריט" : "הוסף פריט";
+    },
+    icon() {
+      return this.item ? 'edit' : 'add'
+    }
+  },
+  mounted() {
+    if (this.item) {
+      this.newItem = JSON.parse(JSON.stringify(this.item));
+    } else {
+      this.newItem.quantity = 1;
+    }
+  },
   methods: {
     ...mapActions({
+      editItem: "list/editItem",
       addNewItem: "list/addNewItem"
     }),
     addItem() {
-      if (!this.newItem) {
+      if (!this.newItem.name) {
         return;
       }
-      const item = {
-        name: this.newItem,
-        quantity: this.quantity
-      };
-      this.addNewItem(item);
-      this.newItem = null;
-      this.quantity = 1;
+      const func = this.item ? 'editItem' : 'addNewItem'
+      this[func](this.newItem);
       this.modal = false;
     }
   }

@@ -5,27 +5,34 @@
     @click="toggleSelected"
   >
     <q-item-label class="item-label q-mt-xs">{{item.name}}</q-item-label>
-    <q-item-label class="item-label">{{item.quantity}}</q-item-label>
+    <div class="row items-center">
+      <q-item-label v-if="isSelected">
+        <edit-item :item="item"/>
+      </q-item-label>
+      <q-item-label class="item-label">{{item.quantity}}</q-item-label>
+    </div>
+
   </div>
 </template>
 
 <script>
+import EditItem from "components/EditItem.vue";
+
 export default {
   name: "ListItem",
+  components: { EditItem },
   props: ["item", "selected"],
-  data: () => ({
-    // selected: false
-  }),
   computed: {
     isSelected() {
-      return this.selected.find(item => {return item === this.item.id})
+      return this.selected.find(item => {
+        return item === this.item.id;
+      });
     }
   },
   methods: {
     toggleSelected() {
-      // this.selected = !this.selected;
-      this.$emit('markItems', this.item.id)
-    }
+      this.$emit("markItems", this.item.id);
+    },
   }
 };
 </script>

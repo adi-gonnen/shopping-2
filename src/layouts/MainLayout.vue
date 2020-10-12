@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState } from "vuex";
 import Header from 'components/Header.vue'
 import Menu from 'components/Menu.vue'
 
@@ -32,7 +32,7 @@ export default {
   }),
    computed: {
     ...mapState({
-      auth: state => state.list.auth,
+      auth: state => state.user.auth,
     })
   },
   watch: {

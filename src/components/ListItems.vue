@@ -10,7 +10,7 @@
 
 <script>
 import ListItem from "components/ListItem.vue";
-import { mapState, mapActions } from "vuex";
+import { mapState } from "vuex";
 
 export default {
   name: "ListItems",
@@ -20,9 +20,6 @@ export default {
     selected: [],
   }),
   methods: {
-     ...mapActions({
-      setMarkedItems: "list/setMarkedItems"
-    }),
     markItems(id) {
       const idx = this.selected.findIndex(item => {
         return item === id;

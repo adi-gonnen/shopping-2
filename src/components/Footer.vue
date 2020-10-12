@@ -15,7 +15,7 @@ export default {
       deleteItems: "list/deleteItems"
     }),
     onDeleteItems() {
-     this.deleteItems(this.selected)
+     this.deleteItems(this.selected);
     }
   }
 };

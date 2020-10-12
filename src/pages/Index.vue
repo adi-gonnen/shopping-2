@@ -23,7 +23,7 @@ export default {
   computed: {
     ...mapState({
       items: state => state.list.items,
-      auth: state => state.list.auth,
+      auth: state => state.user.auth,
     })
   },
   async mounted() {
@@ -31,7 +31,7 @@ export default {
   },
   methods: {
     ...mapActions({
-      loadLists: "list/loadLists"
+      loadLists: "user/loadLists"
     }),
     markItems(array) {
       this.selected = array

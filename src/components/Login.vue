@@ -28,19 +28,14 @@ export default {
   }),
   methods: {
     ...mapActions({
-      login: "list/login",
-      loadList: "list/loadList",
-      loadLists: "list/loadLists"
+      login: "user/login",
     }),
     onSignInSuccess(googleUser) {
-      const response = googleUser.getAuthResponse();
-
-      const id_token = response.id_token;
+      const id_token = googleUser.getAuthResponse().id_token;
       this.login(id_token).then(() => {
         gapi.load("auth2", function() {
           gapi.auth2.init();
         });
-        this.loadLists();
       });
     },
     onSignInError(error) {

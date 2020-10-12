@@ -57,13 +57,13 @@ export default {
   }),
    computed: {
     ...mapState({
-      profile: state => state.list.profile,
-      auth: state => state.list.auth
+      profile: state => state.user.profile || {},
+      auth: state => state.user.auth
     })
   },
   methods: {
     ...mapActions({
-      logout: "list/logout"
+      logout: "user/logout"
     }),
     onLogout() {
       this.confirm = false;
