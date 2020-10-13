@@ -1,37 +1,18 @@
 <template>
   <div class="row justify-between no-wrap">
     <q-btn flat class="edit-btn" :icon="icon" @click.stop="modal = true"/>
+
     <q-dialog v-model="modal">
       <q-card>
         <q-card-section class="row items-center q-pb-none">
           <q-btn icon="close" flat round dense v-close-popup/>
         </q-card-section>
-
         <q-card-section>
-          <q-input
-            bg-color="white"
-            outlined
-            v-model="newItem.name"
-            autofocus
-            placeholder="הוסף פריט"
-          />
-          <q-input
-            bg-color="white"
-            outlined
-            v-model="newItem.quantity"
-            type="number"
-            class="quan-input q-my-md"
-          >
-            <template v-slot:before>כמות:</template>
+          <q-input outlined v-model="newItem.name" autofocus placeholder="הוסף פריט"/>
+          <q-input outlined v-model="newItem.quantity" type="number" class="quan-input q-my-md">
+            <template v-slot:before>כמות: &nbsp;</template>
           </q-input>
-          <q-btn
-            flat
-            :label="btnText"
-            size="xl"
-            color="white"
-            class="add-btn full-width"
-            @click="addItem"
-          />
+          <q-btn flat size="xl" class="add-btn full-width" @click="addItem">{{btnText}}</q-btn>
         </q-card-section>
       </q-card>
     </q-dialog>
@@ -52,14 +33,14 @@ export default {
       return this.item ? "עדכן פריט" : "הוסף פריט";
     },
     icon() {
-      return this.item ? 'edit' : 'add'
+      return this.item ? "edit" : "add";
     }
   },
   mounted() {
     if (this.item) {
       this.newItem = JSON.parse(JSON.stringify(this.item));
     } else {
-      this.newItem.quantity = 1;
+      this.newItem = { quantity: 1, name: "" };
     }
   },
   methods: {
@@ -71,9 +52,12 @@ export default {
       if (!this.newItem.name) {
         return;
       }
-      const func = this.item ? 'editItem' : 'addNewItem'
+      const func = this.item ? "editItem" : "addNewItem";
       this[func](this.newItem);
       this.modal = false;
+      if (!this.item) {
+        this.newItem = { quantity: 1, name: "" };
+      }
     }
   }
 };
@@ -98,5 +82,6 @@ export default {
 }
 .add-btn {
   background-color: $primary;
+  color: #fff;
 }
 </style>

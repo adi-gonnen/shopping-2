@@ -1,6 +1,6 @@
 <template>
   <div class="row justify-between no-wrap q-ma-sm">
-    <q-btn color="primary" class="footer-btn" icon="delete" @click="onDeleteItems"/>
+    <q-btn color="primary" class="footer-btn" icon="delete" @click="deleteItems"/>
     <q-btn disable class="footer-btn">מיין</q-btn>
   </div>
 </template>
@@ -12,10 +12,16 @@ export default {
   props: ["selected"],
   methods: {
     ...mapActions({
-      deleteItems: "list/deleteItems"
+      deleteItem: "list/deleteItem",
+      getItems: "list/getItems",
+      setLoading: "list/setLoading"
     }),
-    onDeleteItems() {
-     this.deleteItems(this.selected);
+    async deleteItems() {
+      for (const id of this.selected) {
+        await this.deleteItem(id);
+      }
+      await this.getItems();
+      this.setLoading(false);
     }
   }
 };
@@ -23,6 +29,6 @@ export default {
 
 <style lang="scss">
 .footer-btn {
-    width: 45%;
+  width: 45%;
 }
 </style>

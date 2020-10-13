@@ -18,7 +18,6 @@ function addItem(item) {
             return res.data
         })
         .catch(err => console.log('Problem talking to server', err))
-
 }
 
 function deleteItem(data) {
