@@ -1,38 +1,33 @@
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-header elevated>
-        <Header @toggleMenu="menu = !menu"/>
+      <main-header @toggleMenu="menu = !menu"/>
     </q-header>
 
-    <q-drawer
-      v-model="menu"
-      show-if-above
-      bordered
-      content-class="bg-grey-1"
-    >
-     <Menu/>
+    <q-drawer v-model="menu" show-if-above bordered content-class="bg-grey-1">
+      <Menu/>
     </q-drawer>
 
     <q-page-container>
-      <router-view />
+      <router-view/>
     </q-page-container>
   </q-layout>
 </template>
 
 <script>
 import { mapState } from "vuex";
-import Header from 'components/Header.vue'
-import Menu from 'components/Menu.vue'
+import MainHeader from "components/MainHeader.vue";
+import Menu from "components/Menu.vue";
 
 export default {
-  name: 'MainLayout',
-  components: { Header, Menu },
-  data: ()=> ({
-    menu: false,
+  name: "MainLayout",
+  components: { MainHeader, Menu },
+  data: () => ({
+    menu: false
   }),
-   computed: {
+  computed: {
     ...mapState({
-      auth: state => state.user.auth,
+      auth: state => state.user.auth
     })
   },
   watch: {
@@ -40,7 +35,7 @@ export default {
       this.menu = false;
     }
   }
-}
+};
 </script>
 
 <style>

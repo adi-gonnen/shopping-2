@@ -10,14 +10,14 @@
       </div>
     </q-img>
     <q-list padding>
-      <q-item clickable v-ripple class="q-mb-md">
+      <q-item clickable v-ripple class="q-mb-md" @click="openMenu('lists')">
         <q-item-section avatar>
           <q-icon name="shopping_cart"></q-icon>
         </q-item-section>
         <q-item-section class="fs-20 text-weight-bold q-mb-sm">ערוך רשימות</q-item-section>
       </q-item>
 
-      <q-item clickable v-ripple class="q-mb-md">
+      <q-item v-ripple class="q-mb-md">
         <q-item-section avatar>
           <q-icon name="local_activity"></q-icon>
         </q-item-section>
@@ -68,6 +68,10 @@ export default {
     onLogout() {
       this.confirm = false;
       this.logout();
+    },
+    openMenu(type) {
+      this.confirm = false;
+      this.$nextTick(() => this.$router.push(`/${type}`));
     }
   }
 };

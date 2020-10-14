@@ -1,5 +1,6 @@
+
 <template>
-  <q-toolbar :class="items && 'row justify-between'">
+  <q-toolbar :class="items && 'row justify-between'" class="header">
     <q-btn v-if="auth" flat dense round icon="menu" aria-label="Menu" @click="$emit('toggleMenu')"/>
     <select-list v-if="auth && items"/>
     <edit-item v-if="auth && items"/>
@@ -23,3 +24,4 @@ export default {
   },
 };
 </script>
+

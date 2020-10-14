@@ -8,7 +8,7 @@
 <script>
 import { mapActions } from "vuex";
 export default {
-  name: "Footer",
+  name: "MainFooter",
   props: ["selected"],
   methods: {
     ...mapActions({

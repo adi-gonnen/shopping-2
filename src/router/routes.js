@@ -7,6 +7,13 @@ const routes = [
       { path: '', component: () => import('pages/Index.vue') }
     ]
   },
+  {
+    path: '/lists',
+    component: () => import('layouts/InnerLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/Lists.vue') }
+    ]
+  },
 
   // Always leave this as last one,
   // but you can also remove it

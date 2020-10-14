@@ -1,31 +1,24 @@
 <template>
   <q-page class="flex q-mt-sm">
-    <Login v-if="!auth"/>
-    <div v-else class="full-width">
-      <q-spinner-hourglass v-if="loading" color="primary" size="4em"/>
-      <list-items v-else-if="items" :items="items" @markItems="markItems"/>
-      <div v-if="error" class="error-text">{{errorText}}</div>
-      <main-footer :selected="selected" class="fixed-bottom"/>
-    </div>
+    <q-spinner-hourglass v-if="loading" color="primary" size="4em"/>
+    <edit-lists v-else/>
+    <div v-if="error" class="error-text">{{errorText}}</div>
+    <!-- <lists-footer/> -->
   </q-page>
 </template>
 
 <script>
 import { mapState, mapActions } from "vuex";
-import Login from "components/Login.vue";
-import ListItems from "components/ListItems.vue";
-import MainFooter from "components/MainFooter.vue";
+import EditLists from "components/EditLists.vue";
+// import ListsFooter from "components/ListsFooter.vue";
 
 export default {
-  name: "Home",
-  components: { ListItems, MainFooter, Login },
+  name: "Lists",
+  components: { EditLists },
   data: () => ({
-    selected: []
   }),
   computed: {
     ...mapState({
-      items: state => state.list.items,
-      auth: state => state.user.auth,
       loading: state => state.list.loading,
       error: state => state.list.error
     }),
@@ -52,10 +45,7 @@ export default {
   methods: {
     ...mapActions({
       loadLists: "user/loadLists"
-    }),
-    markItems(array) {
-      this.selected = array;
-    }
+    })
   }
 };
 </script>
@@ -72,4 +62,5 @@ export default {
   color: red;
   margin: 0 20px;
 }
+
 </style>
