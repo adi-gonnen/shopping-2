@@ -30,15 +30,17 @@ export default {
     })
   },
   mounted() {
-    this.selected = this.defaultList;
+    if (this.lists) {
+      this.selected = this.defaultList || this.lists[0];
+    }
   },
   methods: {
-      ...mapActions({
+    ...mapActions({
       getItems: "list/getItems"
     }),
-      changeSelect(value) {
-          this.getItems(value.id)
-      }
+    changeSelect(value) {
+      this.getItems(value.id);
+    }
   }
 };
 </script>
@@ -52,7 +54,7 @@ export default {
       font-size: 20px;
     }
     .q-select__dropdown-icon {
-        color: white;
+      color: white;
     }
   }
 }

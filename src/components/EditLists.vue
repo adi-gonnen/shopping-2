@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters, mapActions } from "vuex";
+import { mapState, mapActions } from "vuex";
 import EditList from "components/EditList.vue";
 
 export default {
@@ -51,11 +51,9 @@ export default {
     selected: {}
   }),
   computed: {
-    ...mapGetters({
-      defaultList: "user/defaultList"
-    }),
     ...mapState({
-      lists: state => state.user.lists
+      lists: state => state.user.lists,
+      defaultListId: state => state.user.defaultListId,
     }),
     isSelected() {
       return id => {
@@ -64,7 +62,7 @@ export default {
     },
     isDefault() {
       return id => {
-        return this.defaultList && id === this.defaultList.id;
+        return +id === +this.defaultListId;
       };
     },
     selectedList() {
@@ -78,14 +76,8 @@ export default {
       await this.loadLists();
     }
   },
-  // watch: {
-  //   selected() {
-  //     this.$emit("setSelected", this.selected);
-  //   }
-  // },
   methods: {
     ...mapActions({
-      getItems: "list/getItems",
       loadLists: "user/loadLists"
     }),
 
@@ -99,7 +91,6 @@ export default {
 
     async onDeleteList() {
       console.log("list select", this.selected);
-      // await this.getItems();
       // this.setLoading(false);
     }
   }

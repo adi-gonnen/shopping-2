@@ -5,7 +5,7 @@
         <q-avatar size="56px" class="q-mb-sm">
           <img :src="profile.picture">
         </q-avatar>
-        <div class="text-weight-bold">{{profile.name}}</div>
+        <div class="text-weight-bold">{{profile.auth.name}}</div>
         <div>{{profile.email}}</div>
       </div>
     </q-img>

@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapState, mapActions } from "vuex";
 export default {
   name: "EditList",
   props: ["list"],
@@ -28,30 +28,54 @@ export default {
     modal: false
   }),
   computed: {
+    ...mapState({
+      defualtId: state => state.user.defaultListId
+    }),
     btnText() {
       return this.list ? "עדכן רשימה" : "הוסף רשימה";
     },
     icon() {
       return this.list ? "edit" : "add";
+    },
+    isDefault() {
+      if (this.list) {
+        return +this.defualtId === +this.list.id;
+      } else {
+        return false;
+      }
     }
   },
   mounted() {
     if (this.list) {
       this.newList = this.list.name;
-      // this.newList = JSON.parse(JSON.stringify(this.list));
+      if (this.isDefault) {
+        this.setAsDefault = true;
+      }
     }
   },
   methods: {
     ...mapActions({
-      editItem: "list/editItem",
-      addNewItem: "list/addNewItem"
+      editList: "user/editList",
+      addNewList: "user/addList",
+      setDefault: "user/setDefault",
+      loadLists: "user/loadLists",
     }),
-    addList() {
+    async addList() {
       if (!this.newList) {
         return;
       }
-      const func = this.list ? "editList" : "addNewList";
-      this[func](this.newList);
+      if (this.list) {
+        const list = JSON.parse(JSON.stringify(this.list));
+        list.name = this.newList;
+        await this.editList(list);
+      } else {
+        const list = {name: this.newList};
+        await this.addNewList(list);
+      }
+      if (this.isDefault !== this.setAsDefault) {
+        this.setDefault({ id: this.list.id, value: this.setAsDefault });
+      }
+      await this.loadLists();
       this.modal = false;
       if (!this.list) {
         this.newList = "";

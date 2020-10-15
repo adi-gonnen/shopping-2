@@ -13,7 +13,7 @@ export function getLists (state, payload) {
 }
 
 export function setDefaultList (state, payload) {
-    state.defaultList = payload;
+    state.defaultListId = payload;
     state.listId = payload;
 }
 
