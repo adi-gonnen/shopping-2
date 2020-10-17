@@ -34,10 +34,34 @@ function editItem(item) {
     })
 }
 
+function editList(list) {
+    return axios.put(`${api}/list`, list)
+    .then(res => {
+      return res;
+    });
+  }
+  
+  function addList(list) {
+    return axios.post(`${api}/list`, list)
+    .then(res => {
+      return res;
+    });
+  }
+
+function deleteList(listId) {
+    return axios.delete(`${api}/list/null/${listId}`)       //null for parentId
+    .then(res => {
+        return res.data
+    })
+}
+
 
 export default {
     getItems,
     addItem,
     deleteItem,
-    editItem
+    editItem,
+    editList,
+    addList,
+    deleteList
 }

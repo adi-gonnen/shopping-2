@@ -1,17 +1,25 @@
 <template>
-  <div :class="list && 'edit-list'" class="edit-list-container row justify-between no-wrap">
-    <q-btn flat class="edit-btn" :icon="icon" @click.stop="modal = true"/>
+  <div :class="list && 'edit-list q-mx-sm'" class="edit-list-container full-width">
+    <q-input outlined v-model="newList" autofocus placeholder="הוסף רשימה"/>
+    <q-checkbox label="סמן כברירת מחדל" v-model="setAsDefault" class="q-my-md"/>
+
+    <div class="btns-container row justify-around fixed-bottom full-width q-my-sm q-mx-md">
+      <q-btn flat class="edit-btn" @click="addList">{{btnText}}</q-btn>
+      <q-btn v-if="list" class="edit-btn delete-btn" @click="modal=true">מחיקה</q-btn>
+    </div>
 
     <q-dialog v-model="modal">
       <q-card>
         <q-card-section class="row items-center q-pb-none">
           <q-btn icon="close" flat round dense v-close-popup/>
         </q-card-section>
-        <q-card-section>
-          <q-input outlined v-model="newList" autofocus placeholder="הוסף רשימה"/>
-          <q-checkbox label="סמן כברירת מחדל" v-model="setAsDefault" class="q-my-md"/>
-          <q-btn flat size="xl" class="add-btn full-width" @click="addList">{{btnText}}</q-btn>
+        <q-card-section class="row items-center">
+          <span class="q-ml-sm q-mb-lg">האם את/ה בטוח/ה שברצונך למחוק?</span>
         </q-card-section>
+        <q-card-actions align="right">
+          <q-btn label="מחק" color="primary" class="q-mx-sm" @click="onDeleteList"/>
+          <q-btn label="ביטול" v-close-popup/>
+        </q-card-actions>
       </q-card>
     </q-dialog>
   </div>
@@ -55,11 +63,17 @@ export default {
   },
   methods: {
     ...mapActions({
-      editList: "user/editList",
-      addNewList: "user/addList",
+      editList: "list/editList",
+      addNewList: "list/addList",
       setDefault: "user/setDefault",
       loadLists: "user/loadLists",
+      deleteList: "list/deleteList"
     }),
+    async onDeleteList() {
+      await this.deleteList(this.list.id);
+      this.modal = false;
+      window.history.back();
+    },
     async addList() {
       if (!this.newList) {
         return;
@@ -69,17 +83,18 @@ export default {
         list.name = this.newList;
         await this.editList(list);
       } else {
-        const list = {name: this.newList};
+        const list = { name: this.newList };
         await this.addNewList(list);
       }
       if (this.isDefault !== this.setAsDefault) {
         this.setDefault({ id: this.list.id, value: this.setAsDefault });
       }
-      await this.loadLists();
+      this.loadLists();
       this.modal = false;
       if (!this.list) {
         this.newList = "";
       }
+      window.history.back();
     }
   }
 };
@@ -102,13 +117,20 @@ export default {
     }
   }
 }
-.edit-list-container:not(.edit-list) {
-  width: 45%;
+.edit-list-container {
   & .edit-btn {
-    width: 100%;
-    background-color: $primary;
-    color: #fff;
     height: 50px;
+    font-size: 20px;
+    width: 95%;
+    &:not(.delete-btn) {
+      color: #fff;
+      background-color: $primary;
+    }
+  }
+  &.edit-list {
+    & .edit-btn {
+      width: 45%;
+    }
   }
 }
 </style>

@@ -15,40 +15,24 @@
           <q-icon v-if="isDefault(list.id)" name="star" color="primary" class="q-mx-sm"/>
         </q-item-section>
         <q-item-section avatar class="q-pa-none">
-          <edit-list v-if="isSelected(list.id)" :list="list"/>
+          <q-btn v-if="isSelected(list.id)" flat class="edit-btn" icon="edit" @click.stop="openEditList(list.id)"/>
         </q-item-section>
       </q-item>
     </q-list>
 
-    <div class="btns-container row justify-between fixed-bottom no-wrap q-my-sm q-mx-md">
-      <edit-list/>
-      <q-btn color="primary" class="lists-btn" icon="delete" @click="deleteModal = true"/>
+    <div class="row justify-between fixed-bottom q-my-sm q-mx-md">
+      <q-btn flat icon="add" class="add-btn" @click.stop="openEditList(null)"/>
     </div>
-
-    <!-- <q-dialog v-model="deleteModal">
-      <q-card>
-        <q-card-section class="row items-center">
-          <span class="q-ml-sm q-mb-lg">האם את/ה בטוח/ה שברצונך למחוק?</span>
-        </q-card-section>
-
-        <q-card-actions align="right">
-          <q-btn label="מחק" color="primary" class="q-mx-sm" @click="onDeleteList"/>
-          <q-btn label="ביטול" v-close-popup/>
-        </q-card-actions>
-      </q-card>
-    </q-dialog>-->
   </div>
 </template>
 
 <script>
 import { mapState, mapActions } from "vuex";
-import EditList from "components/EditList.vue";
 
 export default {
   name: "EditLists",
-  components: { EditList },
   data: () => ({
-    selected: {}
+    selected: {},
   }),
   computed: {
     ...mapState({
@@ -78,7 +62,7 @@ export default {
   },
   methods: {
     ...mapActions({
-      loadLists: "user/loadLists"
+      loadLists: "user/loadLists",
     }),
 
     toggleList(list) {
@@ -88,10 +72,9 @@ export default {
         setTimeout(() => {this.selected = list}, 200);      
       }
     },
-
-    async onDeleteList() {
-      console.log("list select", this.selected);
-      // this.setLoading(false);
+    openEditList(id) {
+      const params = id ? id : 'add-list';
+      this.$router.push(`/list/${params}`);
     }
   }
 };
@@ -122,8 +105,9 @@ export default {
 .btns-container {
   width: 90%;
 }
-.lists-btn {
+.add-btn {
   height: 50px;
-  width: 45%;
+  width: 100%;
+  margin: auto;
 }
 </style>

@@ -11,7 +11,14 @@ const routes = [
     path: '/lists',
     component: () => import('layouts/InnerLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/Lists.vue') }
+      { path: '', component: () => import('pages/Lists.vue') },
+    ]
+  },
+  {
+    path: '/list/:id?',
+    component: () => import('layouts/InnerLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/EditList.vue') },
     ]
   },
 

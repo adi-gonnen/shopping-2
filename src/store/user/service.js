@@ -33,20 +33,6 @@ function loadLists() {
     });
 }
 
-function editList(list) {
-  return axios.put(`${api}/list`, list)
-  .then(res => {
-    return res;
-  });
-}
-
-function addList(list) {
-  return axios.post(`${api}/list`, list)
-  .then(res => {
-    return res;
-  });
-}
-
 function setProfile(profile) {
   return axios.put(`${api}/profile`, profile)
   .then(res => {
@@ -70,8 +56,6 @@ export default {
   login,
   loadProfile,
   loadLists,
-  editList,
-  addList,
   setProfile,
   logout
 };

@@ -45,6 +45,41 @@ export function editItem({ state, commit, dispatch }, item) {
   });
 }
 
+export async function editList({ state }, list) {
+  return listService.editList(list).then(res => {
+    if (res.status === 400) {
+      commit("setError", "edit");
+      setTimeout(() => commit("setError", null), 10000 )
+    }
+    dispatch("getItems", parentId);
+    commit("setLoading", false);
+  });
+}
+
+export async function addList({ state }, list) {
+  return listService.addList(list).then(res => {
+    if (res.status === 400) {
+      commit("setError", "add");
+      setTimeout(() => commit("setError", null), 10000 )
+    }
+    dispatch("getItems", parentId);
+    commit("setLoading", false);
+  });
+}
+
+export function deleteList({ state, commit, dispatch }, listId) {
+  commit("setLoading", true);
+  // const parentId = state.listId;
+  return listService.deleteList(listId).then(res => {
+    if (res.status === 400) {
+      commit("setError", "delete");
+      setTimeout(() => commit("setError", null), 10000 )
+    }
+    dispatch("user/loadLists", { root: true });
+    commit("setLoading", false);
+  });
+}
+
 export function setLoading({ commit }, value) {
   commit("setLoading", value);
 }
