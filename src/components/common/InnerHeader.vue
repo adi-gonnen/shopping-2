@@ -7,8 +7,8 @@
 </template>
 
 <script>
-import EditItem from "components/EditItem.vue";
-import SelectList from "components/SelectList.vue";
+import EditItem from "components/list/EditItem.vue";
+import SelectList from "components/list/SelectList.vue";
 import { mapState, mapActions } from "vuex";
 
 export default {

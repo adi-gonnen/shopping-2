@@ -1,7 +1,25 @@
 <template>
   <div :class="list && 'edit-list q-mx-sm'" class="edit-list-container full-width">
-    <q-input outlined v-model="newList" autofocus placeholder="הוסף רשימה"/>
-    <q-checkbox label="סמן כברירת מחדל" v-model="setAsDefault" class="q-my-md"/>
+    <q-input outlined v-model="newList" autofocus placeholder="הוסף רשימה" class="full-width"/>
+    <q-checkbox label="סמן כברירת מחדל" v-model="setAsDefault" class="fs-20 q-my-md"/>
+    <div v-if="users" class="fs-20 bold">עדכן שותפים לרשימה:</div>
+    <q-list v-if="users" class="q-mb-sm">
+      <q-item v-for="user in users" :key="user.value" tag="label" v-ripple class="q-px-none">
+        <q-item-section avatar class="q-px-none">
+          <q-checkbox v-model="selectUsers" :val="user.value"/>
+        </q-item-section>
+        <q-item-section class="users-list">
+          <q-item-label caption>
+            <q-avatar size="32px" >
+              <img :src="user.label.picture">
+            </q-avatar>
+          </q-item-label>
+          <q-item-label class="q-ma-xs">{{user.label.name}}</q-item-label>
+        </q-item-section>
+      </q-item>
+    </q-list>
+    <div class="fs-20 bold">הוסף משתמש חדש:</div>
+    <q-input outlined v-model="newUser" placeholder="אימייל" class="full-width"/>
 
     <div class="btns-container row justify-around fixed-bottom full-width q-my-sm q-mx-md">
       <q-btn flat class="edit-btn" @click="addList">{{btnText}}</q-btn>
@@ -33,7 +51,10 @@ export default {
   data: () => ({
     newList: "",
     setAsDefault: false,
-    modal: false
+    modal: false,
+    users: null,
+    selectUsers: [],
+    newUser: ''
   }),
   computed: {
     ...mapState({
@@ -56,6 +77,7 @@ export default {
   mounted() {
     if (this.list) {
       this.newList = this.list.name;
+      this.$nextTick(() =>this.setUsers())      
       if (this.isDefault) {
         this.setAsDefault = true;
       }
@@ -69,6 +91,20 @@ export default {
       loadLists: "user/loadLists",
       deleteList: "list/deleteList"
     }),
+    setUsers() {
+      const data = this.list.usersData;
+      if (data) {
+        const keys = Object.keys(data);
+        this.selectUsers = keys;
+        const values = Object.values(data);
+        const users = [];
+        keys.forEach((key, idx) => {
+          users.push({ value: key, label: values[idx] });
+        });
+        console.log("userdata", users);
+        this.users = users;
+      }
+    },
     async onDeleteList() {
       await this.deleteList(this.list.id);
       this.modal = false;
@@ -133,4 +169,10 @@ export default {
     }
   }
 }
+.users-list {
+  flex-direction: row !important;
+  justify-content: flex-start;
+    align-items: center;
+}
+
 </style>

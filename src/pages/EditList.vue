@@ -8,7 +8,7 @@
 
 <script>
 import { mapState, mapActions } from "vuex";
-import EditList from "components/EditList.vue";
+import EditList from "components/list/EditList.vue";
 
 export default {
   name: "EditListPage",
@@ -22,9 +22,11 @@ export default {
     }),
     list() {
       const id = this.$route.params.id;
-      return this.lists.find((list) => {
-        return list.id === id
-      })
+      if (this.lists) {
+        return this.lists.find((list) => {
+          return list.id === id
+        })
+      }
     },
     errorText() {
       switch (this.error) {
@@ -44,7 +46,10 @@ export default {
     }
   },
   async mounted() {
-    await this.loadLists();
+    if (!this.lists) {
+      await this.loadLists();
+    }
+    const id = this.$route.params.id;
   },
   methods: {
     ...mapActions({

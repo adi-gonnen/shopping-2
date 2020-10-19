@@ -11,7 +11,7 @@
 
 <script>
 import { mapState } from "vuex";
-import InnerHeader from "components/InnerHeader.vue";
+import InnerHeader from "components/common/InnerHeader.vue";
 
 export default {
   name: "InnerLayout",

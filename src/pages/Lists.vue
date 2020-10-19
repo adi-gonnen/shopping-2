@@ -9,7 +9,7 @@
 
 <script>
 import { mapState, mapActions } from "vuex";
-import EditLists from "components/EditLists.vue";
+import EditLists from "components/list/EditLists.vue";
 // import ListsFooter from "components/ListsFooter.vue";
 
 export default {
@@ -20,7 +20,8 @@ export default {
   computed: {
     ...mapState({
       loading: state => state.list.loading,
-      error: state => state.list.error
+      error: state => state.list.error,
+      lists: state => state.user.lists,
     }),
     errorText() {
       switch (this.error) {
@@ -40,7 +41,9 @@ export default {
     }
   },
   async mounted() {
-    await this.loadLists();
+    if (!this.lists) {
+      await this.loadLists();
+    }
   },
   methods: {
     ...mapActions({

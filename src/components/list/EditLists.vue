@@ -23,6 +23,7 @@
     <div class="row justify-between fixed-bottom q-my-sm q-mx-md">
       <q-btn flat icon="add" class="add-btn" @click.stop="openEditList(null)"/>
     </div>
+    <!-- delete/parentId/email -->
   </div>
 </template>
 
@@ -55,16 +56,7 @@ export default {
       });
     }
   },
-  async mounted() {
-    if (!this.list) {
-      await this.loadLists();
-    }
-  },
   methods: {
-    ...mapActions({
-      loadLists: "user/loadLists",
-    }),
-
     toggleList(list) {
       if (this.selected.id === list.id) {
         this.selected = {};

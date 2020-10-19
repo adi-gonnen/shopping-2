@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import ListItem from "components/ListItem.vue";
+import ListItem from "components/list/ListItem.vue";
 import { mapState } from "vuex";
 
 export default {

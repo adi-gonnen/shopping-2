@@ -12,9 +12,9 @@
 
 <script>
 import { mapState, mapActions } from "vuex";
-import Login from "components/Login.vue";
-import ListItems from "components/ListItems.vue";
-import MainFooter from "components/MainFooter.vue";
+import Login from "components/common/Login.vue";
+import ListItems from "components/list/ListItems.vue";
+import MainFooter from "components/common/MainFooter.vue";
 
 export default {
   name: "Home",

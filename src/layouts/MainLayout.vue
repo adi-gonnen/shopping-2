@@ -16,8 +16,8 @@
 
 <script>
 import { mapState } from "vuex";
-import MainHeader from "components/MainHeader.vue";
-import Menu from "components/Menu.vue";
+import MainHeader from "components/common/MainHeader.vue";
+import Menu from "components/common/Menu.vue";
 
 export default {
   name: "MainLayout",

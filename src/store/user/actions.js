@@ -22,6 +22,7 @@ export async function loadLists({ state, commit, dispatch }) {
     return false;
   } else {
     commit("getLists", lists);
+    console.log("lists", lists[0].usersData)
     await dispatch("loadProfile");
     commit("setAuth", true);
     await dispatch("list/getItems", state.defaultListId, { root: true });

@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import EditItem from "components/EditItem.vue";
+import EditItem from "components/list/EditItem.vue";
 
 export default {
   name: "ListItem",
