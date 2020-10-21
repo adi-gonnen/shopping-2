@@ -45,25 +45,26 @@ export function editItem({ state, commit, dispatch }, item) {
   });
 }
 
-export async function editList({ state }, list) {
+export async function editList({ commit, dispatch }, list) {
+  commit("setLoading", true);
   return listService.editList(list).then(res => {
     if (res.status === 400) {
       commit("setError", "edit");
       setTimeout(() => commit("setError", null), 10000 )
     }
-    dispatch("getItems", parentId);
     commit("setLoading", false);
   });
 }
 
-export async function addList({ state }, list) {
+export async function addList({ commit }, list) {
+  commit("setLoading", true);
   return listService.addList(list).then(res => {
     if (res.status === 400) {
       commit("setError", "add");
       setTimeout(() => commit("setError", null), 10000 )
     }
-    dispatch("getItems", parentId);
     commit("setLoading", false);
+    return res.data;
   });
 }
 
@@ -75,7 +76,7 @@ export function deleteList({ state, commit, dispatch }, listId) {
       commit("setError", "delete");
       setTimeout(() => commit("setError", null), 10000 )
     }
-    dispatch("user/loadLists", { root: true });
+    // dispatch("user/loadLists", { root: true });
     commit("setLoading", false);
   });
 }

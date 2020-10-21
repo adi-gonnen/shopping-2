@@ -39,14 +39,8 @@ export async function loadProfile({ commit, state }) {
   });
 }
 
-export async function editList({ state }, list) {
-  return listService.editList(list).then(res => {
-    return res;
-  });
-}
-
-export async function addList({ state }, list) {
-  return listService.addList(list).then(res => {
+export async function addUser({ state }, user) {
+  return listService.addUser(user).then(res => {
     return res;
   });
 }

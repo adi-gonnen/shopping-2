@@ -40,6 +40,13 @@ function setProfile(profile) {
   });
 }
 
+function addUser(user) {
+  return axios.post(`${api}/user`, user)
+  .then(res => {
+    return res;
+  });
+}
+
 function logout() {
   const loginResponse = axios.post(`${api}/logout`);
   const auth2 = gapi.auth2;
@@ -57,5 +64,6 @@ export default {
   loadProfile,
   loadLists,
   setProfile,
+  addUser,
   logout
 };
