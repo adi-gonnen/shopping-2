@@ -22,7 +22,6 @@ export async function loadLists({ state, commit, dispatch }) {
     return false;
   } else {
     commit("getLists", lists);
-    console.log("lists", lists[0].usersData)
     await dispatch("loadProfile");
     commit("setAuth", true);
     await dispatch("list/getItems", state.defaultListId, { root: true });
@@ -41,6 +40,12 @@ export async function loadProfile({ commit, state }) {
 
 export async function addUser({ state }, user) {
   return listService.addUser(user).then(res => {
+    return res;
+  });
+}
+
+export async function deleteUser({ state }, url) {
+  return listService.deleteUser(url).then(res => {
     return res;
   });
 }

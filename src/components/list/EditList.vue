@@ -12,6 +12,8 @@
         <q-toggle label="סמן כברירת מחדל" v-model="setAsDefault" left-label class="default-toggle"/>
       </div>
 
+      {{selectUsers}}
+
       <!-- add user -->
       <div class="border q-pa-sm q-mb-md">
         <div class="fs-20">הוסף משתמש חדש:</div>
@@ -62,7 +64,7 @@
 
     <!-- operate btns -->
     <div class="btns-container row fixed-bottom">
-      <q-btn flat class="edit-btn" @click="addList">{{btnText}}</q-btn>
+      <q-btn flat class="edit-btn" @click="updateList">{{btnText}}</q-btn>
       <q-btn v-if="list" class="edit-btn delete-btn" @click="modal=true">מחיקה</q-btn>
     </div>
 
@@ -142,7 +144,8 @@ export default {
       setDefault: "user/setDefault",
       loadLists: "user/loadLists",
       deleteList: "list/deleteList",
-      addUser: "user/addUser"
+      addUser: "user/addUser",
+      deleteUser: "user/deleteUser",
     }),
     setUsers() {
       const data = this.list.usersData;
@@ -175,7 +178,7 @@ export default {
         this.countUsers--;
       }
     },
-    async addList() {
+    async updateList() {
       if (!this.newList) {
         return;
       }
@@ -208,6 +211,7 @@ export default {
         await this.setDefault({ id: this.list.id, value: this.setAsDefault });
       }
       await this.addUsers(list.id);
+      await this.removeUsers(list.id);
     },
 
     async addUsers(parentId) {
@@ -217,6 +221,19 @@ export default {
           const user = { parentId, email: users[i] };
           await this.addUser(user);
         }
+      }
+    },
+    async removeUsers(parentId) {
+      const users = this.users;
+      const selectUsers = this.selectUsers;
+      if (users.length !== selectUsers.length) {
+        const userToDelete = users.filter(user => {
+          selectUsers.find(() => !+user.value)})
+        debugger
+        // for (let i = 0; i < users.length; i++) {
+        //   const url = `${parentId}/${users[i]}`
+        //   await this.deleteUser(url);
+        // }
       }
     }
   }

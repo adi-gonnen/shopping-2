@@ -45,7 +45,7 @@ export function editItem({ state, commit, dispatch }, item) {
   });
 }
 
-export async function editList({ commit, dispatch }, list) {
+export async function editList({ commit }, list) {
   commit("setLoading", true);
   return listService.editList(list).then(res => {
     if (res.status === 400) {
