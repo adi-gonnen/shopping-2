@@ -49,7 +49,7 @@ function editList(list) {
   }
 
 function deleteList(listId) {
-    return axios.delete(`${api}/list/null/${listId}`)       //null for parentId
+    return axios.delete(`${api}/list/null/${listId}`)       //null is for parentId
     .then(res => {
         return res.data
     })

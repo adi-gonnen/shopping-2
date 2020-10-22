@@ -23,7 +23,6 @@
     <div class="row justify-between fixed-bottom q-my-sm q-mx-md">
       <q-btn flat icon="add" class="add-btn" @click.stop="openEditList(null)"/>
     </div>
-    <!-- delete/parentId/email -->
   </div>
 </template>
 

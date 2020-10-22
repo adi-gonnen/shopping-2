@@ -1,6 +1,6 @@
 <template>
   <div class="edit-list-container">
-    <q-btn color="primary" class="lists-btn" icon="delete" @click.stop="openDeleteModal"/>
+    <q-btn class="lists-btn" @click.stop="openDeleteModal">מחיקה</q-btn>
 
     <q-dialog v-model="modal">
       <q-card>
@@ -31,6 +31,7 @@ export default {
   methods: {
     ...mapActions({
       deleteList: "list/deleteList",
+      loadLists: "user/loadLists",
     }),
      openDeleteModal() {
       if (!this.id) {
@@ -41,7 +42,9 @@ export default {
 
     async onDeleteList() {
       await this.deleteList(this.id);
+      await this.loadLists();
       this.modal = false;
+      window.history.back();
     }
   }
 };
@@ -57,9 +60,8 @@ export default {
   width: 45%;
   & .lists-btn {
     width: 100%;
-    background-color: $primary;
-    color: #fff;
-    height: 50px;
+     height: 50px;
+    font-size: 20px;
   }
 }
 </style>

@@ -24,15 +24,15 @@ export default {
       lists: state => state.user.lists,
     }),
     errorText() {
-      switch (this.error) {
+       switch (this.error) {
         case "add":
-          return "תקלה- הפריט לא התווסף";
+          return "תקלה- הרשימה לא התווספה";
           break;
         case "delete":
-          return "תקלה- הפריט/ים לא נמחק/ו";
+          return "תקלה- הרשימה לא נמחקה";
           break;
         case "edit":
-          return "תקלה בעריכת פריט";
+          return "תקלה בעריכת רשימה";
           break;
         default:
           return "מצטערים, נראה שיש תקלה במערכת";

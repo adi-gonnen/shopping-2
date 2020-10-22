@@ -12,8 +12,7 @@ export async function addNewItem({ state, commit, dispatch }, item) {
   const newItem = { ...item, parentId };
   return await listService.addItem(newItem).then(res => {
     if (res.status === 400) {
-      commit("setError", "add");
-      setTimeout(() => commit("setError", null), 10000 )
+      dispatch("setError", "add");
     }
     dispatch("getItems", parentId);
     commit("setLoading", false);
@@ -21,14 +20,14 @@ export async function addNewItem({ state, commit, dispatch }, item) {
   });
 }
 
-export function deleteItem({ state, commit }, id) {
+export function deleteItem({ state, commit, dispatch }, id) {
   commit("setLoading", true);
   const parentId = state.listId;
   return listService.deleteItem({ id, parentId }).then(res => {
     if (res.status === 400) {
-      commit("setError", "delete");
-      setTimeout(() => commit("setError", null), 10000 )
+      dispatch("setError", "delete");
     }
+    commit("setLoading", false);
   });
 }
 
@@ -37,48 +36,50 @@ export function editItem({ state, commit, dispatch }, item) {
   const parentId = state.listId;
   return listService.editItem(item).then(res => {
     if (res.status === 400) {
-      commit("setError", "edit");
-      setTimeout(() => commit("setError", null), 10000 )
+      dispatch("setError", "edit");
     }
     dispatch("getItems", parentId);
     commit("setLoading", false);
   });
 }
 
-export async function editList({ commit }, list) {
+export async function editList({ commit, dispatch }, list) {
   commit("setLoading", true);
-  return listService.editList(list).then(res => {
-    if (res.status === 400) {
-      commit("setError", "edit");
-      setTimeout(() => commit("setError", null), 10000 )
-    }
-    commit("setLoading", false);
-  });
+  listService.editList(list)
+    .then(res => {
+      return res;
+    })
+    .catch(function(error) {
+      console.log(error);
+      dispatch("setError", "edit");
+    });
+  commit("setLoading", false);
 }
 
-export async function addList({ commit }, list) {
+export async function addList({ commit, dispatch }, list) {
   commit("setLoading", true);
   return listService.addList(list).then(res => {
     if (res.status === 400) {
-      commit("setError", "add");
-      setTimeout(() => commit("setError", null), 10000 )
+      dispatch("setError", "add");
     }
     commit("setLoading", false);
     return res.data;
   });
 }
 
-export function deleteList({ state, commit, dispatch }, listId) {
+export function deleteList({ commit, dispatch }, listId) {
   commit("setLoading", true);
-  // const parentId = state.listId;
   return listService.deleteList(listId).then(res => {
     if (res.status === 400) {
-      commit("setError", "delete");
-      setTimeout(() => commit("setError", null), 10000 )
+      dispatch("setError", "delete");
     }
-    // dispatch("user/loadLists", { root: true });
     commit("setLoading", false);
   });
+}
+
+export function setError({ commit }, error) {
+  commit("setError", error);
+  setTimeout(() => commit("setError", null), 10000);
 }
 
 export function setLoading({ commit }, value) {

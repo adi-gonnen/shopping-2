@@ -4,15 +4,13 @@
       <!-- edit name -->
       <div class="border q-pa-sm q-mb-md">
         <div class="fs-20">עדכן שם רשימה:</div>
-        <q-input v-model="newList" placeholder="הוסף רשימה" class="full-width"/>
+        <q-input v-model="newList" placeholder="שם הרשימה" class="full-width"/>
       </div>
 
       <!-- set default -->
       <div class="border q-pa-sm q-mb-md">
         <q-toggle label="סמן כברירת מחדל" v-model="setAsDefault" left-label class="default-toggle"/>
       </div>
-
-      {{selectUsers}}
 
       <!-- add user -->
       <div class="border q-pa-sm q-mb-md">
@@ -65,36 +63,22 @@
     <!-- operate btns -->
     <div class="btns-container row fixed-bottom">
       <q-btn flat class="edit-btn" @click="updateList">{{btnText}}</q-btn>
-      <q-btn v-if="list" class="edit-btn delete-btn" @click="modal=true">מחיקה</q-btn>
+      <delete-list v-if="list" :id="list.id"/>
     </div>
-
-    <!-- delete modal -->
-    <q-dialog v-model="modal">
-      <q-card>
-        <q-card-section class="row items-center q-pb-none">
-          <q-btn icon="close" flat round dense v-close-popup/>
-        </q-card-section>
-        <q-card-section class="row items-center">
-          <span class="q-ml-sm q-mb-lg">האם את/ה בטוח/ה שברצונך למחוק?</span>
-        </q-card-section>
-        <q-card-actions align="right">
-          <q-btn label="מחק" color="primary" class="q-mx-sm" @click="onDeleteList"/>
-          <q-btn label="ביטול" v-close-popup/>
-        </q-card-actions>
-      </q-card>
-    </q-dialog>
   </div>
 </template>
 
 <script>
 import { mapState, mapActions } from "vuex";
+import DeleteList from "components/list/DeleteList.vue";
+
 export default {
   name: "EditList",
+  components: { DeleteList },
   props: ["list"],
   data: () => ({
     newList: "",
     setAsDefault: false,
-    modal: false,
     users: null,
     selectUsers: [],
     newUsers: [],
@@ -107,13 +91,8 @@ export default {
     btnText() {
       return this.list ? "עדכן רשימה" : "הוסף רשימה";
     },
-
     isDefault() {
-      if (this.list) {
-        return +this.defualtId === +this.list.id;
-      } else {
-        return false;
-      }
+      return this.list ? +this.defualtId === +this.list.id : false;
     },
     isSelect() {
       return id => {
@@ -128,6 +107,7 @@ export default {
       };
     }
   },
+
   mounted() {
     if (this.list) {
       this.newList = this.list.name;
@@ -137,35 +117,30 @@ export default {
       }
     }
   },
+
   methods: {
     ...mapActions({
       editList: "list/editList",
       addNewList: "list/addList",
       setDefault: "user/setDefault",
       loadLists: "user/loadLists",
-      deleteList: "list/deleteList",
       addUser: "user/addUser",
-      deleteUser: "user/deleteUser",
+      deleteUser: "user/deleteUser"
     }),
     setUsers() {
       const data = this.list.usersData;
-      if (data) {
-        const keys = Object.keys(data);
-        this.selectUsers = keys;
-        const values = Object.values(data);
+      const activeUsers = this.list.users;
+      if (data && activeUsers.length > 1) {
         const users = [];
-        keys.forEach((key, idx) => {
-          users.push({ value: key, label: values[idx] });
+        activeUsers.forEach(value => {
+          const label = data[value];
+          users.push({ value, label });
         });
+        this.selectUsers = activeUsers;
         this.users = users;
       }
     },
-    async onDeleteList() {
-      await this.deleteList(this.list.id);
-      this.loadLists();
-      this.modal = false;
-      window.history.back();
-    },
+
     toggleNewUser(n) {
       if (n === this.countUsers) {
         //add
@@ -178,18 +153,19 @@ export default {
         this.countUsers--;
       }
     },
+
     async updateList() {
       if (!this.newList) {
         return;
       }
-      //delete/parentId/id (of user)
-      this.list ? await this.setEditList() : await this.setAddList();
-      await this.loadLists();
-      this.modal = false;
-      if (!this.list) {
+      const update = this.list
+        ? await this.setEditList()
+        : await this.setAddList();
+      if (update) {
+        this.$nextTick(() => this.loadLists());
         this.newList = "";
+        window.history.back();
       }
-      window.history.back();
     },
 
     async setAddList() {
@@ -198,7 +174,8 @@ export default {
       if (this.setAsDefault) {
         await this.setDefault({ id: newList, value: true });
       }
-      await this.addUsers(newList);      
+      await this.addUsers(newList);
+      return true;
     },
 
     async setEditList() {
@@ -212,6 +189,7 @@ export default {
       }
       await this.addUsers(list.id);
       await this.removeUsers(list.id);
+      return true;
     },
 
     async addUsers(parentId) {
@@ -223,17 +201,18 @@ export default {
         }
       }
     },
+
     async removeUsers(parentId) {
       const users = this.users;
       const selectUsers = this.selectUsers;
-      if (users.length !== selectUsers.length) {
-        const userToDelete = users.filter(user => {
-          selectUsers.find(() => !+user.value)})
-        debugger
-        // for (let i = 0; i < users.length; i++) {
-        //   const url = `${parentId}/${users[i]}`
-        //   await this.deleteUser(url);
-        // }
+      if (users && users.length !== selectUsers.length) {
+        const userToDelete = users.filter(
+          user => !selectUsers.includes(user.value)
+        );
+        for (let i = 0; i < userToDelete.length; i++) {
+          const url = `${parentId}/${userToDelete[i].value}`;
+          await this.deleteUser(url);
+        }
       }
     }
   }
@@ -268,14 +247,17 @@ export default {
     height: 50px;
     font-size: 20px;
     width: 95%;
-    &:not(.delete-btn) {
-      color: #fff;
-      background-color: $primary;
-    }
+    color: #fff;
+    background-color: $primary;
   }
   &.edit-list {
     & .edit-btn {
       width: 45%;
+    }
+  }
+  &:not(.edit-list) {
+    & .edit-btn {
+      margin: auto;
     }
   }
 }

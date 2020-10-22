@@ -66,7 +66,7 @@ export default {
 }
 .error-text {
   position: fixed;
-  bottom: 55px;
+  bottom: 65px;
   font-size: 18px;
   color: red;
   margin: 0 20px;
