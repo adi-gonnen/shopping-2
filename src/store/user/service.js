@@ -1,8 +1,9 @@
 import axios from "axios";
 axios.defaults.withCredentials = true;
+import configuration from '../../../quasar.conf'
 // const list_URL = (process.env.NODE_ENV !== 'development')? '/list': '//localhost:3000/list';
-const api = `https://ztl2svc.appspot.com/api`;
-// const api = 'http://10.0.0.12:8080/api'
+
+const api = configuration().api
 
 function login(id_token) {
   return axios

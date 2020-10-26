@@ -7,7 +7,6 @@ const api = configuration().api
 
 
 function getItems(parentId) {
-    console.log("api", configuration().api)
     return axios.get(`${api}/items?parentId=${parentId}`)
         .then(res => {
             return res.data;
