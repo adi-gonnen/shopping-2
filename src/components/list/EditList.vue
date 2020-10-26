@@ -158,14 +158,14 @@ export default {
       if (!this.newList) {
         return;
       }
-      const update = this.list
+      this.list
         ? await this.setEditList()
         : await this.setAddList();
-      if (update) {
+      // if (update) {
         this.$nextTick(() => this.loadLists());
         this.newList = "";
         window.history.back();
-      }
+      // }
     },
 
     async setAddList() {
@@ -175,7 +175,6 @@ export default {
         await this.setDefault({ id: newList, value: true });
       }
       await this.addUsers(newList);
-      return true;
     },
 
     async setEditList() {
@@ -189,7 +188,6 @@ export default {
       }
       await this.addUsers(list.id);
       await this.removeUsers(list.id);
-      return true;
     },
 
     async addUsers(parentId) {

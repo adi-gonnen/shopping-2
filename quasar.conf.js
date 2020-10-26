@@ -8,6 +8,10 @@
 
 module.exports = function (/* ctx */) {
   return {
+    
+    api: 'https://ztl2svc.appspot.com/api',
+    // api: 'http://10.0.0.12:8080/api'
+
     // https://quasar.dev/quasar-cli/supporting-ts
     supportTS: false,
 

@@ -1,7 +1,7 @@
 <template>
   <div>
     <q-img v-if="auth" src="https://cdn.quasar.dev/img/material.png" style="height: 150px">
-      <div class="bg-transparent">
+      <div v-if="profile" class="bg-transparent">
         <q-avatar size="56px" class="q-mb-sm">
           <img :src="profile.picture">
         </q-avatar>
@@ -57,7 +57,7 @@ export default {
   }),
    computed: {
     ...mapState({
-      profile: state => state.user.profile || {},
+      profile: state => state.user.profile,
       auth: state => state.user.auth
     })
   },

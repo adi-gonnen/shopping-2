@@ -1,11 +1,13 @@
 import axios from 'axios'
+import configuration from '../../../quasar.conf'
 axios.defaults.withCredentials = true
 // const list_URL = (process.env.NODE_ENV !== 'development')? '/list': '//localhost:3000/list';
-const api = `https://ztl2svc.appspot.com/api`
-// const api = 'http://10.0.0.12:8080/api'
+
+const api = configuration().api
 
 
 function getItems(parentId) {
+    console.log("api", configuration().api)
     return axios.get(`${api}/items?parentId=${parentId}`)
         .then(res => {
             return res.data;

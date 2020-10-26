@@ -17,6 +17,7 @@ export default {
       setLoading: "list/setLoading"
     }),
     async deleteItems() {
+      this.setLoading(true);
       for (const id of this.selected) {
         await this.deleteItem(id);
       }

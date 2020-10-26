@@ -23,7 +23,6 @@ export default function (/* { ssrContext } */) {
       list,
       user
     },
-
     // enable strict mode (adds overhead!)
     // for dev mode only
     strict: process.env.DEV
