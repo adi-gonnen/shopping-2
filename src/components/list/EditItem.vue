@@ -1,6 +1,6 @@
 <template>
   <div class="row justify-between no-wrap">
-    <q-btn flat class="edit-btn" :icon="icon" @click.stop="modal = true"/>
+    <q-btn flat class="edit-btn" :icon="icon" @click.stop="openEditItem"/>
 
     <q-dialog v-model="modal">
       <q-card>
@@ -48,6 +48,10 @@ export default {
       editItem: "list/editItem",
       addNewItem: "list/addNewItem"
     }),
+     openEditItem() {
+      const params = this.item ? this.item.id : 'add-item';
+      this.$router.push(`/item/${params}`)
+    },
     addItem() {
       if (!this.newItem.name) {
         return;

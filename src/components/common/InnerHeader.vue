@@ -21,7 +21,8 @@ export default {
       items: state => state.list.items
     }),
     title() {
-      return 'עריכת רשימות'
+      let route = this.$route.path.slice(1,5);
+      return route === 'item' ? 'עדכון פריט' : 'עדכון רשימות'
     }
   },
   methods: {

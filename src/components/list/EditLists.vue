@@ -6,22 +6,18 @@
         :key="list.id"
         tag="label"
         v-ripple
-        @click.stop="toggleList(list)"
-        :class="isSelected(list.id) && 'selected'"
+        @click.stop="openEditList(list.id)"
         class="full-width q-pl-none"
       >
         <q-item-section class="item-label">
           <q-item-label>{{list.name}}</q-item-label>
           <q-icon v-if="isDefault(list.id)" name="star" color="primary" class="q-mx-sm"/>
         </q-item-section>
-        <q-item-section avatar class="q-pa-none">
-          <q-btn v-if="isSelected(list.id)" flat class="edit-btn" icon="edit" @click.stop="openEditList(list.id)"/>
-        </q-item-section>
       </q-item>
     </q-list>
 
-    <div class="row justify-between fixed-bottom q-my-sm q-mx-md">
-      <q-btn flat icon="add" class="add-btn" @click.stop="openEditList(null)"/>
+    <div class="fixed-bottom q-my-sm q-mx-md">
+      <q-btn flat icon="add" class="add-btn" @click.stop="openEditList()"/>
     </div>
   </div>
 </template>
@@ -31,38 +27,19 @@ import { mapState, mapActions } from "vuex";
 
 export default {
   name: "EditLists",
-  data: () => ({
-    selected: {},
-  }),
+  data: () => ({}),
   computed: {
     ...mapState({
       lists: state => state.user.lists,
       defaultListId: state => state.user.defaultListId,
     }),
-    isSelected() {
-      return id => {
-        return id === this.selected.id;
-      };
-    },
     isDefault() {
       return id => {
         return +id === +this.defaultListId;
       };
     },
-    selectedList() {
-      return this.lists.find(list => {
-        return list.id === this.selected;
-      });
-    }
   },
   methods: {
-    toggleList(list) {
-      if (this.selected.id === list.id) {
-        this.selected = {};
-      } else {
-        setTimeout(() => {this.selected = list}, 200);      
-      }
-    },
     openEditList(id) {
       const params = id ? id : 'add-list';
       this.$router.push(`/list/${params}`);
@@ -89,9 +66,6 @@ export default {
 }
 .empty-icon {
   min-width: 40px;
-}
-.selected {
-  background-color: aquamarine;
 }
 .btns-container {
   width: 90%;
