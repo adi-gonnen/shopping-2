@@ -3,7 +3,8 @@
   <q-toolbar :class="items && 'row justify-between'" class="header">
     <q-btn v-if="auth" flat dense round icon="menu" aria-label="Menu" @click="$emit('toggleMenu')"/>
     <select-list v-if="auth && items"/>
-    <edit-item v-if="auth && items"/>
+    <!-- <edit-item v-if="auth && items"/> -->
+    <q-btn v-if="auth && items" flat class="edit-btn" icon="add" @click.stop="openEditItem"/>
     <q-toolbar-title v-else class="q-mx-md">רשימת קניות</q-toolbar-title>
   </q-toolbar>
 </template>
@@ -22,6 +23,11 @@ export default {
       items: state => state.list.items
     })
   },
+  methods: {
+    openEditItem() {
+      this.$router.push('/item/add-item')
+    },
+  }
 };
 </script>
 
