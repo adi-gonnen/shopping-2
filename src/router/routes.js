@@ -11,7 +11,7 @@ const routes = [
     path: '/item/:id?',
     component: () => import('layouts/InnerLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/EditItem.vue') },
+      { path: '', component: () => import('pages/AddItem.vue') },
     ]
   },
   {

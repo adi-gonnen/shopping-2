@@ -12,7 +12,6 @@ export async function addNewItem({ state, commit, dispatch }, item) {
   const newItem = { ...item, parentId };
   const req = await listService.addItem(newItem)
     .then(res => {
-      dispatch("getItems", parentId);
       return res;
     })
     .catch(function(error) {

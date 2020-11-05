@@ -23,7 +23,7 @@ export default {
   }),
   computed: {
     ...mapGetters({
-      defaultList: "user/defaultList"
+      currentList: "list/currentList",
     }),
     ...mapState({
       lists: state => state.user.lists
@@ -31,7 +31,7 @@ export default {
   },
   mounted() {
     if (this.lists) {
-      this.selected = this.defaultList || this.lists[0];
+      this.selected = this.currentList;
     }
   },
   methods: {

@@ -15,7 +15,7 @@ export function logout({ commit }) {
   });
 }
 
-export async function loadLists({ state, commit, dispatch }) {
+export async function loadLists({ state, commit, rootState, dispatch }) {
   const lists = await listService.loadLists();
   if (lists.status === 401) {
     commit("setAuth", false);
@@ -24,7 +24,8 @@ export async function loadLists({ state, commit, dispatch }) {
     commit("getLists", lists);
     await dispatch("loadProfile");
     commit("setAuth", true);
-    await dispatch("list/getItems", state.defaultListId, { root: true });
+    const id = rootState.list.listId || state.defaultListId;
+    await dispatch("list/getItems", id, { root: true });
   }
 }
 
