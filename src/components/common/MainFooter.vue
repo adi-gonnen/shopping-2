@@ -18,11 +18,16 @@ export default {
     }),
     async deleteItems() {
       this.setLoading(true);
-      for (const id of this.selected) {
-        await this.deleteItem(id);
+      const promises = [];
+      for (let i=0; i<this.selected.length; i++) {
+        const id = this.selected[i];
+        promises.push(this.deleteItem(id));
       }
-      await this.getItems();
-      this.setLoading(false);
+      Promise.all(promises)
+        .then(() => {
+          this.getItems();
+          this.setLoading(false);
+        })
     }
   }
 };

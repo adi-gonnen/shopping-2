@@ -1,7 +1,7 @@
 import listService from "./service";
 
 export async function getItems({ state, commit }, parentId = state.listId) {
-  const items = await listService.getItems(parentId) || [];
+  const items = (await listService.getItems(parentId)) || [];
   commit("getItems", items);
   commit("getListId", parentId);
 }
@@ -10,7 +10,8 @@ export async function addNewItem({ state, commit, dispatch }, item) {
   commit("setLoading", true);
   const parentId = state.listId;
   const newItem = { ...item, parentId };
-  const req = await listService.addItem(newItem)
+  const req = await listService
+    .addItem(newItem)
     .then(res => {
       return res;
     })
@@ -24,7 +25,8 @@ export async function addNewItem({ state, commit, dispatch }, item) {
 
 export async function deleteItem({ state, commit, dispatch }, id) {
   const parentId = state.listId;
-  const req = await listService.deleteItem({ id, parentId })
+  const req = await listService
+    .deleteItem({ id, parentId })
     .then(res => {
       return res;
     })
@@ -37,7 +39,8 @@ export async function deleteItem({ state, commit, dispatch }, id) {
 
 export function editItem({ state, commit, dispatch }, item) {
   commit("setLoading", true);
-  const req = listService.editItem(item)
+  const req = listService
+    .editItem(item)
     .then(res => {
       dispatch("getItems", state.listId);
       return res;
@@ -52,7 +55,8 @@ export function editItem({ state, commit, dispatch }, item) {
 
 export async function editList({ commit, dispatch }, list) {
   commit("setLoading", true);
-  const req = await listService.editList(list)
+  const req = await listService
+    .editList(list)
     .then(res => {
       return res;
     })
@@ -66,7 +70,8 @@ export async function editList({ commit, dispatch }, list) {
 
 export async function addList({ commit, dispatch }, list) {
   commit("setLoading", true);
-  const req = await listService.addList(list)
+  const req = await listService
+    .addList(list)
     .then(res => {
       return res;
     })
@@ -78,9 +83,10 @@ export async function addList({ commit, dispatch }, list) {
   return req;
 }
 
-export async function deleteList({ commit, dispatch }, listId) {
+export async function deleteList({state, rootState, commit, dispatch}, listId) {
   commit("setLoading", true);
-  const req = await listService.deleteList(listId)
+  const req = await listService
+    .deleteList(listId)
     .then(res => {
       return res;
     })
@@ -88,6 +94,10 @@ export async function deleteList({ commit, dispatch }, listId) {
       console.log(error);
       dispatch("setError", "delete");
     });
+  if (state.listId === listId) {
+    const list = rootState.user.defaultListId || rootState.user.lists[0].id;
+    commit("getListId", list);
+  }
   commit("setLoading", false);
   return req;
 }

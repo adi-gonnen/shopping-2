@@ -8,8 +8,12 @@
         placeholder="הוסף פריט"
         class="name-input"
       />
-      <q-input outlined v-model="newItem[n].quantity" type="number" class="quan-input q-mr-md"></q-input>
-      <q-btn flat class="add-item q-ml-sm" :icon="icon(n)" @click.stop="toggleNewUser(n)"/>
+      <div class="q-mr-md">
+        <q-btn flat class="arrow-btn arrow-up">&#10094;</q-btn>
+        <q-btn flat class="arrow-btn arrow-down">&#10094;</q-btn>
+      </div>
+      <q-input outlined v-model="newItem[n].quantity" type="number" class="quan-input"></q-input>
+      <q-btn flat class="add-item q-ml-sm" :icon="icon(n)" @click.stop="toggleNewItem(n)"/>
     </div>
     <q-btn flat size="xl" class="add-btn fixed-bottom q-ma-sm" @click="updateItems">עדכן</q-btn>
   </div>
@@ -35,7 +39,7 @@ export default {
       addItem: "list/addNewItem",
       getItems: "list/getItems"
     }),
-    toggleNewUser(n) {
+    toggleNewItem(n) {
       if (n === this.itemsCount) {
         //add
         if (this.newItem[n].name !== "") {
@@ -56,7 +60,7 @@ export default {
       }
       this.newItem = [null, { quantity: 1, name: "" }];
       await this.getItems();
-      window.history.back()
+      window.history.back();
     }
   }
 };
@@ -90,5 +94,18 @@ export default {
   background-color: $primary;
   color: #fff;
   width: 95%;
+}
+.arrow-btn {
+  &:v-deep {
+    .q-btn__wrapper {
+      padding: 0;
+    }
+  }
+}
+.arrow-up {
+  transform: rotate(180deg);
+}
+.arrow-down {
+  transform: rotate(90deg);
 }
 </style>
