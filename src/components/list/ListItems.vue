@@ -36,6 +36,9 @@ export default {
 </script>
 
 <style>
+.q-list {
+  margin-bottom: 70px;
+}
 .q-item {
     height: 40px;
 }

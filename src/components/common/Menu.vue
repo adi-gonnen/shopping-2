@@ -65,9 +65,10 @@ export default {
     ...mapActions({
       logout: "user/logout"
     }),
-    onLogout() {
+    async onLogout() {
       this.confirm = false;
-      this.logout();
+      await this.logout();
+      this.$emit('closeMenu');
     },
     openMenu(type) {
       this.confirm = false;

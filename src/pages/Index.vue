@@ -1,11 +1,13 @@
 <template>
   <q-page class="flex q-mt-sm">
-    <Login v-if="!auth"/>
-    <div v-else class="full-width">
-      <q-spinner-hourglass v-if="loading" color="primary" size="4em"/>
-      <list-items v-else-if="items" :items="items" @markItems="markItems"/>
-      <div v-if="error" class="error-text">{{errorText}}</div>
-      <main-footer :selected="selected" class="fixed-bottom"/>
+    <q-spinner-hourglass v-if="loading" color="primary" size="4em"/>
+    <div v-else  class="full-width">
+      <Login v-if="!auth"/>
+      <div v-else class="full-width">
+        <list-items v-if="items" :items="items" @markItems="markItems"/>
+        <div v-if="error" class="error-text">{{errorText}}</div>
+        <main-footer :selected="selected" @clearSelected="clearSelected" class="fixed-bottom"/>
+      </div>
     </div>
   </q-page>
 </template>
@@ -55,6 +57,9 @@ export default {
     }),
     markItems(array) {
       this.selected = array;
+    },
+    clearSelected() {
+      this.selected = []
     }
   }
 };

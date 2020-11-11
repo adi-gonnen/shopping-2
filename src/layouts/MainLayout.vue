@@ -5,7 +5,7 @@
     </q-header>
 
     <q-drawer v-model="menu" show-if-above bordered content-class="bg-grey-1">
-      <Menu/>
+      <Menu @closeMenu="menu = false"/>
     </q-drawer>
 
     <q-page-container>

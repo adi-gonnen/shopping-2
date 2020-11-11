@@ -1,20 +1,21 @@
 <template>
-  <div v-if="newItem[1]" class="full-width">
-    <div v-for="n in itemsCount" :key="n" class="row no-wrap q-mb-lg">
+  <div v-if="newItem[0]" class="full-width">
+    <div v-for="(item, idx) in newItem" :key="idx" class="relative-position row no-wrap q-mb-lg">
       <q-input
         outlined
-        v-model="newItem[n].name"
-        autofocus
+        v-model="item.name"
+        :autofocus="idx === 0"
         placeholder="הוסף פריט"
         class="name-input"
       />
-      <div class="q-mr-md">
-        <q-btn flat class="arrow-btn arrow-up">&#10094;</q-btn>
-        <q-btn flat class="arrow-btn arrow-down">&#10094;</q-btn>
+      <q-input outlined v-model="item.quantity" type="number" class="quan-input"></q-input>
+     
+      <div class="quantity-btns-container absolute column">
+        <q-btn flat padding="0" class="arrow-btn" @click.stop="setQuantity(idx, +1)">&#9650;</q-btn>
+        <q-btn flat padding="0" class="arrow-btn" @click.stop="setQuantity(idx, -1)">&#9660;</q-btn>
       </div>
-      <q-input outlined v-model="newItem[n].quantity" type="number" class="quan-input"></q-input>
-      <q-btn flat class="add-item q-ml-sm" :icon="icon(n)" @click.stop="toggleNewItem(n)"/>
     </div>
+    <!-- <q-btn class="add-item q-ml-sm" @click.stop="addNewLine">הקלד פריט נוסף</q-btn> -->
     <q-btn flat size="xl" class="add-btn fixed-bottom q-ma-sm" @click="updateItems">עדכן</q-btn>
   </div>
 </template>
@@ -24,41 +25,42 @@ import { mapActions } from "vuex";
 export default {
   name: "AddItem",
   data: () => ({
-    newItem: [null, { quantity: 1, name: "" }],
+    newItem: [{ quantity: 1, name: "" }],
     itemsCount: 1
   }),
-  computed: {
-    icon() {
-      return n => {
-        return n === this.itemsCount ? "add" : "cancel";
-      };
-    }
+  computed: {},
+  watch: {
+     newItem: {
+     handler(val){
+      this.addNewLine()
+     },
+     deep: true
+  }
   },
   methods: {
     ...mapActions({
       addItem: "list/addNewItem",
       getItems: "list/getItems"
     }),
-    toggleNewItem(n) {
-      if (n === this.itemsCount) {
-        //add
-        if (this.newItem[n].name !== "") {
-          this.itemsCount++;
-          this.newItem[this.itemsCount] = { quantity: 1, name: "" };
-        }
-      } else {
-        //remove
-        this.newItem.splice(n, 1);
-        this.itemsCount--;
+    addNewLine() {
+      const idx = this.newItem.length -1
+      if (this.newItem[idx].name !== "") {
+        this.newItem.push({ quantity: 1, name: "" })
       }
     },
+    setQuantity(idx, diff) {
+      if (diff === -1 && this.newItem[idx].quantity === 1) {
+        return;
+      }
+      this.newItem[idx].quantity += diff;
+    },
     async updateItems() {
-      for (let i = 1; i <= this.itemsCount; i++) {
+      for (let i = 0; i < this.newItem.length; i++) {
         if (this.newItem[i].name) {
           this.addItem(this.newItem[i]);
         }
       }
-      this.newItem = [null, { quantity: 1, name: "" }];
+      this.newItem = [{ quantity: 1, name: "" }];
       await this.getItems();
       window.history.back();
     }
@@ -77,7 +79,7 @@ export default {
 }
 .quan-input {
   font-size: 20px;
-  max-width: 45px;
+  max-width: 66px;
   &::v-deep {
     .q-field__inner {
       margin: 0 10px;
@@ -88,24 +90,20 @@ export default {
   }
 }
 .add-item {
-  width: 20px;
+  // width: 20px;
 }
 .add-btn {
   background-color: $primary;
   color: #fff;
   width: 95%;
 }
-.arrow-btn {
-  &:v-deep {
-    .q-btn__wrapper {
-      padding: 0;
-    }
-  }
+.quantity-btns-container {
+  left: 0;
+  bottom: 5px;
 }
-.arrow-up {
-  transform: rotate(180deg);
-}
-.arrow-down {
-  transform: rotate(90deg);
+.q-btn.arrow-btn {
+  font-size: 25px;
+  max-width: 25px;
+  height: 30px;
 }
 </style>

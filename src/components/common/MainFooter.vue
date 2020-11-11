@@ -1,5 +1,5 @@
 <template>
-  <div class="row justify-between no-wrap q-ma-sm">
+  <div class="row justify-between no-wrap q-ma-sm bg-white">
     <q-btn color="primary" class="footer-btn" icon="delete" @click="deleteItems"/>
     <q-btn disable class="footer-btn">מיין</q-btn>
   </div>
@@ -17,6 +17,9 @@ export default {
       setLoading: "list/setLoading"
     }),
     async deleteItems() {
+      if (!this.selected[0]) {
+        return;
+      }
       this.setLoading(true);
       const promises = [];
       for (let i=0; i<this.selected.length; i++) {
@@ -25,6 +28,7 @@ export default {
       }
       Promise.all(promises)
         .then(() => {
+          this.$emit('clearSelected')
           this.getItems();
           this.setLoading(false);
         })
@@ -36,5 +40,6 @@ export default {
 <style lang="scss">
 .footer-btn {
   width: 45%;
+  height: 40px;
 }
 </style>

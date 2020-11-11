@@ -1,12 +1,11 @@
 import listService from "./service";
 import { red } from "color-name";
 
-export function login({ commit, dispatch }, id_token) {
-  return listService.login(id_token).then(res => {
-    if (res.id) {
-      dispatch("loadLists");
-    }
-  });
+export async function login({ commit, dispatch }, id_token) {
+  dispatch('list/setLoading', true, { root: true })
+  await listService.login(id_token);
+  await dispatch("loadLists");
+  dispatch('list/setLoading', false, { root: true })
 }
 
 export function logout({ commit }) {

@@ -108,5 +108,6 @@ export function setError({ commit }, error) {
 }
 
 export function setLoading({ commit }, value) {
+  console.log("loading", value)
   commit("setLoading", value);
 }
