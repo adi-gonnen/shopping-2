@@ -15,8 +15,7 @@
         <q-btn flat padding="0" class="arrow-btn" @click.stop="setQuantity(idx, -1)">&#9660;</q-btn>
       </div>
     </div>
-    <!-- <q-btn class="add-item q-ml-sm" @click.stop="addNewLine">הקלד פריט נוסף</q-btn> -->
-    <q-btn flat size="xl" class="add-btn fixed-bottom q-ma-sm" @click="updateItems">עדכן</q-btn>
+    <q-btn flat size="xl" class="add-btn fixed-bottom layout q-ma-sm" @click="updateItems">עדכן</q-btn>
   </div>
 </template>
 
@@ -69,11 +68,6 @@ export default {
 </script>
 
 <style lang="scss">
-.q-card {
-  margin-top: -230px;
-  width: 100%;
-  direction: rtl;
-}
 .name-input {
   width: 100%;
 }
@@ -88,9 +82,6 @@ export default {
       padding: 0;
     }
   }
-}
-.add-item {
-  // width: 20px;
 }
 .add-btn {
   background-color: $primary;

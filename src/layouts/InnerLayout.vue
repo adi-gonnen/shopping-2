@@ -3,7 +3,7 @@
     <q-header elevated  class="header">
       <inner-header/>
     </q-header>
-    <q-page-container class="q-my-md">
+    <q-page-container class="page-container q-my-md">
       <router-view/>
     </q-page-container>
   </q-layout>

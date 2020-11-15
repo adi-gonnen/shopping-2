@@ -7,7 +7,8 @@
     <q-item-label class="item-label q-mt-xs">{{item.name}}</q-item-label>
     <div class="row items-center">
       <q-item-label v-if="isSelected">
-        <edit-item :item="item"/>
+        <!-- <edit-item :item="item"/> -->
+        <q-btn flat class="edit-btn" icon="edit" @click.stop="moveToEdit"/>
       </q-item-label>
       <q-item-label class="item-label">{{item.quantity}}</q-item-label>
     </div>
@@ -33,6 +34,9 @@ export default {
     toggleSelected() {
       this.$emit("markItems", this.item.id);
     },
+    moveToEdit() {
+      this.$router.push(`edit-item/${this.item.id}`)
+    }
   }
 };
 </script>

@@ -24,7 +24,7 @@ export default {
       const idx = this.selected.findIndex(item => {
         return item === id;
       });
-      if (idx !== -1) {
+      if (idx !== -1) {       //item already marked
         this.selected.splice(idx, 1);
       } else {
         this.selected.push(id);

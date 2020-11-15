@@ -61,7 +61,7 @@
     </div>
 
     <!-- operate btns -->
-    <div class="btns-container row fixed-bottom">
+    <div class="btns-container layout row fixed-bottom">
       <q-btn flat class="edit-btn" @click="updateList">{{btnText}}</q-btn>
       <delete-list v-if="list" :id="list.id"/>
     </div>

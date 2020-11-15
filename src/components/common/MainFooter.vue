@@ -1,7 +1,7 @@
 <template>
-  <div class="row justify-between no-wrap q-ma-sm bg-white">
+  <div class="footer-container row justify-between no-wrap q-pa-sm">
     <q-btn color="primary" class="footer-btn" icon="delete" @click="deleteItems"/>
-    <q-btn disable class="footer-btn">מיין</q-btn>
+    <q-btn disable class="footer-btn bg-white">מיין</q-btn>
   </div>
 </template>
 

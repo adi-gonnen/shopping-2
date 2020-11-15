@@ -1,6 +1,6 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
+    <q-header elevated class="layout">
       <main-header @toggleMenu="menu = !menu"/>
     </q-header>
 
@@ -8,7 +8,7 @@
       <Menu @closeMenu="menu = false"/>
     </q-drawer>
 
-    <q-page-container>
+    <q-page-container class="page-container">
       <router-view/>
     </q-page-container>
   </q-layout>
@@ -41,5 +41,16 @@ export default {
 <style>
 .q-layout {
   direction: rtl;
+}
+
+@media (min-width: 600px) {
+  .q-header {
+     max-width: 550px;
+    margin:auto;
+  }
+  .page-container {
+    background-color: #f8f6f1;
+    padding: 0 16px;
+  }
 }
 </style>

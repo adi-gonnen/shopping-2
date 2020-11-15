@@ -9,21 +9,24 @@
 <script>
 import EditItem from "components/list/EditItem.vue";
 import SelectList from "components/list/SelectList.vue";
-import { mapState, mapActions } from "vuex";
+import { mapState, mapGetters } from "vuex";
 
 export default {
   name: "Header",
   props: ['origin'],
   components: { EditItem, SelectList },
   computed: {
+    ...mapGetters({
+      currentList: "list/currentList" || 'עדכן רשימה',
+    }),
     ...mapState({
       auth: state => state.user.auth,
-      items: state => state.list.items
+      items: state => state.list.items,
     }),
     title() {
-      let route = this.$route.path.slice(1,5);
-      return route === 'item' ? 'עדכון פריט' : 'עדכון רשימות'
-    }
+      const isItem = this.$route.path.includes('item');
+      return isItem ? this.currentList.name : 'עדכון רשימות';
+    },
   },
   methods: {
     back() {

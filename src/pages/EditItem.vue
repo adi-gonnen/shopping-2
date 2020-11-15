@@ -1,35 +1,24 @@
 <template>
-  <q-page class="flex q-mt-sm">
+  <q-page class="flex q-ma-sm">
     <q-spinner-hourglass v-if="loading" color="primary" size="4em"/>
-    <div v-else class="full-width">
-      <Login v-if="!auth"/>
-      <div v-else class="full-width">
-        <list-items v-if="items" :items="items" @markItems="markItems"/>
-        <div v-if="error" class="error-text">{{errorText}}</div>
-        <main-footer :selected="selected" @clearSelected="clearSelected" class="layout fixed-bottom"/>
-      </div>
-    </div>
+    <edit-item v-else-if="items"/>
+    <div v-if="error" class="error-text">{{errorText}}</div>
   </q-page>
 </template>
 
 <script>
 import { mapState, mapActions } from "vuex";
-import Login from "components/common/Login.vue";
-import ListItems from "components/list/ListItems.vue";
-import MainFooter from "components/common/MainFooter.vue";
+import EditItem from "components/list/EditItem.vue";
 
 export default {
-  name: "Home",
-  components: { ListItems, MainFooter, Login },
-  data: () => ({
-    selected: []
-  }),
+  name: "EditItemPage",
+  components: { EditItem },
+  data: () => ({}),
   computed: {
     ...mapState({
-      items: state => state.list.items,
-      auth: state => state.user.auth,
       loading: state => state.list.loading,
-      error: state => state.list.error
+      error: state => state.list.error,
+      items: state => state.list.items
     }),
     errorText() {
       switch (this.error) {
@@ -49,18 +38,14 @@ export default {
     }
   },
   async mounted() {
-    await this.loadLists();
+    if (!this.items) {
+      await this.loadLists();
+    }
   },
   methods: {
     ...mapActions({
       loadLists: "user/loadLists"
-    }),
-    markItems(array) {
-      this.selected = array;
-    },
-    clearSelected() {
-      this.selected = []
-    }
+    })
   }
 };
 </script>
@@ -72,7 +57,7 @@ export default {
 }
 .error-text {
   position: fixed;
-  bottom: 55px;
+  bottom: 65px;
   font-size: 18px;
   color: red;
   margin: 0 20px;

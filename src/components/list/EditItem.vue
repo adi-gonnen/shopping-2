@@ -1,76 +1,69 @@
 <template>
-  <div class="row justify-between no-wrap">
-    <q-btn flat class="edit-btn" :icon="icon" @click.stop="modal = true"/>
-
-    <q-dialog v-model="modal">
-      <q-card>
-        <q-card-section class="row items-center q-pb-none">
-          <q-btn icon="close" flat round dense v-close-popup/>
-        </q-card-section>
-        <q-card-section class="row justify-between">
-          <q-input outlined v-model="newItem.name" autofocus placeholder="הוסף פריט"/>
-          <q-input outlined v-model="newItem.quantity" type="number" class="quan-input q-my-md"/>
-        </q-card-section>
-        <q-card-section>
-          <q-btn flat size="xl" class="add-btn" @click="addItem">{{btnText}}</q-btn>
-        </q-card-section>
-      </q-card>
-    </q-dialog>
+  <div v-if="item" class="full-width">
+    <div class="q-mb-lg">
+      <q-input outlined v-model="item.name" autofocus class="name-input q-my-lg"/>
+      <div class="row items-center">
+        <p class="q-mb-none fs-18">עדכן כמות</p>
+        <div class="relative-position q-mx-md">
+        <q-input outlined v-model="item.quantity" type="number" class="quan-input"></q-input>
+        <div class="quantity-btns-container column absolute">
+          <q-btn flat padding="0" class="arrow-btn" @click.stop="setQuantity(+1)">&#9650;</q-btn>
+          <q-btn flat padding="0" class="arrow-btn" @click.stop="setQuantity(-1)">&#9660;</q-btn>
+        </div>
+        </div>
+      </div>
+    </div>
+    <q-btn flat size="xl" class="add-btn fixed-bottom layout q-ma-sm" @click="updateItems">עדכן</q-btn>
   </div>
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapState } from "vuex";
 export default {
-  name: "AddItem",
-  props: ["item"],
+  name: "EditItem",
   data: () => ({
-    newItem: {},
-    modal: false
+    item: null
   }),
   computed: {
-    btnText() {
-      return this.item ? "עדכן פריט" : "הוסף פריט";
-    },
-    icon() {
-      return this.item ? "edit" : "add";
-    }
+    ...mapState({
+      items: state => state.list.items
+    })
   },
   mounted() {
-    if (this.item) {
-      this.newItem = JSON.parse(JSON.stringify(this.item));
-    } else {
-      this.newItem = { quantity: 1, name: "" };
-    }
+    const id = this.$route.params.id;
+    const item = this.items.find(item => {
+      return item.id === id;
+    });
+    this.item = JSON.parse(JSON.stringify(item));
   },
   methods: {
     ...mapActions({
       editItem: "list/editItem",
-      addNewItem: "list/addNewItem"
+      getItems: "list/getItems"
     }),
-    addItem() {
-      if (!this.newItem.name) {
+    setQuantity(diff) {
+      if (diff === -1 && this.item.quantity === 1) {
         return;
       }
-      const func = this.item ? "editItem" : "addNewItem";
-      this[func](this.newItem);
-      this.modal = false;
-      if (!this.item) {
-        this.newItem = { quantity: 1, name: "" };
-      }
+      this.item.quantity += diff;
+    },
+    async updateItems() {
+      this.editItem(this.item);
+      await this.getItems();
+      window.history.back();
     }
   }
 };
 </script>
 
 <style lang="scss">
-.q-card {
-  margin-top: -200px;
+
+.name-input {
   width: 100%;
-  direction: rtl;
 }
 .quan-input {
   font-size: 20px;
+  min-width: 100px;
   &::v-deep {
     .q-field__inner {
       margin: 0 10px;
@@ -83,6 +76,15 @@ export default {
 .add-btn {
   background-color: $primary;
   color: #fff;
-  width: 100%;
+  width: 95%;
+}
+.quantity-btns-container {
+  left: 0;
+  bottom: 5px;
+}
+.q-btn.arrow-btn {
+  font-size: 25px;
+  max-width: 25px;
+  height: 30px;
 }
 </style>

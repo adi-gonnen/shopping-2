@@ -9,9 +9,13 @@ export async function login({ commit, dispatch }, id_token) {
 }
 
 export function logout({ commit }) {
-  return listService.logout().then(res => {
+  listService.logout()
+  .then(res => {
     commit("setAuth", false);
-  });
+  })
+  .catch(function(error) {
+    console.log("err",error )
+  })
 }
 
 export async function loadLists({ state, commit, rootState, dispatch }) {
@@ -24,7 +28,9 @@ export async function loadLists({ state, commit, rootState, dispatch }) {
     await dispatch("loadProfile");
     commit("setAuth", true);
     const id = rootState.list.listId || state.defaultListId;
-    await dispatch("list/getItems", id, { root: true });
+    if (id) {
+      await dispatch("list/getItems", id, { root: true });
+    }
   }
 }
 

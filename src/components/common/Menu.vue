@@ -67,7 +67,7 @@ export default {
     }),
     async onLogout() {
       this.confirm = false;
-      await this.logout();
+      this.logout();
       this.$emit('closeMenu');
     },
     openMenu(type) {

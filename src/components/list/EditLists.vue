@@ -16,7 +16,7 @@
       </q-item>
     </q-list>
 
-    <div class="fixed-bottom q-my-sm q-mx-md">
+    <div class="fixed-bottom layout q-my-sm q-mx-md">
       <q-btn flat icon="add" class="add-btn" @click.stop="openEditList()"/>
     </div>
   </div>
