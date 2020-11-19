@@ -21,17 +21,12 @@ export default {
         return;
       }
       this.setLoading(true);
-      const promises = [];
-      for (let i=0; i<this.selected.length; i++) {
-        const id = this.selected[i];
-        promises.push(this.deleteItem(id));
+      for (const id of this.selected) {
+        await this.deleteItem(id);
       }
-      Promise.all(promises)
-        .then(() => {
-          this.$emit('clearSelected')
-          this.getItems();
-          this.setLoading(false);
-        })
+      await this.getItems();
+      this.$emit("clearSelected");
+      this.setLoading(false);
     }
   }
 };

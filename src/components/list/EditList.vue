@@ -125,7 +125,8 @@ export default {
       setDefault: "user/setDefault",
       loadLists: "user/loadLists",
       addUser: "user/addUser",
-      deleteUser: "user/deleteUser"
+      deleteUser: "user/deleteUser",
+      setLoading: "list/setLoading"
     }),
     setUsers() {
       const data = this.list.usersData;
@@ -158,23 +159,23 @@ export default {
       if (!this.newList) {
         return;
       }
+      this.setLoading(true);
       this.list
         ? await this.setEditList()
         : await this.setAddList();
-      // if (update) {
         this.$nextTick(() => this.loadLists());
         this.newList = "";
+        this.setLoading(false);
         window.history.back();
-      // }
     },
 
     async setAddList() {
       const list = { name: this.newList };
-      const newList = await this.addNewList(list);
+      const id = await this.addNewList(list);
       if (this.setAsDefault) {
-        await this.setDefault({ id: newList, value: true });
+        await this.setDefault({ id, value: true });
       }
-      await this.addUsers(newList);
+      await this.addUsers(id);
     },
 
     async setEditList() {

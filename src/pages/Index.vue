@@ -5,7 +5,7 @@
       <Login v-if="!auth"/>
       <div v-else class="full-width">
         <list-items v-if="items" :items="items" @markItems="markItems"/>
-        <div v-if="error" class="error-text">{{errorText}}</div>
+        <div v-if="error" class="error-text q-pa-md">{{errorText}}</div>
         <main-footer :selected="selected" @clearSelected="clearSelected" class="layout fixed-bottom"/>
       </div>
     </div>
@@ -22,7 +22,7 @@ export default {
   name: "Home",
   components: { ListItems, MainFooter, Login },
   data: () => ({
-    selected: []
+    selected: [],
   }),
   computed: {
     ...mapState({
@@ -66,15 +66,4 @@ export default {
 </script>
 
 <style lang="scss">
-.q-spinner {
-  display: flex;
-  margin: 90px auto;
-}
-.error-text {
-  position: fixed;
-  bottom: 55px;
-  font-size: 18px;
-  color: red;
-  margin: 0 20px;
-}
 </style>

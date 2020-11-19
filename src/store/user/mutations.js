@@ -8,7 +8,7 @@ export function setProfile (state, payload) {
     state.profile = payload;
 }
 
-export function getLists (state, payload) {
+export function setLists (state, payload) {
     state.lists = payload;
 }
 

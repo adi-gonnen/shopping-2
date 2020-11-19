@@ -1,5 +1,4 @@
 import listService from "./service";
-import { red } from "color-name";
 
 export async function login({ commit, dispatch }, id_token) {
   dispatch('list/setLoading', true, { root: true })
@@ -24,7 +23,7 @@ export async function loadLists({ state, commit, rootState, dispatch }) {
     commit("setAuth", false);
     return false;
   } else {
-    commit("getLists", lists);
+    commit("setLists", lists);
     await dispatch("loadProfile");
     commit("setAuth", true);
     const id = rootState.list.listId || state.defaultListId;
@@ -64,3 +63,11 @@ export async function setDefault({ state }, data) {
     return res;
   });
 }
+
+export function hideList({state, commit}, id) {
+  const lists = JSON.parse(JSON.stringify(state.lists));
+  lists.filter((list) => {
+    return list.id !== id
+  })
+  commit('setLists', lists)
+} 

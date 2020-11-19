@@ -51,15 +51,4 @@ export default {
 </script>
 
 <style lang="scss">
-.q-spinner {
-  display: flex;
-  margin: 90px auto;
-}
-.error-text {
-  position: fixed;
-  bottom: 65px;
-  font-size: 18px;
-  color: red;
-  margin: 0 20px;
-}
 </style>

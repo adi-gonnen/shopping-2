@@ -25,6 +25,18 @@ html {
 .footer-container {
   background-color: #fff;
 }
+.error-text {
+  position: fixed;
+  bottom: 55px;
+  color: red;
+  background-color: #fff;
+  width: 100%;
+  font-size: 18px;
+}
+.q-spinner {
+  display: flex;
+  margin: 90px auto;
+}
 
 @media (min-width: 600px) {
   .page-container, .layout {

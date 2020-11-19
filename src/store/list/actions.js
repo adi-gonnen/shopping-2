@@ -23,10 +23,9 @@ export async function addNewItem({ state, commit, dispatch }, item) {
   return req;
 }
 
-export async function deleteItem({ state, commit, dispatch }, id) {
+export function deleteItem({ state, dispatch }, id) {
   const parentId = state.listId;
-  const req = await listService
-    .deleteItem({ id, parentId })
+  const req = listService.deleteItem({ id, parentId })
     .then(res => {
       return res;
     })
@@ -73,7 +72,7 @@ export async function addList({ commit, dispatch }, list) {
   const req = await listService
     .addList(list)
     .then(res => {
-      return res;
+      return res.data;
     })
     .catch(function(error) {
       console.log(error);
@@ -104,10 +103,9 @@ export async function deleteList({state, rootState, commit, dispatch}, listId) {
 
 export function setError({ commit }, error) {
   commit("setError", error);
-  setTimeout(() => commit("setError", null), 10000);
+  setTimeout(() => commit("setError", null), 3000);
 }
 
 export function setLoading({ commit }, value) {
-  console.log("loading", value)
   commit("setLoading", value);
 }

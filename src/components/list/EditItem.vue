@@ -1,7 +1,7 @@
 <template>
   <div v-if="item" class="full-width">
     <div class="q-mb-lg">
-      <q-input outlined v-model="item.name" autofocus class="name-input q-my-lg"/>
+      <q-input outlined v-model="item.name" class="name-input q-my-lg"/>
       <div class="row items-center">
         <p class="q-mb-none fs-18">עדכן כמות</p>
         <div class="relative-position q-mx-md">

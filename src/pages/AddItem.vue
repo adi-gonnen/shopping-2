@@ -47,30 +47,9 @@ export default {
       }
     }
   },
-  async mounted() {
-    // if (!this.lists) {
-    //   await this.loadLists();
-    // }
-    // const id = this.$route.params.id;
-  },
-  methods: {
-    ...mapActions({
-      // loadLists: "user/loadLists"
-    })
-  }
+  methods: {}
 };
 </script>
 
 <style lang="scss">
-.q-spinner {
-  display: flex;
-  margin: 90px auto;
-}
-.error-text {
-  position: fixed;
-  bottom: 65px;
-  font-size: 18px;
-  color: red;
-  margin: 0 20px;
-}
 </style>
