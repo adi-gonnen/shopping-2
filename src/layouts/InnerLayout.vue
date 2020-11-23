@@ -1,9 +1,9 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header elevated  class="header">
+    <q-header elevated class="layout">
       <inner-header/>
     </q-header>
-    <q-page-container class="page-container q-my-md">
+    <q-page-container class="page-container layout q-my-md">
       <router-view/>
     </q-page-container>
   </q-layout>

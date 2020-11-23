@@ -1,5 +1,5 @@
 <template>
-  <div :class="list && 'edit-list q-mx-sm'" class="edit-list-container full-width q-mb-lg">
+  <div :class="list && 'edit-list q-mx-sm'" class="edit-list-container full-width q-mb-xl">
     <div class="main-edit-page q-mb-xl">
       <!-- edit name -->
       <div class="border q-pa-sm q-mb-md">
@@ -63,7 +63,7 @@
     <!-- operate btns -->
     <div class="btns-container layout row fixed-bottom">
       <q-btn flat class="edit-btn" @click="updateList">{{btnText}}</q-btn>
-      <delete-list v-if="list" :id="list.id"/>
+      <delete-list v-if="list" :id="list.id" class="bg-white"/>
     </div>
   </div>
 </template>
@@ -236,7 +236,7 @@ export default {
   }
 }
 .btns-container {
-  background-color: #fff;
+  background-color: #f8f6f1;
   padding: 16px;
   justify-content: space-between;
   width: 100%;

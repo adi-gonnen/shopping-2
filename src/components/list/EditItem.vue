@@ -1,11 +1,11 @@
 <template>
   <div v-if="item" class="full-width">
     <div class="q-mb-lg">
-      <q-input outlined v-model="item.name" class="name-input q-my-lg"/>
+      <q-input outlined v-model="item.name" class="name-input bg-white q-my-lg"/>
       <div class="row items-center">
         <p class="q-mb-none fs-18">עדכן כמות</p>
         <div class="relative-position q-mx-md">
-        <q-input outlined v-model="item.quantity" type="number" class="quan-input"></q-input>
+        <q-input outlined v-model="item.quantity" type="number" class="quan-input bg-white"></q-input>
         <div class="quantity-btns-container column absolute">
           <q-btn flat padding="0" class="arrow-btn" @click.stop="setQuantity(+1)">&#9650;</q-btn>
           <q-btn flat padding="0" class="arrow-btn" @click.stop="setQuantity(-1)">&#9660;</q-btn>

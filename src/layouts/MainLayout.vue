@@ -4,11 +4,11 @@
       <main-header @toggleMenu="menu = !menu"/>
     </q-header>
 
-    <q-drawer v-model="menu" show-if-above bordered content-class="bg-grey-1">
+    <q-drawer v-model="menu" show-if-above bordered side="right" content-class="bg-grey-1">
       <Menu @closeMenu="menu = false"/>
     </q-drawer>
 
-    <q-page-container class="page-container">
+    <q-page-container class="page-container layout">
       <router-view/>
     </q-page-container>
   </q-layout>
@@ -44,13 +44,26 @@ export default {
 }
 
 @media (min-width: 600px) {
-  .q-header {
-     max-width: 550px;
-    margin:auto;
+  .q-drawer {
+    top: 0 !important;
   }
+  /* .layout {
+    max-width: 550px;
+    width: 550px;
+    margin: 0 auto;
+    padding-left: 0 !important;
+  } */
   .page-container {
     background-color: #f8f6f1;
     padding: 0 16px;
+    /* margin:auto; */
   }
+}
+
+@media (min-width: 1024px) {
+/* .layout {
+    margin: 0 300px;
+    left: unset !important;
+  } */
 }
 </style>

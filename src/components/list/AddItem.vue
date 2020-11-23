@@ -6,16 +6,18 @@
         v-model="item.name"
         :autofocus="idx === 0"
         placeholder="הוסף פריט"
-        class="name-input"
+        class="name-input bg-white"
       />
-      <q-input outlined v-model="item.quantity" type="number" class="quan-input"></q-input>
+      <q-input outlined v-model="item.quantity" type="number" class="quan-input bg-white q-mr-xs"></q-input>
      
       <div class="quantity-btns-container absolute column">
         <q-btn flat padding="0" class="arrow-btn" @click.stop="setQuantity(idx, +1)">&#9650;</q-btn>
         <q-btn flat padding="0" class="arrow-btn" @click.stop="setQuantity(idx, -1)">&#9660;</q-btn>
       </div>
     </div>
+    <div class="footer-container layout">
     <q-btn flat size="xl" class="add-btn fixed-bottom layout q-ma-sm" @click="updateItems">עדכן</q-btn>
+    </div>
   </div>
 </template>
 
@@ -25,7 +27,6 @@ export default {
   name: "AddItem",
   data: () => ({
     newItem: [{ quantity: 1, name: "" }],
-    itemsCount: 1
   }),
   computed: {},
   watch: {
