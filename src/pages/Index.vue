@@ -4,9 +4,12 @@
     <div v-else class="full-width">
       <Login v-if="!auth"/>
       <div v-else class="full-width">
-        <list-items v-if="items" :items="items" @markItems="markItems"/>
+        <div v-if="items">
+          <list-items :items="items" @markItems="markItems"/>
+          <main-footer :selected="selected" @clear="clear" class="layout fixed-bottom"/>
+        </div>
+        <Welcome v-else/>
         <div v-if="error" class="error-text q-pa-md">{{errorText}}</div>
-        <main-footer :selected="selected" @clearSelected="clearSelected" class="layout fixed-bottom"/>
       </div>
     </div>
   </q-page>
@@ -15,14 +18,15 @@
 <script>
 import { mapState, mapActions } from "vuex";
 import Login from "components/common/Login.vue";
+import Welcome from "components/common/Welcome.vue";
 import ListItems from "components/list/ListItems.vue";
 import MainFooter from "components/common/MainFooter.vue";
 
 export default {
   name: "Home",
-  components: { ListItems, MainFooter, Login },
+  components: { ListItems, MainFooter, Login, Welcome },
   data: () => ({
-    selected: [],
+    selected: []
   }),
   computed: {
     ...mapState({
@@ -58,8 +62,8 @@ export default {
     markItems(array) {
       this.selected = array;
     },
-    clearSelected() {
-      this.selected = []
+    clear() {
+      this.selected = [];
     }
   }
 };

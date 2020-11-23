@@ -1,9 +1,9 @@
 import axios from "axios";
 axios.defaults.withCredentials = true;
-import configuration from '../../../quasar.conf'
+import configuration from "../../../quasar.conf";
 // const list_URL = (process.env.NODE_ENV !== 'development')? '/list': '//localhost:3000/list';
 
-const api = configuration().api
+const api = configuration().api;
 
 function login(id_token) {
   return axios
@@ -35,35 +35,29 @@ function loadLists() {
 }
 
 function setProfile(profile) {
-  return axios.put(`${api}/profile`, profile)
-  .then(res => {
+  return axios.put(`${api}/profile`, profile).then(res => {
     return res;
   });
 }
 
 function addUser(user) {
-  return axios.post(`${api}/user`, user)
-  .then(res => {
+  return axios.post(`${api}/user`, user).then(res => {
     return res;
   });
 }
 
 function deleteUser(url) {
-  return axios.delete(`${api}/user/${url}`)
-  .then(res => {
+  return axios.delete(`${api}/user/${url}`).then(res => {
     return res;
   });
 }
 
 function logout() {
   const loginResponse = axios.post(`${api}/logout`);
-  const auth2 = gapi.auth2;
-  if (!auth2) {
-    gapi.load("auth2", function() {
-      gapi.auth2.init();
-    });
-  }
-  auth2.getAuthInstance().signOut();
+  const auth2 = gapi.auth2.getAuthInstance();
+  auth2.signOut().then(function() {
+    auth2.disconnect();
+  });
   return loginResponse;
 }
 

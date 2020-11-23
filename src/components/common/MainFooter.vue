@@ -25,7 +25,7 @@ export default {
         await this.deleteItem(id);
       }
       await this.getItems();
-      this.$emit("clearSelected");
+      this.$emit("clear");
       this.setLoading(false);
     }
   }
