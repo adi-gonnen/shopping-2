@@ -1,11 +1,11 @@
 <template>
   <div v-if="item" class="full-width">
     <div class="q-mb-lg">
-      <q-input outlined v-model="item.name" class="name-input bg-white q-my-lg"/>
+      <input v-model="item.name" class="name-input bg-white q-my-lg"/>
       <div class="row items-center">
         <p class="q-mb-none fs-18">עדכן כמות</p>
         <div class="relative-position q-mx-md">
-        <q-input outlined v-model="item.quantity" type="number" class="quan-input bg-white"></q-input>
+        <input v-model="item.quantity" type="number" class="quan-input bg-white"/>
         <div class="quantity-btns-container column absolute">
           <q-btn flat padding="0" class="arrow-btn" @click.stop="setQuantity(+1)">&#9650;</q-btn>
           <q-btn flat padding="0" class="arrow-btn" @click.stop="setQuantity(-1)">&#9660;</q-btn>
@@ -60,18 +60,12 @@ export default {
 
 .name-input {
   width: 100%;
+  height: 42px;
 }
 .quan-input {
   font-size: 20px;
   min-width: 100px;
-  &::v-deep {
-    .q-field__inner {
-      margin: 0 10px;
-    }
-    .q-field__before {
-      padding: 0;
-    }
-  }
+  height: 42px;
 }
 .add-btn {
   background-color: $primary;
@@ -83,8 +77,14 @@ export default {
   bottom: 5px;
 }
 .q-btn.arrow-btn {
-  font-size: 25px;
+  font-size: 19px;
   max-width: 25px;
-  height: 30px;
+  position: absolute;
+  height: 24px;
+  left: 0px;
+  bottom: -2px;
+  &:first-child {
+    bottom: 20px;
+  }
 }
 </style>

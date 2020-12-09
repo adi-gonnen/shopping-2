@@ -9,9 +9,9 @@
           <main-footer :selected="selected" @clear="clear" class="layout fixed-bottom"/>
         </div>
         <Welcome v-else/>
-        <div v-if="error" class="error-text q-pa-md">{{errorText}}</div>
       </div>
     </div>
+    <div v-if="error" class="error-text q-pa-md">{{errorText}}</div>
   </q-page>
 </template>
 
@@ -52,8 +52,10 @@ export default {
       }
     }
   },
-  async mounted() {
-    await this.loadLists();
+  mounted() {
+    if (!this.auth && !this.items) {
+      this.loadLists();
+    }
   },
   methods: {
     ...mapActions({

@@ -1,6 +1,6 @@
 <template>
   <q-toolbar class="header row justify-between">
-    <q-btn flat dense round icon="close" @click="back()"/>
+    <q-btn flat dense round icon="close" @click="back"/>
     <div class="header-title items-center q-mx-md">{{title}}</div>
     <div class="empty-element"/>
   </q-toolbar>

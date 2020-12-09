@@ -114,7 +114,7 @@ module.exports = function (/* ctx */) {
       manifest: {
         name: `shopping-app`,
         short_name: `shopping-app`,
-        description: `A Quasar Framework app`,
+        description: `Custome your shopping list with various categories`,
         display: 'standalone',
         orientation: 'portrait',
         background_color: '#ffffff',

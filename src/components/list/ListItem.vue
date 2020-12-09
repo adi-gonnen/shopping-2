@@ -3,6 +3,7 @@
     :class="isSelected && 'selected'"
     class="item-container row full-width justify-between q-px-sm"
     @click="toggleSelected"
+    @dblclick="moveToEdit"
   >
     <q-item-label class="item-label q-mt-xs">{{item.name}}</q-item-label>
     <div class="row items-center">
@@ -36,7 +37,7 @@ export default {
     },
     moveToEdit() {
       this.$router.push(`edit-item/${this.item.id}`)
-    }
+    },
   }
 };
 </script>

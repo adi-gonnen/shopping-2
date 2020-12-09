@@ -1,6 +1,6 @@
 import listService from "./service";
 
-export async function login({ commit, dispatch }, id_token) {
+export async function login({ dispatch }, id_token) {
   dispatch('list/setLoading', true, { root: true })
   await listService.login(id_token);
   await dispatch("loadLists");
@@ -18,9 +18,11 @@ export function logout({ commit }) {
 }
 
 export async function loadLists({ state, commit, rootState, dispatch }) {
+  dispatch("list/setLoading", true, { root: true });
   const lists = await listService.loadLists();
   if (lists.status === 401) {
     commit("setAuth", false);
+    dispatch("list/setLoading", false, { root: true });
     return false;
   } else {
     commit("setLists", lists);
@@ -29,6 +31,8 @@ export async function loadLists({ state, commit, rootState, dispatch }) {
     const id = rootState.list.listId || state.defaultListId;
     if (id) {
       await dispatch("list/getItems", id, { root: true });
+    } else {
+      dispatch("list/setLoading", false, { root: true });
     }
   }
 }
