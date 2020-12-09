@@ -31,6 +31,7 @@ export default {
   computed: {
     ...mapState({
       items: state => state.list.items,
+      lists: state => state.user.lists,
       auth: state => state.user.auth,
       loading: state => state.list.loading,
       error: state => state.list.error
@@ -53,7 +54,7 @@ export default {
     }
   },
   mounted() {
-    if (!this.auth && !this.items) {
+    if (!this.lists) {
       this.loadLists();
     }
   },

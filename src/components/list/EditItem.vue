@@ -1,11 +1,11 @@
 <template>
   <div v-if="item" class="full-width">
     <div class="q-mb-lg">
-      <input v-model="item.name" class="name-input bg-white q-my-lg"/>
+      <input v-model="item.name" class="name-input bg-white q-my-lg">
       <div class="row items-center">
         <p class="q-mb-none fs-18">עדכן כמות</p>
         <div class="relative-position q-mx-md">
-        <input v-model="item.quantity" type="number" class="quan-input bg-white"/>
+        <input v-model="item.quantity" type="number" class="quan-input bg-white">
         <div class="quantity-btns-container column absolute">
           <q-btn flat padding="0" class="arrow-btn" @click.stop="setQuantity(+1)">&#9650;</q-btn>
           <q-btn flat padding="0" class="arrow-btn" @click.stop="setQuantity(-1)">&#9660;</q-btn>
@@ -35,6 +35,7 @@ export default {
       return item.id === id;
     });
     this.item = JSON.parse(JSON.stringify(item));
+    this.item.quantity = +this.item.quantity;
   },
   methods: {
     ...mapActions({

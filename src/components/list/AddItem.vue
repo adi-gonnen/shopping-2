@@ -1,6 +1,6 @@
 <template>
-  <div v-if="newItem[0]" class="full-width">
-    <div v-for="(item, idx) in newItem" :key="idx" class="relative-position row no-wrap q-mb-lg">
+  <div v-if="items[0]" class="full-width">
+    <div v-for="(item, idx) in items" :key="idx" class="relative-position row no-wrap q-mb-lg">
       <input
         v-model="item.name"
         :autofocus="idx === 0"
@@ -35,11 +35,11 @@ import { mapActions } from "vuex";
 export default {
   name: "AddItem",
   data: () => ({
-    newItem: [{ quantity: 1, name: "" }]
+    items: [{ quantity: 1, name: "" }]
   }),
   computed: {},
   watch: {
-    newItem: {
+    items: {
       handler(val) {
         this.addNewLine();
       },
@@ -52,25 +52,25 @@ export default {
       getItems: "list/getItems"
     }),
     addNewLine() {
-      const idx = this.newItem.length - 1;
-      if (this.newItem[idx].name !== "") {
-        this.newItem.push({ quantity: 1, name: "" });
+      const idx = this.items.length - 1;
+      if (this.items[idx].name !== "") {
+        this.items.push({ quantity: 1, name: "" });
       }
     },
     setQuantity(idx, diff) {
-      if (diff === -1 && this.newItem[idx].quantity === 1) {
+      if (diff === -1 && this.items[idx].quantity === 1) {
         return;
       }
-      this.newItem[idx].quantity += diff;
+      this.items[idx].quantity += diff;
     },
     async updateItems() {
-      for (let i = 0; i < this.newItem.length; i++) {
-        if (this.newItem[i].name) {
-          this.addItem(this.newItem[i]);
+      for (const item of this.items) {
+        if (item.name) {
+          await this.addItem(item);
         }
       }
-      this.newItem = [{ quantity: 1, name: "" }];
       await this.getItems();
+      this.items = [{ quantity: 1, name: "" }];
       window.history.back();
     }
   }
