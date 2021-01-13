@@ -5,7 +5,7 @@
       <Login v-if="!auth"/>
       <div v-else class="full-width">
         <div v-if="items">
-          <list-items :items="items" @markItems="markItems"/>
+          <list-items :items="listItems" @markItems="markItems" @arrangeList="arrangeList"/>
           <main-footer :selected="selected" @clear="clear" class="layout fixed-bottom"/>
         </div>
         <Welcome v-else/>
@@ -26,7 +26,8 @@ export default {
   name: "Home",
   components: { ListItems, MainFooter, Login, Welcome },
   data: () => ({
-    selected: []
+    selected: [],
+    listItems: []
   }),
   computed: {
     ...mapState({
@@ -57,6 +58,12 @@ export default {
     if (!this.lists) {
       this.loadLists();
     }
+    this.listItems = this.items;
+  },
+  watch: {
+    items() {
+      this.listItems = this.items;
+    }
   },
   methods: {
     ...mapActions({
@@ -67,6 +74,9 @@ export default {
     },
     clear() {
       this.selected = [];
+    },
+    arrangeList(list) {
+      this.listItems = list;
     }
   }
 };

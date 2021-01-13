@@ -17,6 +17,7 @@
     "vue": "^2.6.12",
     "vue-cli": "^2.9.6",
     "vue-google-signin-button": "^1.0.4",
+    "vuedraggable": "^2.24.3",
     "vuex": "^3.5.1"
   },
   "devDependencies": {
