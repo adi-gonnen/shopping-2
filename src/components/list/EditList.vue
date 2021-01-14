@@ -58,6 +58,11 @@
           </q-item>
         </q-list>
       </div>
+
+      <!-- allow categories -->
+      <div class="border q-pa-sm q-mb-md">
+        <q-toggle label="אפשר קטגוריות" v-model="allowCategories" left-label class="default-toggle"/>
+      </div>
     </div>
 
     <!-- operate btns -->
@@ -79,6 +84,7 @@ export default {
   data: () => ({
     newList: "",
     setAsDefault: false,
+    allowCategories: false,
     users: null,
     selectUsers: [],
     newUsers: [],
@@ -170,7 +176,7 @@ export default {
     },
 
     async setAddList() {
-      const list = { name: this.newList };
+      const list = { name: this.newList, categories: this.allowCategories };
       const id = await this.addNewList(list);
       if (this.setAsDefault) {
         await this.setDefault({ id, value: true });
@@ -271,4 +277,5 @@ export default {
   font-size: 20px;
   margin: 8px 0 8px 16px;
 }
+
 </style>

@@ -12,6 +12,7 @@
       </div>
     </div>
     <div v-if="error" class="error-text q-pa-md">{{errorText}}</div>
+    <!-- <pre>{{items}}</pre> -->
   </q-page>
 </template>
 

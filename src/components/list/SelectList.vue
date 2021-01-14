@@ -32,6 +32,7 @@ export default {
   mounted() {
     if (this.lists) {
       this.selected = this.currentList;
+      console.log("lists", this.lists, this.currentList)
     }
   },
   methods: {
