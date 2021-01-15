@@ -1,0 +1,107 @@
+<template>
+  <div class="items-container column full-width">
+    <q-list class="category-list">
+      <q-expansion-item 
+        v-for="(category, index) in categories" 
+        :key="index" 
+        :value="true" 
+        dense-toggle 
+        class="category-header row items-center q-py-none"
+      >
+        <template v-slot:header>
+          <q-item-section avatar class="category-icon">
+            <i :class="[category.icon, category.color]"></i>
+          </q-item-section>
+          <q-item-section>
+            <p class="bold q-mb-none q-px-sm">{{category.name}}</p>
+          </q-item-section>
+        </template>
+        <q-separator/>
+        <q-list class="category-list">
+          <q-item v-for="(item, idx) in itemsCategory(category.id)" :key="idx" class="list-item-container q-pa-none">
+            <list-item :item="item" @markItems="markItems" :selected="selected"/>
+          </q-item>
+        </q-list>
+      </q-expansion-item>
+    </q-list>
+  </div>
+</template>
+
+<script>
+import ListItem from "components/list/ListItem.vue";
+import draggable from "vuedraggable";
+import { mapState } from "vuex";
+
+export default {
+  name: "CategoryItems",
+  components: { ListItem, draggable },
+  props: ["items", "categories"],
+  data: () => ({
+    selected: []
+  }),
+  computed: {
+    itemsList: {
+      get() {
+        return this.items;
+      },
+      set(value) {
+        this.$emit("arrangeList", value);
+      }
+    },
+    itemsCategory() {
+      return id => {
+        return this.items.filter(item => {
+          return item.category === id;
+        });
+      };
+    },
+    category() {
+      return id => {
+        return this.categories.find(item => {
+          return (item.id = id);
+        });
+      };
+    }
+  },
+  methods: {
+    markItems(id) {
+      const idx = this.selected.findIndex(item => {
+        return item === id;
+      });
+      if (idx !== -1) {
+        //item already marked
+        this.selected.splice(idx, 1);
+      } else {
+        this.selected.push(id);
+      }
+      this.$emit("markItems", this.selected);
+    }
+  }
+};
+</script>
+
+<style lang="scss">
+@import "../../assets/colors.scss";
+
+.items-container {
+  margin-bottom: 70px;
+}
+.q-list.category-list {
+  margin-bottom: 15px;
+}
+.q-item {
+  height: 40px;
+}
+.q-expansion-item > * {
+  width: 100%;
+  & .q-item:not(.list-item-container) {
+    padding: 0;
+    height: 25px;
+    min-height: 25px;
+    background-color: #f3e4c8;
+  }
+}
+.category-icon {
+  min-width: 35px;
+}
+</style>

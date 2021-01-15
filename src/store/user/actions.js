@@ -20,7 +20,7 @@ export function logout({ commit }) {
 export async function loadLists({ state, commit, rootState, dispatch }) {
   dispatch("list/setLoading", true, { root: true });
   const lists = await listService.loadLists();
-  if (lists.status === 401) {
+  if (!lists || lists.status === 401) {
     commit("setAuth", false);
     dispatch("list/setLoading", false, { root: true });
     return false;

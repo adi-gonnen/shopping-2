@@ -5,35 +5,46 @@
       <Login v-if="!auth"/>
       <div v-else class="full-width">
         <div v-if="items">
-          <list-items :items="listItems" @markItems="markItems" @arrangeList="arrangeList"/>
+          <category-items 
+            v-if="categoryList" 
+            :items="listItems" 
+            :categories="categories" 
+            @markItems="markItems"
+            @arrangeList="arrangeList"
+          />
+          <list-items v-else :items="listItems" @markItems="markItems" @arrangeList="arrangeList"/>
           <main-footer :selected="selected" @clear="clear" class="layout fixed-bottom"/>
         </div>
         <Welcome v-else/>
       </div>
     </div>
     <div v-if="error" class="error-text q-pa-md">{{errorText}}</div>
-    <!-- <pre>{{items}}</pre> -->
   </q-page>
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState,mapGetters, mapActions } from "vuex";
 import Login from "components/common/Login.vue";
 import Welcome from "components/common/Welcome.vue";
 import ListItems from "components/list/ListItems.vue";
+import CategoryItems from "components/list/CategoryItems.vue";
 import MainFooter from "components/common/MainFooter.vue";
 
 export default {
   name: "Home",
-  components: { ListItems, MainFooter, Login, Welcome },
+  components: { Login, Welcome, ListItems, CategoryItems, MainFooter },
   data: () => ({
     selected: [],
     listItems: []
   }),
   computed: {
+    ...mapGetters({
+      categoryList: "list/categoryList"
+    }),
     ...mapState({
       items: state => state.list.items,
       lists: state => state.user.lists,
+      categories: state => state.list.categories,
       auth: state => state.user.auth,
       loading: state => state.list.loading,
       error: state => state.list.error
@@ -64,6 +75,7 @@ export default {
   watch: {
     items() {
       this.listItems = this.items;
+      console.log("categoryList ", this.categories)
     }
   },
   methods: {

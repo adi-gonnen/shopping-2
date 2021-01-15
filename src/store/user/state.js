@@ -3,6 +3,7 @@ export default function () {
     auth: true,
     lists: null,
     defaultListId: null,
+    listId: null,
     profile: null,
   }
 }

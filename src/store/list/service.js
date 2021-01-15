@@ -56,6 +56,27 @@ function deleteList(listId) {
     })
 }
 
+function getCategories(parentId) {
+    return axios.get(`${api}/categories?parentId=${parentId}`)
+    .then(res => {
+        return res.data
+    })
+}
+
+function setCategories() {
+    return {
+        fruit: {icon: 'fas fa-apple-alt', name: 'פירות וירקות', color: 'green'},
+        cosmetics: {icon: 'fas fa-shower', name: 'טיפוח', color: ''},
+        culinary: {icon: 'fas fa-concierge-bell', name: 'מוצרים לבישול', color: ''},
+        drink: {icon: 'fas fa-glass-martini', name: 'משקאות', color: ''},
+        milk: {icon: 'fas fa-cheese', name: 'גבינות ומצרי חלב', color: ''},
+        frozen: {icon: '', name: 'קפואים', color: ''},
+        milk: {icon: '', name: '', color: ''},
+        milk: {icon: '', name: '', color: ''},
+        milk: {icon: '', name: '', color: ''},
+        milk: {icon: '', name: '', color: ''},
+    }
+}
 
 export default {
     getItems,
@@ -64,14 +85,10 @@ export default {
     editItem,
     editList,
     addList,
-    deleteList
+    deleteList,
+    getCategories
 }
-
- {/* <i class="fas fa-apple-alt"></i> פירות וירקות
-    <i class="fas fa-shower"></i> טיפוח 
-    <i class="fas fa-concierge-bell"></i> מוצרים לבישול
-    <i class="fas fa-cheese"></i> גבינות ומצרי חלב
-    <i class="fas fa-glass-martini"></i> משקאות
+/*
     <i class="fas fa-shopping-cart"></i> שונות
     <i class="far fa-snowflake"></i> קפואים
     <i class="fas fa-toilet-paper"></i> מוצרי נייר לבית
@@ -96,4 +113,4 @@ export default {
     <i class="fas fa-syringe"></i> תרופות ותוספי מזון
     <i class="fas fa-tshirt"></i> ביגוד
     <i class="fas fa-desktop"></i> ציוד מחשבים
-    <i class="fas fa-bed"></i> טקסטיל לבית */}
+    <i class="fas fa-bed"></i> טקסטיל לבית */

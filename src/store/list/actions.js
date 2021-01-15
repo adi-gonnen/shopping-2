@@ -2,9 +2,11 @@ import listService from "./service";
 
 export async function getItems({ state, commit }, parentId = state.listId) {
   const items = (await listService.getItems(parentId)) || [];
+  const categories = await listService.getCategories(parentId);
   commit("getItems", items);
   commit("getListId", parentId);
   commit("setLoading", false);
+  commit("setCategories", categories);
 }
 
 export async function addNewItem({ state, commit, dispatch }, item) {
