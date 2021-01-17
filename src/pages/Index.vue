@@ -12,7 +12,7 @@
             @markItems="markItems"
             @arrangeList="arrangeList"
           />
-          <list-items v-else :items="listItems" @markItems="markItems" @arrangeList="arrangeList"/>
+          <list-items v-else :items="items" @markItems="markItems" @arrangeList="arrangeList"/>
           <main-footer :selected="selected" @clear="clear" class="layout fixed-bottom"/>
         </div>
         <Welcome v-else/>
@@ -35,7 +35,7 @@ export default {
   components: { Login, Welcome, ListItems, CategoryItems, MainFooter },
   data: () => ({
     selected: [],
-    listItems: []
+    // listItems: []
   }),
   computed: {
     ...mapGetters({
@@ -70,13 +70,13 @@ export default {
     if (!this.lists) {
       this.loadLists();
     }
-    this.listItems = this.items;
+    // this.listItems = this.items;
   },
   watch: {
-    items() {
-      this.listItems = this.items;
-      console.log("categoryList ", this.categories)
-    }
+    // items() {
+    //   this.listItems = this.items;
+    //   console.log("categoryList ", this.categories)
+    // }
   },
   methods: {
     ...mapActions({

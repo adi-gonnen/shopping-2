@@ -1,10 +1,12 @@
 <template>
   <div class="full-width">
-    <draggable v-model="itemsList">
+    <q-list>
+    <!-- <draggable v-model="itemsList"> -->
       <q-item v-for="(item, idx) in items" :key="idx" class="q-pa-none">
         <list-item :item="item" @markItems="markItems" :selected="selected"/>
       </q-item>
-    </draggable>
+    <!-- </draggable> -->
+    </q-list>
   </div>
 </template>
 
@@ -21,14 +23,14 @@ export default {
     selected: [],
   }),
   computed: {
-    itemsList: {
-      get() {
-        return this.items
-      },
-      set(value) {
-        this.$emit('arrangeList',value )
-      }
-    }
+    // itemsList: {
+    //   get() {
+    //     return this.items
+    //   },
+    //   set(value) {
+    //     this.$emit('arrangeList',value )
+    //   }
+    // }
   },
   methods: {
     markItems(id) {

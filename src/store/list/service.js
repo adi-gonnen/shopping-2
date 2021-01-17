@@ -97,12 +97,14 @@ export default {
     <i class="fas fa-pepper-hot"></i> תבלינים
     <i class="fas fa-ice-cream"></i> ממתקים וחטיפים
     <i class="fas fa-seedling"></i> ללא גלוטן
+    <i class="fas fa-fish"></i> נקניקים ודגים מעושנים 
+    <i class="fas fa-bread-slice"></i> מאפים עוגיות וקורנפלקס
 
 
 
     <!-- extra -->
     <i class="fas fa-baby-carriage"></i> מוצרי תינוקות
-    <i class="fas fa-cat"></i> מוצרים לבעלי חיים
+    <i class="fas fa-paw"></i> מוצרים לבעלי חיים
     <i class="fas fa-chair"></i> ריהוט
     <i class="fas fa-coffee"></i> כלים לבית
     <i class="fas fa-dice"></i> משחקים
@@ -113,4 +115,11 @@ export default {
     <i class="fas fa-syringe"></i> תרופות ותוספי מזון
     <i class="fas fa-tshirt"></i> ביגוד
     <i class="fas fa-desktop"></i> ציוד מחשבים
-    <i class="fas fa-bed"></i> טקסטיל לבית */
+    <i class="fas fa-bed"></i> טקסטיל לבית 
+    
+    מיון: <i class="fas fa-sort-amount-down"></i>
+חץ למעלה:  <i class="fas fa-sort-up"></i>
+חץ למטה: <i class="fas fa-sort-down"></i>
+פח: <i class="fas fa-trash-alt"></i>
+
+    */
