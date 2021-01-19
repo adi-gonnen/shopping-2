@@ -230,17 +230,6 @@ export default {
   width: 100%;
   direction: rtl;
 }
-.quan-input {
-  font-size: 20px;
-  &::v-deep {
-    .q-field__inner {
-      margin: 0 10px;
-    }
-    .q-field__before {
-      padding: 0;
-    }
-  }
-}
 .btns-container {
   background-color: #f8f6f1;
   padding: 16px;

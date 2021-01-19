@@ -7,7 +7,7 @@
         <div v-if="items">
           <category-items 
             v-if="categoryList" 
-            :items="listItems" 
+            :items="items" 
             :categories="categories" 
             @markItems="markItems"
             @arrangeList="arrangeList"

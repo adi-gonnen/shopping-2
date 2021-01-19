@@ -17,7 +17,7 @@
         <q-item-section class="fs-20 text-weight-bold q-mb-sm">ערוך רשימות</q-item-section>
       </q-item>
 
-      <q-item v-ripple class="q-mb-md">
+      <q-item clickable v-ripple class="q-mb-md" @click="openMenu('categories')">
         <q-item-section avatar>
           <q-icon name="local_activity"></q-icon>
         </q-item-section>

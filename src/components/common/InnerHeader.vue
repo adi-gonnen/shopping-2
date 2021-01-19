@@ -1,6 +1,6 @@
 <template>
   <q-toolbar class="header row justify-between">
-    <q-btn flat dense round icon="close" @click="back"/>
+    <q-btn flat dense round icon="close" @click="onReturn"/>
     <div class="header-title items-center q-mx-md">{{title}}</div>
     <div class="empty-element"/>
   </q-toolbar>
@@ -24,12 +24,19 @@ export default {
       items: state => state.list.items,
     }),
     title() {
-      const isItem = this.$route.path.includes('item');
-      return isItem ? this.currentList.name : 'עדכון רשימות';
+      if (this.$route.path.includes('item')) {
+        return this.currentList.name;
+      }
+      if (this.$route.path.includes('list')) {
+        return 'עדכון רשימות';
+      }
+      if (this.$route.path.includes('categories')) {
+        return 'עדכון קטגוריות';
+      }
     },
   },
   methods: {
-    back() {
+    onReturn() {
       window.history.back()
     }
   }

@@ -29,6 +29,13 @@ const routes = [
     ]
   },
   {
+    path: '/categories',
+    component: () => import('layouts/InnerLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/Categories.vue') },
+    ]
+  },
+  {
     path: '/list/:id?',
     component: () => import('layouts/InnerLayout.vue'),
     children: [
