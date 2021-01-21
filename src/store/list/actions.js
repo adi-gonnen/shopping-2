@@ -4,7 +4,7 @@ export async function getItems({ state, commit }, parentId = state.listId) {
   const items = (await listService.getItems(parentId)) || [];
   const categories = await listService.getCategories(parentId);
   commit("getItems", items);
-  commit("getListId", parentId);
+  commit("setListId", parentId);
   commit("setLoading", false);
   commit("setCategories", categories);
 }
@@ -98,7 +98,7 @@ export async function deleteList({state, rootState, commit, dispatch}, listId) {
     });
   if (state.listId === listId) {
     const list = rootState.user.defaultListId || rootState.user.lists[0].id;
-    commit("getListId", list);
+    commit("setListId", list);
   }
   commit("setLoading", false);
   return req;

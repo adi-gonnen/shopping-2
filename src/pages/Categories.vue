@@ -1,30 +1,36 @@
 <template>
   <q-page class="q-mt-sm q-px-md">
-    <p class="fs-20 q-mb-xs">בחרו רשימה</p>
-    <q-select 
-      v-model="selectedList" 
-      :options="listOptions" 
-      option-label="label" 
-      option.value="value" 
-      class="list-select q-mb-lg"
-    >
-      <template v-slot:selectedList>{{selectedList.label}}</template>
-    </q-select>
-    <q-separator class="q-mb-md"/>
+    <div class="page-section q-mb-md">
+      <p class="fs-20 q-mb-xs">בחרו רשימה</p>
+      <q-select 
+        v-model="selectedList" 
+        :options="listOptions" 
+        option-label="label" 
+        option.value="value" 
+        heigh="30px"
+        class="list-select q-mb-lg"
+        @input="changeSelect"
+      >
+        <template v-slot:selectedList>{{selectedList.label}}</template>
+      </q-select>
+    </div>
+    <!-- <q-separator class="q-mb-lg"/> -->
     
-    <div class="row">
+    <div class="page-section row q-mb-md">
       <p class="fs-20 q-mb-xs">הוסיפו קטגוריה</p>
       <q-btn class="add-btn add-category q-mx-md">+</q-btn>
     </div>
-    <q-separator class="q-my-md"/>
+    <!-- <q-separator class="q-mb-lg"/> -->
 
-    <p class="fs-20 q-mb-xs">ערכו קטגוריות</p>
-    <q-list class="category-list">
-      <q-item v-for="(n, idx) in setCategories" :key="idx" class="row items-center cursor-pointer">
-        <i :class="[n.icon, n.color]"></i>
-        <q-input v-model="setCategories[idx].name" class="category-name q-mb-none q-mx-sm"/>
-      </q-item>
-    </q-list>
+    <div class="page-section q-mb-md">
+      <p class="fs-20 q-mb-xs">ערכו קטגוריות</p>
+      <q-list class="category-list">
+        <q-item v-for="(n, idx) in setCategories" :key="idx" class="row items-center cursor-pointer">
+          <i :class="[n.icon, n.color]"></i>
+          <q-input v-model="setCategories[idx].name" class="category-name q-mb-none q-mx-sm"/>
+        </q-item>
+      </q-list>
+    </div>
 
     <q-btn class="add-btn">עדכן</q-btn>
   </q-page>
@@ -45,6 +51,7 @@ export default {
     ...mapState({
       loading: state => state.list.loading,
       error: state => state.list.error,
+      listId: state => state.list.listId,
       lists: state => state.user.lists,
       categories: state => state.list.categories,
     }),
@@ -52,6 +59,11 @@ export default {
       return this.lists.map(list => {
           return {label: list.name, value: list.id }
         });
+    },
+    currentList() {
+      return this.listOptions.find(list => {
+        return this.listId === list.value;
+      }); 
     },
     errorText() {
        switch (this.error) {
@@ -74,24 +86,41 @@ export default {
     if (!this.lists) {
       await this.loadLists();
     }
-    this.setCategories = this.categories.map(item => {
-      return {name: item.name, icon: item.icon, color: item.color}
-    })
-    this.selectedList = this.listOptions[0]
+    this.updateCategories()
+    this.selectedList = this.currentList;
   },
   methods: {
     ...mapActions({
-      loadLists: "user/loadLists"
-    })
+      loadLists: "user/loadLists",
+      getItems: "list/getItems"
+    }),
+    async changeSelect(item) {
+      await this.getItems(item.value);
+      this.updateCategories()
+    },
+    updateCategories() {
+      this.setCategories = this.categories.map(item => {
+        return {name: item.name, icon: item.icon, color: item.color}
+      })
+    }
   }
 };
 </script>
 
 <style scoped lang="scss">
+.page-section {
+  border: 1px solid #000000;
+  padding: 8px;
+}
 .list-select {
   height: 50px;
   min-width: 50%;
   max-width: 50%;
+  &::v-deep {
+    .q-field--auto-height .q-field__native {
+       min-height: 30px;
+    }
+  }
 }
 .category-list {
   margin-bottom: 25px;
@@ -102,7 +131,7 @@ export default {
 .add-category {
   width: 38px;
   height: 38px;
-  font-size: 25px;
+  font-size: 23px;
   &::v-deep {
     .q-btn__wrapper {
       min-height: unset;

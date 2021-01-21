@@ -2,7 +2,7 @@ export default function () {
   return {
     listId: null,
     items: null,
-    categories: null,
+    categories: [],
     loading: false,
     error: null
   }

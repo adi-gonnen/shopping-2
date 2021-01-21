@@ -3,7 +3,7 @@ export function getItems (state, payload) {
     state.items = payload;
 }
 
-export function getListId (state, payload) {
+export function setListId (state, payload) {
     state.listId = payload;
 }
 
