@@ -19,4 +19,8 @@ export function setError(state, payload) {
     state.error = payload;
 }
 
+export function setFullCategories(state, payload) {
+    state.fullCategories = payload;
+}
+
 

@@ -33,6 +33,7 @@ const routes = [
     component: () => import('layouts/InnerLayout.vue'),
     children: [
       { path: '', component: () => import('pages/Categories.vue') },
+      { path: 'add', component: () => import('pages/AddCategories.vue') },
     ]
   },
   {

@@ -4,6 +4,7 @@ export default function () {
     items: null,
     categories: [],
     loading: false,
-    error: null
+    error: null,
+    fullCategories: null
   }
 }

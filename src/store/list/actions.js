@@ -1,12 +1,17 @@
 import listService from "./service";
 
-export async function getItems({ state, commit }, parentId = state.listId) {
+export async function getItems({ state, commit, dispatch }, parentId = state.listId) {
   const items = (await listService.getItems(parentId)) || [];
   const categories = await listService.getCategories(parentId);
+  if (!state.fullCategories) {
+    const fullCategories = listService.setCategories();
+    commit("setFullCategories", fullCategories);
+  }
   commit("getItems", items);
   commit("setListId", parentId);
   commit("setLoading", false);
   commit("setCategories", categories);
+  dispatch("checkActiveCaterory")
 }
 
 export async function addNewItem({ state, commit, dispatch }, item) {
@@ -102,6 +107,18 @@ export async function deleteList({state, rootState, commit, dispatch}, listId) {
   }
   commit("setLoading", false);
   return req;
+}
+
+export function checkActiveCaterory({state, commit}) {
+  const categories = state.categories;
+  const fullCategories = JSON.parse(JSON.stringify(state.fullCategories));
+  fullCategories.forEach(item => {
+    const isMatch = categories.some(category => {
+      return item.icon === category.icon;
+    })
+    item.active = isMatch;
+  })
+  commit('setFullCategories', fullCategories)
 }
 
 export function setError({ commit }, error) {

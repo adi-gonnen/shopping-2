@@ -64,18 +64,36 @@ function getCategories(parentId) {
 }
 
 function setCategories() {
-    return {
-        fruit: {icon: 'fas fa-apple-alt', name: 'פירות וירקות', color: 'green'},
-        cosmetics: {icon: 'fas fa-shower', name: 'טיפוח', color: ''},
-        culinary: {icon: 'fas fa-concierge-bell', name: 'מוצרים לבישול', color: ''},
-        drink: {icon: 'fas fa-glass-martini', name: 'משקאות', color: ''},
-        milk: {icon: 'fas fa-cheese', name: 'גבינות ומצרי חלב', color: ''},
-        frozen: {icon: '', name: 'קפואים', color: ''},
-        milk: {icon: '', name: '', color: ''},
-        milk: {icon: '', name: '', color: ''},
-        milk: {icon: '', name: '', color: ''},
-        milk: {icon: '', name: '', color: ''},
-    }
+    return [
+        {icon: 'fas fa-apple-alt', name: 'פירות וירקות', color: 'green', active: false},
+        {icon: 'fas fa-shower', name: 'טיפוח', color: 'lightcoral', active: false},
+        {icon: 'fas fa-concierge-bell', name: 'מוצרים לבישול', color: 'red', active: false},
+        {icon: 'fas fa-glass-martini', name: 'משקאות', color: 'red', active: false},
+        {icon: 'fas fa-cheese', name: 'גבינות ומצרי חלב', color: 'yellow', active: false},
+        {icon: 'far fa-snowflake', name: 'קפואים', color: 'lightblue', active: false},
+        {icon: 'fas fa-toilet-paper', name: 'מוצרי נייר לבית', color: '', active: false},
+        {icon: 'fas fa-paint-roller', name: 'תחזוקת הבית וניקיון', color: '', active: false},
+        {icon: 'fas fa-hamburger', name: 'בשר ועוף', color: '', active: false},
+        {icon: 'fas fa-pepper-hot', name: 'תבלינים', color: '', active: false},
+        {icon: 'fas fa-ice-cream', name: 'ממתקים וחטיפים', color: '', active: false},
+        {icon: 'fas fa-seedling', name: 'ללא גלוטן', color: '', active: false},
+        {icon: 'fas fa-fish', name: 'נקניקים ודגים מעושנים', color: '', active: false},
+        {icon: 'fas fa-bread-slice', name: 'מאפים עוגיות וקורנפלקס', color: 'brown', active: false},
+        {icon: 'fas fa-shopping-cart', name: 'שונות', color: '', active: false},
+        {icon: 'fas fa-baby-carriage', name: 'מוצרי תינוקות', color: '', active: false},
+        {icon: 'fas fa-paw', name: 'מוצרים לבעלי חיים', color: '', active: false},
+        {icon: 'fas fa-chair', name: 'ריהוט', color: '', active: false},
+        {icon: 'fas fa-coffee', name: 'כלים לבית', color: '', active: false},
+        {icon: 'fas fa-dice', name: 'משחקים', color: '', active: false},
+        {icon: 'fas fa-car-side', name: 'מוצרים לרכב', color: '', active: false},
+        {icon: 'fas fa-hanukiah', name: 'חגים ומועדים', color: '', active: false},
+        {icon: 'fas fa-pencil-alt', name: 'מכשירי כתיבה', color: '', active: false},
+        {icon: 'fas fa-plug', name: 'מכשירי חשמל', color: '', active: false},
+        {icon: 'fas fa-syringe', name: 'תרופות ותוספי מזון', color: '', active: false},
+        {icon: 'fas fa-tshirt', name: 'ביגוד', color: '', active: false},
+        {icon: 'fas fa-desktop', name: 'מחשבים וטלפוניה', color: '', active: false},
+        {icon: 'fas fa-bed', name: 'טקסטיל לבית', color: '', active: false},
+    ]
 }
 
 export default {
@@ -86,36 +104,10 @@ export default {
     editList,
     addList,
     deleteList,
-    getCategories
+    getCategories,
+    setCategories
 }
 /*
-    <i class="fas fa-shopping-cart"></i> שונות
-    <i class="far fa-snowflake"></i> קפואים
-    <i class="fas fa-toilet-paper"></i> מוצרי נייר לבית
-    <i class="fas fa-paint-roller"></i> תחזוקת הבית וניקיון
-    <i class="fas fa-hamburger"></i> בשר עוף ודגים
-    <i class="fas fa-pepper-hot"></i> תבלינים
-    <i class="fas fa-ice-cream"></i> ממתקים וחטיפים
-    <i class="fas fa-seedling"></i> ללא גלוטן
-    <i class="fas fa-fish"></i> נקניקים ודגים מעושנים 
-    <i class="fas fa-bread-slice"></i> מאפים עוגיות וקורנפלקס
-
-
-
-    <!-- extra -->
-    <i class="fas fa-baby-carriage"></i> מוצרי תינוקות
-    <i class="fas fa-paw"></i> מוצרים לבעלי חיים
-    <i class="fas fa-chair"></i> ריהוט
-    <i class="fas fa-coffee"></i> כלים לבית
-    <i class="fas fa-dice"></i> משחקים
-    <i class="fas fa-car-side"></i> מוצרים לרכב
-    <i class="fas fa-hanukiah"></i> חגים ומועדים
-    <i class="fas fa-pencil-alt"></i> מכשירי כתיבה
-    <i class="fas fa-pepper-hot"></i> מכשירי חשמל
-    <i class="fas fa-syringe"></i> תרופות ותוספי מזון
-    <i class="fas fa-tshirt"></i> ביגוד
-    <i class="fas fa-desktop"></i> ציוד מחשבים
-    <i class="fas fa-bed"></i> טקסטיל לבית 
     
     מיון: <i class="fas fa-sort-amount-down"></i>
 חץ למעלה:  <i class="fas fa-sort-up"></i>

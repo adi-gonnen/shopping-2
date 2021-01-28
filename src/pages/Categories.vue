@@ -14,13 +14,11 @@
         <template v-slot:selectedList>{{selectedList.label}}</template>
       </q-select>
     </div>
-    <!-- <q-separator class="q-mb-lg"/> -->
     
     <div class="page-section row q-mb-md">
       <p class="fs-20 q-mb-xs">הוסיפו קטגוריה</p>
-      <q-btn class="add-btn add-category q-mx-md">+</q-btn>
+      <q-btn class="add-btn add-category q-mx-md" @click="addCategory">+</q-btn>
     </div>
-    <!-- <q-separator class="q-mb-lg"/> -->
 
     <div class="page-section q-mb-md">
       <p class="fs-20 q-mb-xs">ערכו קטגוריות</p>
@@ -32,7 +30,7 @@
       </q-list>
     </div>
 
-    <q-btn class="add-btn">עדכן</q-btn>
+    <q-btn class="add-btn update-btn">עדכן</q-btn>
   </q-page>
 </template>
 
@@ -102,6 +100,9 @@ export default {
       this.setCategories = this.categories.map(item => {
         return {name: item.name, icon: item.icon, color: item.color}
       })
+    },
+    addCategory() {
+      this.$router.push('/categories/add')
     }
   }
 };
@@ -138,5 +139,8 @@ export default {
       padding: 0;
     }
   }
+}
+.update-btn {
+  width: 100%;
 }
 </style>
