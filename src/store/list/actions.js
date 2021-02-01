@@ -113,12 +113,45 @@ export function checkActiveCaterory({state, commit}) {
   const categories = state.categories;
   const fullCategories = JSON.parse(JSON.stringify(state.fullCategories));
   fullCategories.forEach(item => {
-    const isMatch = categories.some(category => {
-      return item.icon === category.icon;
+    categories.some(category => {
+      if (item.icon === category.icon) {
+        item.id = category.id;
+        item.active = true;
+        return 
+      }
     })
-    item.active = isMatch;
   })
   commit('setFullCategories', fullCategories)
+}
+
+export async function changeCategoryValue({state, dispatch}, data) {
+  const parentId = state.listId
+  const {val, icon} = data;
+  let category = state.fullCategories.find(item => {
+    return item.icon === icon;
+  })
+  category.parentId = parentId
+  if (val) {
+    const req = await listService.addCategory(category)
+    .then(res => {
+      return res;
+    })
+    .catch(function(error) {
+      console.log(error);
+      dispatch("setError", "add");
+    });
+    return req;
+  } else {
+    const req = await listService.removeCategory(`${parentId}/${category.id}`)
+    .then(res => {
+      return res;
+    })
+    .catch(function(error) {
+      console.log(error);
+      dispatch("setError", "add");
+    });
+    return req;
+  }
 }
 
 export function setError({ commit }, error) {

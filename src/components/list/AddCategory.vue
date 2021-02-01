@@ -15,22 +15,24 @@
       </q-select>
     </div>
 
-  <q-list class="categories-list column">
-    <q-item v-for="(category, idx) in setCategories" :key="idx" class="cat-item row items-center justify-between q-pa-sm">
-       <div class="row items-center">
-          <i :class="[category.icon, category.color]" class="q-ml-sm"></i>
-          <p class="category-name q-mb-none">{{category.name}}</p>
-        </div>
-        <div class="">
-          <q-toggle :color="categoryColor(category.color)" size="sm" v-model="category.active" val="battery" />
-        </div>
-    </q-item>
-  </q-list>
+    <q-list class="categories-list scroll column">
+      <q-item v-for="(category, idx) in setCategories" :key="idx" class="cat-item row items-center justify-between q-pa-sm">
+        <div class="row items-center">
+            <i :class="[category.icon, category.color]" class="q-ml-sm"></i>
+            <p class="category-name q-mb-none">{{category.name}}</p>
+          </div>
+          <div class="">
+            <q-toggle 
+              v-model="category.active" 
+              :color="categoryColor(category.color)" 
+              size="sm" 
+              val="battery" 
+              @input="toggleCategory($event, category.icon)"/>
+          </div>
+      </q-item>
+    </q-list>
 
-    <!-- <div v-for="(category, idx) in categories" :key="idx" class="relative-position row no-wrap q-mb-lg">
-     <input v-model="category.name" type="text" class="quan-input bg-white q-mr-xs">
-    </div> -->
-    <div class="footer-container layout">
+    <div class="footer-container fixed-bottom q-mb-xl">
       <q-btn flat size="xl" class="add-btn layout q-ma-sm" @click="updateCategory">עדכן</q-btn>
     </div>
   </div>
@@ -90,6 +92,7 @@ export default {
       addItem: "list/addNewItem",
       getItems: "list/getItems",
       loadLists: "user/loadLists",
+      changeCategoryValue: "list/changeCategoryValue",
     }),
     async changeSelect(item) {
       await this.getItems(item.value);
@@ -101,6 +104,9 @@ export default {
     //     return {name: item.name, icon: item.icon, color: item.color, active: true}
     //   })
     // },
+    toggleCategory(event, icon) {
+      this.changeCategoryValue({val: event, icon})
+    },
     async updateCategory() {
       // this.setCategories()
       // this.categories = [{ color: 'black', name: "" }]

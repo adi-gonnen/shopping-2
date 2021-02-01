@@ -63,6 +63,20 @@ function getCategories(parentId) {
     })
 }
 
+function addCategory(category) {
+    return axios.post(`${api}/category`, category)
+    .then(res => {
+        return res.data
+    })
+}
+
+function removeCategory(params) {
+    return axios.delete(`${api}/category/${params}`)
+    .then(res => {
+        return res.data
+    })
+}
+
 function setCategories() {
     return [
         {icon: 'fas fa-apple-alt', name: 'פירות וירקות', color: 'green', active: false},
@@ -105,7 +119,9 @@ export default {
     addList,
     deleteList,
     getCategories,
-    setCategories
+    setCategories,
+    addCategory,
+    removeCategory
 }
 /*
     
