@@ -63,12 +63,12 @@ function getCategories(parentId) {
     })
 }
 
-function addCategoryToItem(data) {
-    return axios.put(`${api}/item`, data)
-    .then(res => {
-        return res.data
-    })
-}
+// function addCategoryToItem(data) {
+//     return axios.put(`${api}/item`, data)
+//     .then(res => {
+//         return res.data
+//     })
+// }
 
 function addCategory(category) {
     return axios.post(`${api}/category`, category)
@@ -126,7 +126,7 @@ export default {
     addList,
     deleteList,
     getCategories,
-    addCategoryToItem,
+    // addCategoryToItem,
     setCategories,
     addCategory,
     removeCategory

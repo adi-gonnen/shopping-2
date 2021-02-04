@@ -1,6 +1,6 @@
 <template>
   <div
-    :class="isSelected && 'selected'"
+    :class="{ 'selected': isSelected }"
     class="item-container row full-width justify-between q-px-sm"
     @click="toggleSelected"
     @dblclick="moveToEdit"
@@ -49,7 +49,7 @@ export default {
 .selected {
   background-color: aquamarine;
 }
-.q-item__label {
+.item-label.q-item__label {
   font-size: 20px;
   line-height: 32px !important;
   text-overflow: ellipsis;

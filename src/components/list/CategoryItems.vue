@@ -12,7 +12,7 @@
           <q-item-section avatar class="category-icon">
             <i :class="[category.icon, category.color]"></i>
           </q-item-section>
-          <q-item-section>
+          <q-item-section class="item-label">
             <p class="bold q-mb-none q-px-sm">{{category.name}}</p>
           </q-item-section>
         </template>
@@ -20,14 +20,15 @@
         <q-separator/>
         <q-list class="category-list">
           <q-item v-for="(item, idx) in itemsCategory(category.id)" :key="idx" class="list-item-container q-pa-none">
-            <list-item :item="item" @markItems="markItems" :selected="selected"/>
+            <list-item :item="item" :selected="selected" @markItems="markItems" @dblclick="moveToEdit"/>
           </q-item>
         </q-list>
       </q-expansion-item>
     </q-list>
+    <p v-if="showFreeTitle" class="free-items-title bold q-py-xs q-px-md q-mb-sm">מוצרים נוספים:</p>
     <q-list class="category-list">
-      <q-item v-for="(item, idx) in itemsWithoutCategories" :key="idx" class="list-item-container q-pa-none">
-        <list-item :item="item" @markItems="markItems" :selected="selected"/>
+      <q-item v-for="(item, idx) in freeItems" :key="idx" class="list-item-container q-pa-none">
+        <list-item :item="item" :selected="selected" @markItems="markItems" @dblclick="moveToEdit"/>
       </q-item>
     </q-list>
   </div>
@@ -53,7 +54,7 @@ export default {
         })
       })
     },
-    itemsWithoutCategories() {
+    freeItems() {
       return this.items.filter(item => {
         return !item.category
       })
@@ -71,6 +72,9 @@ export default {
           return (item.id = id);
         });
       };
+    },
+    showFreeTitle() {
+      return this.categoriesToShow[0] && this.freeItems[0]
     }
   },
   methods: {
@@ -84,7 +88,10 @@ export default {
         this.selected.push(id);
       }
       this.$emit("markItems", this.selected);
-    }
+    },
+    moveToEdit() {
+      this.$router.push(`edit-item/${this.item.id}`)
+    },
   }
 };
 </script>
@@ -101,6 +108,14 @@ export default {
 .q-item {
   height: 40px;
 }
+.item-label.q-item__label {
+  font-size: 20px;
+  line-height: 32px !important;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 77%;
+  overflow: hidden;
+}
 .q-expansion-item > * {
   width: 100%;
   & .q-item:not(.list-item-container) {
@@ -112,5 +127,9 @@ export default {
 }
 .category-icon {
   min-width: 35px;
+}
+.free-items-title {
+  background-color: #f3e4c8;
+  width: 100%;
 }
 </style>

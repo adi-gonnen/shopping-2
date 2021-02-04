@@ -6,13 +6,12 @@
       <div v-else class="full-width">
         <div v-if="items">
           <category-items 
-            v-if="categoryList" 
             :items="items" 
             :categories="categories" 
             @markItems="markItems"
             @arrangeList="arrangeList"
           />
-          <list-items v-else :items="items" @markItems="markItems" @arrangeList="arrangeList"/>
+          <!-- <list-items v-else :items="items" @markItems="markItems" @arrangeList="arrangeList"/> -->
           <main-footer :selected="selected" @clear="clear" class="layout fixed-bottom"/>
         </div>
         <Welcome v-else/>
@@ -70,7 +69,6 @@ export default {
     if (!this.lists) {
       this.loadLists();
     }
-    console.log("categoryList ", this.items)
     // this.listItems = this.items;
   },
   watch: {

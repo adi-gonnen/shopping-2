@@ -46,8 +46,7 @@ export function deleteItem({ state, dispatch }, id) {
 
 export function editItem({ state, commit, dispatch }, item) {
   commit("setLoading", true);
-  const req = listService
-    .editItem(item)
+  const req = listService.editItem(item)
     .then(res => {
       dispatch("getItems", state.listId);
       return res;
@@ -124,17 +123,17 @@ export function checkActiveCaterory({state, commit}) {
   commit('setFullCategories', fullCategories)
 }
 
-export async function addCategoryToItem({state, dispatch}, category) {
-  const req = await listService.addCategoryToItem(category)
-    .then(res => {
-      return res;
-    })
-    .catch(function(error) {
-      console.log(error);
-      dispatch("setError", "add");
-    });
-    return req;
-}
+// export async function addCategoryToItem({state, dispatch}, category) {
+//   const req = await listService.addCategoryToItem(category)
+//     .then(res => {
+//       return res;
+//     })
+//     .catch(function(error) {
+//       console.log(error);
+//       dispatch("setError", "add");
+//     });
+//     return req;
+// }
 
 export async function changeCategoryValue({state, dispatch}, data) {
   const parentId = state.listId
