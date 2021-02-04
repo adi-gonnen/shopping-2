@@ -124,6 +124,18 @@ export function checkActiveCaterory({state, commit}) {
   commit('setFullCategories', fullCategories)
 }
 
+export async function addCategoryToItem({state, dispatch}, category) {
+  const req = await listService.addCategoryToItem(category)
+    .then(res => {
+      return res;
+    })
+    .catch(function(error) {
+      console.log(error);
+      dispatch("setError", "add");
+    });
+    return req;
+}
+
 export async function changeCategoryValue({state, dispatch}, data) {
   const parentId = state.listId
   const {val, icon} = data;

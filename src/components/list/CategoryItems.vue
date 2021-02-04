@@ -2,7 +2,7 @@
   <div class="items-container column full-width">
     <q-list class="category-list">
       <q-expansion-item 
-        v-for="(category, index) in categories" 
+        v-for="(category, index) in categoriesToShow" 
         :key="index" 
         :value="true" 
         dense-toggle 
@@ -16,6 +16,7 @@
             <p class="bold q-mb-none q-px-sm">{{category.name}}</p>
           </q-item-section>
         </template>
+
         <q-separator/>
         <q-list class="category-list">
           <q-item v-for="(item, idx) in itemsCategory(category.id)" :key="idx" class="list-item-container q-pa-none">
@@ -23,6 +24,11 @@
           </q-item>
         </q-list>
       </q-expansion-item>
+    </q-list>
+    <q-list class="category-list">
+      <q-item v-for="(item, idx) in itemsWithoutCategories" :key="idx" class="list-item-container q-pa-none">
+        <list-item :item="item" @markItems="markItems" :selected="selected"/>
+      </q-item>
     </q-list>
   </div>
 </template>
@@ -40,13 +46,17 @@ export default {
     selected: []
   }),
   computed: {
-    itemsList: {
-      get() {
-        return this.items;
-      },
-      set(value) {
-        this.$emit("arrangeList", value);
-      }
+    categoriesToShow() {
+      return this.categories.filter(category => {
+        return this.items.find((item) => {
+          return category.id === item.category
+        })
+      })
+    },
+    itemsWithoutCategories() {
+      return this.items.filter(item => {
+        return !item.category
+      })
     },
     itemsCategory() {
       return id => {
@@ -68,8 +78,7 @@ export default {
       const idx = this.selected.findIndex(item => {
         return item === id;
       });
-      if (idx !== -1) {
-        //item already marked
+      if (idx !== -1) {   //item already marked        
         this.selected.splice(idx, 1);
       } else {
         this.selected.push(id);

@@ -70,6 +70,7 @@ export default {
     if (!this.lists) {
       this.loadLists();
     }
+    console.log("categoryList ", this.items)
     // this.listItems = this.items;
   },
   watch: {

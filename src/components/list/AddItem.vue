@@ -25,7 +25,7 @@
       </div>
     </div>
     <div class="footer-container layout">
-      <q-btn flat size="xl" class="add-btn fixed-bottom layout q-ma-sm" @click="updateItems">עדכן</q-btn>
+      <q-btn flat size="xl" class="add-btn layout q-ma-sm" @click="updateItems">עדכן</q-btn>
     </div>
   </div>
 </template>

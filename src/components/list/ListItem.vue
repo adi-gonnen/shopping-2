@@ -52,5 +52,9 @@ export default {
 .q-item__label {
   font-size: 20px;
   line-height: 32px !important;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 77%;
+  overflow: hidden;
 }
 </style>

@@ -32,7 +32,7 @@
       </q-item>
     </q-list>
 
-    <div class="footer-container fixed-bottom q-mb-xl">
+    <div class="footer-container fixed-bottom">
       <q-btn flat size="xl" class="add-btn layout q-ma-sm" @click="updateCategory">עדכן</q-btn>
     </div>
   </div>
@@ -140,36 +140,17 @@ export default {
     }
   }
 }
-.name-input {
+.footer-conatiner {
   width: 100%;
-  height: 42px;
-}
-.quan-input {
-  height: 42px;
-  font-size: 20px;
-  max-width: 66px;
 }
 .add-btn {
   background-color: $primary;
   color: #fff;
   width: 95%;
-}
-.quantity-btns-container {
-  left: 0;
-  bottom: 0;
-}
-.q-btn.arrow-btn {
-  font-size: 19px;
-  max-width: 25px;
-  position: absolute;
-  height: 24px;
-  left: 0px;
-  bottom: 1px;
-  &:first-child {
-    bottom: 24px;
+  &::v-deep {
+    & .q-btn__wrapper {
+      min-height: 40px;
+    }
   }
-}
-.footer-conatiner {
-  margin-bottom: 70px;
 }
 </style>
