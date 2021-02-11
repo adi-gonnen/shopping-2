@@ -23,8 +23,8 @@
     <div class="page-section q-mb-md">
       <p class="fs-20 q-mb-xs">ערכו קטגוריות</p>
       <q-list class="category-list">
-        <q-item v-for="(n, idx) in setCategories" :key="idx" class="row items-center cursor-pointer">
-          <i :class="[n.icon, n.color]"></i>
+        <q-item v-for="(n, idx) in setCategories" :key="idx" class="cat-item row items-center cursor-pointer q-mb-xs">
+          <i :class="n.icon" :style="{color: n.color}"></i>
           <q-input v-model="setCategories[idx].name" class="category-name q-mb-none q-mx-sm"/>
         </q-item>
       </q-list>
@@ -125,6 +125,10 @@ export default {
 }
 .category-list {
   margin-bottom: 25px;
+}
+.cat-item {
+  background-color: #f3e4c8;
+  min-height: 48px;
 }
 .category-name::v-deep .q-field__control {
   height: 38px;
