@@ -8,14 +8,14 @@ const routes = [
     ]
   },
   {
-    path: '/item/:id?',
+    path: '/add-item/:category?',
     component: () => import('layouts/InnerLayout.vue'),
     children: [
       { path: '', component: () => import('pages/AddItem.vue') },
     ]
   },
   {
-    path: '/edit-item/:id?',
+    path: '/edit-item/:id?',  
     component: () => import('layouts/InnerLayout.vue'),
     children: [
       { path: '', component: () => import('pages/EditItem.vue') },

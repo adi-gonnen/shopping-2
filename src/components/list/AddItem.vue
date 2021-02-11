@@ -7,8 +7,8 @@
         placeholder="הוסף פריט"
         class="name-input bg-white"
       >
+     
       <input v-model="item.quantity" type="number" class="quan-input bg-white q-mr-xs">
-
       <div class="quantity-btns-container absolute column">
         <q-btn
           flat
@@ -31,13 +31,25 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapState, mapActions } from "vuex";
 export default {
   name: "AddItem",
   data: () => ({
     items: [{ quantity: 1, name: "" }]
   }),
-  computed: {},
+  computed: {
+    ...mapState({
+      categories: state => state.list.categories,
+    }),
+    category() {
+      return this.$route.params.category;
+    },
+    selectedCategory() {
+      return this.categories.find(category => {
+        return category.id === this.category
+      })
+    },
+  },
   watch: {
     items: {
       handler(val) {
@@ -63,9 +75,13 @@ export default {
       }
       this.items[idx].quantity += diff;
     },
+    changeSelect() {
+//
+    },
     async updateItems() {
-      for (const item of this.items) {
+      for (let item of this.items) {
         if (item.name) {
+          item = {...item, category: this.category}
           await this.addItem(item);
         }
       }

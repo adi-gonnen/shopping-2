@@ -24,7 +24,7 @@ export default {
   },
   methods: {
     openEditItem() {
-      this.$router.push('/item/add-item')
+      this.$router.push('/add-item')
     },
   }
 };

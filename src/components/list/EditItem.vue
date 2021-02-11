@@ -20,7 +20,7 @@
       <div class="category-container">
         <p class="q-mb-none fs-18 full-width">עדכן קטגוריה</p>
         <div class="row">
-          <i v-if="selectedCategory" :class="[selectedCategory.icon, selectedCategory.color]" class="self-center q-ml-md"></i>
+          <i v-if="selectedCategory" :class="selectedCategory.icon" :style="{color: selectedCategory.color}" class="self-center q-ml-md"></i>
           <div v-else class="icon-replace"/>
           <q-select 
             v-model="selectedCategory"

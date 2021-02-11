@@ -10,10 +10,13 @@
       >
         <template v-slot:header>
           <q-item-section avatar class="category-icon">
-            <i :class="[category.icon, category.color]"></i>
+            <i :class="category.icon" :style="{color: category.color}"></i>
           </q-item-section>
           <q-item-section class="item-label">
             <p class="bold q-mb-none q-px-sm">{{category.name}}</p>
+          </q-item-section>
+          <q-item-section class="item-label">
+            <q-btn flat class="add-cat-btn" icon="add" @click.stop="addItem(category.id)"></q-btn>
           </q-item-section>
         </template>
 
@@ -89,6 +92,9 @@ export default {
       }
       this.$emit("markItems", this.selected);
     },
+    addItem(category) {
+      this.$router.push(`add-item/${category}`)
+    },
     moveToEdit() {
       this.$router.push(`edit-item/${this.item.id}`)
     },
@@ -127,6 +133,9 @@ export default {
 }
 .category-icon {
   min-width: 35px;
+}
+.add-cat-btn {
+  font-size: 12px;
 }
 .free-items-title {
   background-color: #f3e4c8;

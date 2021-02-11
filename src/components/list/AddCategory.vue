@@ -16,15 +16,14 @@
     </div>
 
     <q-list class="categories-list scroll column">
-      <q-item v-for="(category, idx) in setCategories" :key="idx" class="cat-item row items-center justify-between q-pa-sm">
+      <q-item v-for="(category, idx) in setCategories" :key="idx" class="cat-item row items-center justify-between q-pa-sm q-mb-xs">
         <div class="row items-center">
-            <i :class="[category.icon, category.color]" class="q-ml-sm"></i>
+            <i :class="category.icon" :style="{color: category.color}" class="q-ml-sm"></i>
             <p class="category-name q-mb-none">{{category.name}}</p>
           </div>
           <div class="">
             <q-toggle 
               v-model="category.active" 
-              :color="categoryColor(category.color)" 
               size="sm" 
               val="battery" 
               @input="toggleCategory($event, category.icon)"/>
@@ -128,7 +127,8 @@ export default {
   }
 }
 .cat-item {
-  width: 70%;
+  background-color: #f3e4c8;
+  min-height: 38px;
 }
 .q-item__label {
   font-size: 17px;
