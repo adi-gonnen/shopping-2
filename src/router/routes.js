@@ -37,6 +37,13 @@ const routes = [
     ]
   },
   {
+    path: '/sort',
+    component: () => import('layouts/InnerLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/Sort.vue') },
+    ]
+  },
+  {
     path: '/list/:id?',
     component: () => import('layouts/InnerLayout.vue'),
     children: [

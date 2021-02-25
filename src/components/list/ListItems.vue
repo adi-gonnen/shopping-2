@@ -53,6 +53,6 @@ export default {
   margin-bottom: 70px;
 }
 .q-item {
-    height: 40px;
+    /* height: 40px; */
 }
 </style>

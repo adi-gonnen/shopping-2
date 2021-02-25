@@ -9,14 +9,14 @@
         class="category-header row items-center q-py-none"
       >
         <template v-slot:header>
+          <q-item-section class="item-label">
+            <q-btn flat class="add-cat-btn" icon="add" @click.stop="addItem(category.id)"></q-btn>
+          </q-item-section>
           <q-item-section avatar class="category-icon">
             <i :class="category.icon" :style="{color: category.color}"></i>
           </q-item-section>
           <q-item-section class="item-label">
             <p class="bold q-mb-none q-px-sm">{{category.name}}</p>
-          </q-item-section>
-          <q-item-section class="item-label">
-            <q-btn flat class="add-cat-btn" icon="add" @click.stop="addItem(category.id)"></q-btn>
           </q-item-section>
         </template>
 
@@ -104,7 +104,12 @@ export default {
 
 <style lang="scss">
 @import "../../assets/colors.scss";
-
+//
+// 4. prepare all items in array of arrays
+// 5. put items in dragble
+// 6. drag items should change their category
+// 7. after all works - set regular list on home page
+// 8. fix edit category bug
 .items-container {
   margin-bottom: 70px;
 }
@@ -112,7 +117,7 @@ export default {
   margin-bottom: 15px;
 }
 .q-item {
-  height: 40px;
+  // height: 40px;
 }
 .item-label.q-item__label {
   font-size: 20px;
@@ -142,3 +147,4 @@ export default {
   width: 100%;
 }
 </style>
+

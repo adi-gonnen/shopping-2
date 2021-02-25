@@ -6,6 +6,7 @@ export function currentList(state, getters, rootState) {
 }
 
 export function categoryList(state) {
+  // return true if at list one item has category
   const items = state.items;
   return items && items.some(item => {
     return item.category;
