@@ -9,14 +9,14 @@
         class="category-header row items-center q-py-none"
       >
         <template v-slot:header>
-          <q-item-section class="item-label">
-            <q-btn flat class="add-cat-btn" icon="add" @click.stop="addItem(category.id)"></q-btn>
-          </q-item-section>
           <q-item-section avatar class="category-icon">
             <i :class="category.icon" :style="{color: category.color}"></i>
           </q-item-section>
           <q-item-section class="item-label">
             <p class="bold q-mb-none q-px-sm">{{category.name}}</p>
+          </q-item-section>
+          <q-item-section class="item-label">
+            <q-btn flat class="add-cat-btn" icon="add" @click.stop="addItem(category.id)"></q-btn>
           </q-item-section>
         </template>
 

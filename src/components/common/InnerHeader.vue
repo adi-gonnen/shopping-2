@@ -30,20 +30,27 @@ export default {
       if (this.$route.path.includes('list')) {
         return 'עדכון רשימות';
       }
-      if (this.$route.path.includes('categories')) {
+      if (this.$route.path.includes('categories') || this.origin === 'dialog') {
         return 'עדכון קטגוריות';
       }
     },
   },
   methods: {
     onReturn() {
-      window.history.back()
+      if (this.origin === 'dialog') {
+        this.$emit('close')
+      } else {
+        window.history.back()
+      }
     }
   }
 };
 </script>
 
 <style scoped lang="scss">
+.header {
+  direction: rtl;
+}
 .header-title {
   font-size: 20px;
 }
