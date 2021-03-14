@@ -25,12 +25,12 @@
       <q-list class="category-list">
         <q-item v-for="(n, idx) in setCategories" :key="idx" class="cat-item row items-center cursor-pointer q-mb-xs">
           <i :class="n.icon" :style="{color: n.color}"></i>
-          <q-input v-model="setCategories[idx].name" class="category-name q-mb-none q-mx-sm"/>
+          <q-input v-model="setCategories[idx].name" class="category-name q-mb-none q-mx-sm" @input="setName(idx)"/>
         </q-item>
       </q-list>
     </div>
 
-    <q-btn class="add-btn update-btn">עדכן</q-btn>
+    <q-btn class="add-btn update-btn" @click="updateCategory">עדכן</q-btn>
   </q-page>
 </template>
 
@@ -43,7 +43,8 @@ export default {
   components: { EditLists },
   data: () => ({
     selectedList: null,
-    setCategories: []
+    setCategories: [],
+    idxList: []
   }),
   computed: {
     ...mapState({
@@ -90,7 +91,8 @@ export default {
   methods: {
     ...mapActions({
       loadLists: "user/loadLists",
-      getItems: "list/getItems"
+      getItems: "list/getItems",
+      setCategory: "list/updateCategory"
     }),
     async changeSelect(item) {
       await this.getItems(item.value);
@@ -103,6 +105,22 @@ export default {
     },
     addCategory() {
       this.$router.push('/categories/add')
+    },
+    async updateCategory() {
+      const cateoriesIdx = this.idxList.filter((v, i, a) => a.indexOf(v) === i)
+      for (let i = 0; i < cateoriesIdx.length; i++) {
+        const idx = cateoriesIdx[i];
+        const category = { ...this.categories[idx] }
+        category.name = this.setCategories[idx].name
+        console.log('idx', idx, category.name)
+        // await this.setCategory(category)
+        console.log("start", idx, this.categories[idx])
+        console.log("ten", idx, this.setCategories[idx])
+        console.log("category", category)
+      }
+    },
+    setName(idx) {
+      this.idxList.push(idx)
     }
   }
 };

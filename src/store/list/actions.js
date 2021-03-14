@@ -141,7 +141,7 @@ export async function changeCategoryValue({state, dispatch}, data) {
   let category = state.fullCategories.find(item => {
     return item.icon === icon;
   })
-  category.parentId = parentId
+  category.parentId = parentId;
   if (val) {
     const req = await listService.addCategory(category)
     .then(res => {
@@ -163,6 +163,26 @@ export async function changeCategoryValue({state, dispatch}, data) {
     });
     return req;
   }
+}
+
+export async function updateCategory({state, commit, dispatch}, category) {
+  commit("setLoading", true);
+  const parentId = state.listId;
+  const categoryItem = {
+    ...category,
+    parentId
+  }
+  const req = await listService.updateCategory(categoryItem)
+    .then(res => {
+      listService.getCategories(parentId);
+      commit("setCategories", categories);
+      return res;
+    })
+    .catch(function(error) {
+      console.log(error);
+      dispatch("setError", "add");
+    });
+    commit("setLoading", false);
 }
 
 export function setError({ commit }, error) {
