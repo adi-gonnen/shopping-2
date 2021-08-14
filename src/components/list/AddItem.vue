@@ -1,14 +1,21 @@
 <template>
   <div v-if="items[0]" class="full-width">
     <div v-for="(item, idx) in items" :key="idx" class="relative-position row no-wrap q-mb-lg">
-      <input
+      <q-input
         v-model="item.name"
         :autofocus="idx === 0"
         placeholder="הוסף פריט"
+        outlined 
         class="name-input bg-white"
-      >
+        @input ="addLine"
+      />
      
-      <input v-model="item.quantity" type="number" class="quan-input bg-white q-mr-xs">
+      <q-input 
+        v-model="item.quantity" 
+        type="number" 
+        outlined 
+        class="quan-input bg-white q-mr-xs"
+      />
       <div class="quantity-btns-container absolute column">
         <q-btn
           flat
@@ -24,8 +31,8 @@
         >&#9660;</q-btn>
       </div>
     </div>
-    <div class="footer-container layout">
-      <q-btn flat size="xl" class="add-btn layout q-ma-sm" @click="updateItems">עדכן</q-btn>
+    <div class="footer-container fixed-bottom layout">
+      <q-btn flat size="xl" class="add-btn q-ma-sm" @click="updateItems">עדכן</q-btn>
     </div>
   </div>
 </template>
@@ -50,22 +57,14 @@ export default {
       })
     },
   },
-  watch: {
-    items: {
-      handler(val) {
-        this.addNewLine();
-      },
-      deep: true
-    }
-  },
   methods: {
     ...mapActions({
       addItem: "list/addNewItem",
       getItems: "list/getItems"
     }),
-    addNewLine() {
-      const idx = this.items.length - 1;
-      if (this.items[idx].name !== "") {
+    addLine() {
+      const lastIdx = this.items.length - 1;
+      if (this.items[lastIdx].name !== "") {
         this.items.push({ quantity: 1, name: "" });
       }
     },

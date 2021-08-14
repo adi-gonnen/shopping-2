@@ -5,16 +5,17 @@
     @click="toggleSelected"
     @dblclick="moveToEdit"
   >
-    <q-item-label class="item-label q-mt-xs">{{item.name}}</q-item-label>
-    <div class="row items-center">
+    <q-item-label class="item-label q-mt-xs col-10">{{item.name}}</q-item-label>
+    <div class="row justify-end items-center col-2">
       <q-item-label v-if="isSelected">
-        <q-btn flat class="edit-btn" icon="edit" @click.stop="moveToEdit"/>
+        <q-btn flat class="edit-btn q-ml-sm" icon="edit" @click.stop="moveToEdit"/>
       </q-item-label>
-      <q-item-label v-if="!item.category">
+      
+      <!-- <q-item-label v-if="!item.category">
         <q-btn flat class="edit-btn" @click.stop="showCategories">
           <i class="fas fa-sort-amount-down"></i>
         </q-btn>
-      </q-item-label>
+      </q-item-label> -->
       <q-item-label class="item-label">{{item.quantity}}</q-item-label>
     </div>
 
@@ -92,7 +93,7 @@ export default {
   }
 };
 </script>
-<style scoped>
+<style scoped lang="scss">
 .item-container {
   border-bottom: 1px solid #000000;
 }
@@ -104,8 +105,15 @@ export default {
   line-height: 32px !important;
   text-overflow: ellipsis;
   white-space: nowrap;
-  max-width: 77%;
+  // max-width: 77%;
   overflow: hidden;
+}
+.q-btn.edit-btn {
+  &::v-deep {
+    .q-btn__wrapper {
+      padding: 0;
+    }
+  }
 }
 .q-dialog {
   direction: rtl;;
