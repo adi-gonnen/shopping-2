@@ -1,29 +1,18 @@
 <template>
   <q-page class="flex q-mt-sm">
     <q-spinner-hourglass v-if="loading" color="primary" size="4em"/>
-    <div v-else class="items-container full-width row justify-between">
-       <!-- <draggable :list="categoriesList" group="list" @change="onChange">
-         <p v-for="category in categoriesList" :key="category.id" class="item">{{category.name}}</p>
-       </draggable> -->
-       <!-- <nested-draggable :tasks="list" /> -->
-
-        <!-- each category should me an array. display arrays as <dragble> -->
-
-       <draggable :list="itemsList" :group="{ name: 'list', put: false }" @change="onChange">
-         <p v-for="item in itemsList" :key="item.id" class="item">{{item.name}}</p>
-       </draggable>
-    </div>
+    <sort-items v-else :categories="categories" :items="items"/>
   </q-page>
 </template>
 
 <script>
 import { mapState,mapGetters, mapActions } from "vuex";
 import draggable from "vuedraggable";
-import CategoryItems from "components/list/CategoryItems.vue";
+import SortItems from "components/list/Sort.vue";
 
 export default {
   name: "Sort",
-  components: { CategoryItems, draggable },
+  components: { SortItems, draggable },
   data: () => ({
     itemsList: [],
     categoriesList: [],
@@ -38,16 +27,6 @@ export default {
       categories: state => state.list.categories,
       loading: state => state.list.loading,
     }),
-  },
-  mounted() {
-    this.itemsList = JSON.parse(JSON.stringify(this.items));
-    let categories = [];
-    this.categories.forEach((category => {
-      const item = {...category, items: []}
-      categories.push(item)
-    }))
-    console.log("itesm", categories)
-    this.categoriesList = categories;
   },
   methods: {
     ...mapActions({}),
