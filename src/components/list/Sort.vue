@@ -1,11 +1,11 @@
 <template>
-  <div class="row justify-between full-width q-px-md">
-    <draggable :list="itemsList" group="item" @change="onChange">
+  <div class="row justify-between full-width no-wrap q-px-md">
+    <draggable :list="itemsList" group="item" @change="onChange" class="col-5">
        <p v-for="item in itemsList" :key="item.id" class="item-list">{{item.name}}</p>
     </draggable>
-    <div class="column">
+    <div class="column col-7">
       <div v-for="(category, idx) in categoriesList" :key="idx" class="category-container">
-        <div class="row items-center q-mb-md">
+        <div class="row items-center no-wrap q-mb-md">
           <i :class="category.icon" :style="{color: category.color}" class="q-mx-sm"></i>
           <p class="category-name q-mb-none">{{category.name}}</p>
         </div>
@@ -69,11 +69,19 @@ export default {
 <style lang="scss">
 .category-name {
   font-size: 18px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 77%;
+  overflow: hidden;
 }
 .category-container {
   border-bottom: 1px solid #dbdbdb;
 }
 .item-list {
   cursor: grabbing;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 77%;
+  overflow: hidden;
 }
 </style>

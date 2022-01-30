@@ -116,9 +116,6 @@ export default {
 .q-list.category-list {
   margin-bottom: 15px;
 }
-.q-item {
-  // height: 40px;
-}
 .item-label.q-item__label {
   font-size: 20px;
   line-height: 32px !important;
