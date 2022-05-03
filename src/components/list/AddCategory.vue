@@ -31,8 +31,8 @@
       </q-item>
     </q-list>
 
-    <div class="footer-container fixed-bottom">
-      <q-btn flat size="xl" class="add-btn layout q-ma-sm" @click="updateCategory">עדכן</q-btn>
+    <div class="footer-container fixed-bottom layout">
+      <q-btn flat size="xl" class="add-btn q-ma-sm" @click="updateCategory">עדכן</q-btn>
     </div>
   </div>
 </template>
@@ -140,13 +140,13 @@ export default {
     }
   }
 }
-.footer-conatiner {
-  width: 100%;
+.footer-container {
+  width: 542px;
 }
 .add-btn {
   background-color: $primary;
   color: #fff;
-  width: 95%;
+  width: 98%;
   &::v-deep {
     & .q-btn__wrapper {
       min-height: 40px;

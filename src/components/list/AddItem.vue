@@ -105,7 +105,7 @@ export default {
 .add-btn {
   background-color: $primary;
   color: #fff;
-  width: 95%;
+  width: 98%;
 }
 .quantity-btns-container {
   left: 0;

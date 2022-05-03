@@ -1,16 +1,28 @@
 <template>
   <div class="row justify-between full-width no-wrap q-px-md">
+    <!-- items list -->
     <draggable :list="itemsList" group="item" @change="onChange" class="col-5">
-       <p v-for="item in itemsList" :key="item.id" class="item-list">{{item.name}}</p>
+      <p v-for="item in itemsList" :key="item.id" class="item-list q-ml-sm">{{item.name}}</p>
     </draggable>
+
+    <!-- category list -->
     <div class="column col-7">
-      <div v-for="(category, idx) in categoriesList" :key="idx" class="category-container">
+      <div 
+        v-for="(category, idx) in categoriesList" 
+        :key="idx" class="category-container"
+        @touchstart="showCategory = idx" 
+        @mouseover="showCategory = idx"
+        @touchend="showCategory = null"
+        @mouseleave="showCategory = null"
+      >
         <div class="row items-center no-wrap q-mb-md">
           <i :class="category.icon" :style="{color: category.color}" class="q-mx-sm"></i>
           <p class="category-name q-mb-none">{{category.name}}</p>
         </div>
         <draggable :list="category.items" group="item" @change="onChange(category, $event)">
-          <p v-for="item in category.items" :key="item.id" class="item-list q-mb-sm q-px-sm">{{item.name}}</p>
+          <div v-show="showCategory === idx">
+            <p v-for="item in category.items" :key="item.id" class="item-list q-mb-md q-px-sm">{{item.name}}</p>
+          </div>
         </draggable>
       </div>
     </div>
@@ -29,6 +41,7 @@ export default {
   data: () => ({
     itemsList: [],
     categoriesList: [],
+    showCategory: null
   }),
   computed: {
   },
@@ -60,7 +73,6 @@ export default {
         item.category = null;
       }
       this.editItem(item);
-      console.log("val", val)
     }
   }
 };
@@ -71,7 +83,7 @@ export default {
   font-size: 18px;
   text-overflow: ellipsis;
   white-space: nowrap;
-  max-width: 77%;
+  // max-width: 77%;
   overflow: hidden;
 }
 .category-container {
@@ -81,7 +93,6 @@ export default {
   cursor: grabbing;
   text-overflow: ellipsis;
   white-space: nowrap;
-  max-width: 77%;
   overflow: hidden;
 }
 </style>
