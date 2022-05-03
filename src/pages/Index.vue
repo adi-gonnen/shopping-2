@@ -7,7 +7,7 @@
         <div v-if="items">
           <category-items 
             :items="items" 
-            :categories="categories" 
+            :categories="categories || []" 
             @markItems="markItems"
             @arrangeList="arrangeList"
           />

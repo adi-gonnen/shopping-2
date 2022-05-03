@@ -32,11 +32,10 @@
 <script>
 import { mapState,mapGetters, mapActions } from "vuex";
 import draggable from "vuedraggable";
-import CategoryItems from "components/list/CategoryItems.vue";
 
 export default {
   name: "SortItems",
-  components: { CategoryItems, draggable },
+  components: { draggable },
   props: ['categories', 'items'],
   data: () => ({
     itemsList: [],

@@ -55,7 +55,7 @@ export default {
       categories: state => state.list.categories,
     }),
     listOptions() {
-      return this.lists.map(list => {
+      return this.lists?.map(list => {
           return {label: list.name, value: list.id }
         });
     },
@@ -112,11 +112,7 @@ export default {
         const idx = cateoriesIdx[i];
         const category = { ...this.categories[idx] }
         category.name = this.setCategories[idx].name
-        console.log('idx', idx, category.name)
-        // await this.setCategory(category)
-        console.log("start", idx, this.categories[idx])
-        console.log("ten", idx, this.setCategories[idx])
-        console.log("category", category)
+        await this.setCategory(category)
       }
     },
     setName(idx) {

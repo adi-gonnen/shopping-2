@@ -1,6 +1,8 @@
 <template>
   <div class="footer-container row justify-between no-wrap q-pa-sm">
-    <q-btn color="primary" class="footer-btn" icon="delete" @click="deleteItems"/>
+    <q-btn color="primary" class="footer-btn" icon="delete" @click="deleteItems">
+      <q-badge v-if="selected.length" color="red" floating>{{selected.length}}</q-badge>
+    </q-btn>
     <q-btn class="footer-btn bg-white" @click="sortItems">מיין</q-btn>
   </div>
 </template>
@@ -39,5 +41,10 @@ export default {
 .footer-btn {
   width: 45%;
   height: 40px;
+}
+.q-badge {
+  font-size: 22px;
+  padding: 8px;
+  border-radius: 50%;
 }
 </style>

@@ -174,7 +174,7 @@ export async function updateCategory({state, commit, dispatch}, category) {
   }
   const req = await listService.updateCategory(categoryItem)
     .then(res => {
-      listService.getCategories(parentId);
+      const categories = listService.getCategories(parentId);
       commit("setCategories", categories);
       return res;
     })
