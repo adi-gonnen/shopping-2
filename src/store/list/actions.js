@@ -185,6 +185,21 @@ export async function updateCategory({state, commit, dispatch}, category) {
     commit("setLoading", false);
 }
 
+export async function deleteCategory({state, commit, dispatch}, id) {
+  const parentId = state.listId;
+  const params = `${parentId}/${id}`
+  return await listService.removeCategory(params)
+    .then(res => {
+      // const categories = listService.getCategories(parentId);
+      // commit("setCategories", categories);
+      return res;
+    })
+    .catch(function(error) {
+      console.log(error);
+      dispatch("setError", "delete");
+    });
+}
+
 export function setError({ commit }, error) {
   commit("setError", error);
   setTimeout(() => commit("setError", null), 3000);

@@ -63,22 +63,15 @@ function getCategories(parentId) {
     })
 }
 
-// function addCategoryToItem(data) {
-//     return axios.put(`${api}/item`, data)
-//     .then(res => {
-//         return res.data
-//     })
-// }
-
 function addCategory(category) {
-    return axios.put(`${api}/category`, category)
+    return axios.post(`${api}/category`, category)
     .then(res => {
         return res.data
     })
 }
 
 function updateCategory(category) {
-    return axios.post(`${api}/category`, category)
+    return axios.put(`${api}/category`, category)
     .then(res => {
         return res.data
     })

@@ -24,13 +24,22 @@
       <p class="fs-20 q-mb-xs">ערכו קטגוריות</p>
       <q-list class="category-list">
         <q-item v-for="(n, idx) in setCategories" :key="idx" class="cat-item row items-center cursor-pointer q-mb-xs">
-          <i :class="n.icon" :style="{color: n.color}"></i>
+          <i :class="n.icon" :style="{color: n.color}" @click="selectItem(n.id)"></i>
+          <!-- <div v-if="!n.icon" @click="selectItem(n.id)" class="icon-placeholder"/> -->
           <q-input v-model="setCategories[idx].name" class="category-name q-mb-none q-mx-sm" @input="setName(idx)"/>
         </q-item>
       </q-list>
     </div>
 
-    <q-btn class="add-btn update-btn" @click="updateCategory">עדכן</q-btn>
+    <div class="row justify-between no-wrap q-pa-sm">
+      <q-btn class="add-btn update-btn col-5" @click="updateCategory">עדכן</q-btn>
+      <q-btn :loading="load" class="update-btn bg-white col-5" icon="delete" @click="deleteItems">
+        <q-badge v-if="selected.length" color="red" floating>{{selected.length}}</q-badge>
+        <template v-slot:loading>
+          <q-spinner class="load-spinner q-my-sm"/>
+        </template>
+    </q-btn>
+  </div>
   </q-page>
 </template>
 
@@ -44,7 +53,9 @@ export default {
   data: () => ({
     selectedList: null,
     setCategories: [],
-    idxList: []
+    idxList: [],
+    selected: [],
+    load: false
   }),
   computed: {
     ...mapState({
@@ -92,16 +103,15 @@ export default {
     ...mapActions({
       loadLists: "user/loadLists",
       getItems: "list/getItems",
-      setCategory: "list/updateCategory"
+      setCategory: "list/updateCategory",
+      deleteCategory: "list/deleteCategory",
     }),
     async changeSelect(item) {
       await this.getItems(item.value);
       this.updateCategories()
     },
     updateCategories() {
-      this.setCategories = this.categories.map(item => {
-        return {name: item.name, icon: item.icon, color: item.color}
-      })
+      this.setCategories = this.categories
     },
     addCategory() {
       this.$router.push('/categories/add')
@@ -113,6 +123,26 @@ export default {
         const category = { ...this.categories[idx] }
         category.name = this.setCategories[idx].name
         await this.setCategory(category)
+      }
+    },
+    async deleteItems() {
+      if (!this.selected.length) {
+        return 
+      }
+      this.load = true
+      for (const id of this.selected) {
+        await this.deleteCategory(id);
+      }
+      this.load = false
+    },
+    selectItem(id) {
+      const idx = this.selected.findIndex(item => {
+        return item === id;
+      });
+      if (idx !== -1) {       //item already marked
+        this.selected.splice(idx, 1);
+      } else {
+        this.selected.push(id);
       }
     },
     setName(idx) {
@@ -158,7 +188,12 @@ export default {
     }
   }
 }
-.update-btn {
-  width: 100%;
+.load-spinner {
+  margin: 4px auto;
 }
+// .icon-placeholder {
+//   min-width: 40px;
+//   min-height: 20px;
+//   background-color: red;
+// }
 </style>
