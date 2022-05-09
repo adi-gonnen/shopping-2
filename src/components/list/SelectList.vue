@@ -30,9 +30,9 @@ export default {
     })
   },
   mounted() {
-    if (this.lists) {
-      this.selected = this.currentList;
-    }
+    const lastList = localStorage.getItem('lastList')
+    const list = this.lists.find((i) => i.id === lastList)
+    this.selected = list || this.currentList;
   },
   methods: {
     ...mapActions({
@@ -40,6 +40,7 @@ export default {
     }),
     changeSelect(value) {
       this.getItems(value.id);
+      localStorage.setItem('lastList', value.id);
     }
   }
 };
