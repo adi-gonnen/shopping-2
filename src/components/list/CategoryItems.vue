@@ -40,15 +40,12 @@
 <script>
 import ListItem from "components/list/ListItem.vue";
 import draggable from "vuedraggable";
-import { mapState } from "vuex";
 
 export default {
   name: "CategoryItems",
   components: { ListItem, draggable },
-  props: ["items", "categories"],
-  data: () => ({
-    selected: []
-  }),
+  props: ["items", "categories", "selected"],
+  data: () => ({}),
   computed: {
     categoriesToShow() {
       return this.categories.filter(category => {
@@ -82,15 +79,16 @@ export default {
   },
   methods: {
     markItems(id) {
-      const idx = this.selected.findIndex(item => {
+      const selected = this.selected;
+      const idx = selected.findIndex(item => {
         return item === id;
       });
       if (idx !== -1) {   //item already marked        
-        this.selected.splice(idx, 1);
+        selected.splice(idx, 1);
       } else {
-        this.selected.push(id);
+        selected.push(id);
       }
-      this.$emit("markItems", this.selected);
+      this.$emit("markItems", selected);
     },
     addItem(category) {
       this.$router.push(`add-item/${category}`)

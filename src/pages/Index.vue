@@ -8,6 +8,7 @@
           <category-items 
             :items="items" 
             :categories="categories || []" 
+            :selected="selected" 
             @markItems="markItems"
             @arrangeList="arrangeList"
           />
@@ -81,8 +82,8 @@ export default {
     ...mapActions({
       loadLists: "user/loadLists"
     }),
-    markItems(array) {
-      this.selected = array;
+    markItems(val) {
+      this.selected = val;
     },
     clear() {
       this.selected = [];
