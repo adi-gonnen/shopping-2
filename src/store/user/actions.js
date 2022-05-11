@@ -28,7 +28,8 @@ export async function loadLists({ state, commit, rootState, dispatch }) {
     commit("setLists", lists);
     await dispatch("loadProfile");
     commit("setAuth", true);
-    const id = rootState.list.listId || state.defaultListId;
+    const lastList = localStorage.getItem('lastList')
+    const id = rootState.list.listId || lastList || state.defaultListId;
     if (id) {
       await dispatch("list/getItems", id, { root: true });
     } else {
