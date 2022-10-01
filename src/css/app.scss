@@ -37,7 +37,11 @@ html {
   display: flex;
   margin: 90px auto;
 }
-
+#credential_picker_container {
+  left: 0;
+  top: 270px;
+  width: unset;
+}
 @media (min-width: 600px) {
   .q-page-container.page-container {
     max-width: 550px;

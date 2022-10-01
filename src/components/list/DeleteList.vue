@@ -58,7 +58,7 @@ export default {
 }
 .edit-list-container {
   width: 45%;
-  & .lists-btn {
+   .lists-btn {
     width: 100%;
      height: 50px;
     font-size: 20px;

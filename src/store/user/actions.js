@@ -2,9 +2,13 @@ import listService from "./service";
 
 export async function login({ dispatch }, id_token) {
   dispatch('list/setLoading', true, { root: true })
-  await listService.login(id_token);
+  const res = await listService.login(id_token);
   await dispatch("loadLists");
+  //  keep in local storage
+  
+  
   dispatch('list/setLoading', false, { root: true })
+  return res
 }
 
 export function logout({ commit }) {
