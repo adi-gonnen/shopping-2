@@ -35,7 +35,6 @@ export default {
   components: { Login, Welcome, ListItems, CategoryItems, MainFooter },
   data: () => ({
     selected: [],
-    // listItems: []
   }),
   computed: {
     ...mapGetters({
@@ -70,13 +69,6 @@ export default {
     if (!this.lists) {
       this.loadLists();
     }
-    // this.listItems = this.items;
-  },
-  watch: {
-    // items() {
-    //   this.listItems = this.items;
-    //   console.log("categoryList ", this.categories)
-    // }
   },
   methods: {
     ...mapActions({

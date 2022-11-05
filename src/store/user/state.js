@@ -1,6 +1,6 @@
 export default function () {
   return {
-    auth: true,
+    auth: false,
     lists: null,
     defaultListId: null,
     listId: null,
