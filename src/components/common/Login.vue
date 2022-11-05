@@ -53,7 +53,8 @@ export default {
         callback: this.handleCredentialResponse
       });
       google.accounts.id.renderButton(
-        document.getElementById("buttonDiv")
+        document.getElementById("buttonDiv"),
+        { size: "large" } 
       );
       google.accounts.id.prompt(); // also display the One Tap dialog
     },
