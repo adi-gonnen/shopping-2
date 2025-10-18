@@ -1,8 +1,16 @@
 <template>
   <q-toolbar class="header row justify-between">
-    <q-btn flat dense round icon="close" @click="onReturn"/>
-    <div class="header-title items-center q-mx-md">{{title}}</div>
-    <div class="empty-element"/>
+    <q-btn flat dense round icon="close" @click="onReturn" />
+    <div class="header-title items-center q-mx-md">{{ title }}</div>
+    <q-btn
+      v-if="isAddItemRoute"
+      flat
+      dense
+      round
+      icon="add"
+      @click="onAddItems"
+    />
+    <div v-else class="empty-element" />
   </q-toolbar>
 </template>
 
@@ -13,37 +21,43 @@ import { mapState, mapGetters } from "vuex";
 
 export default {
   name: "Header",
-  props: ['origin'],
+  props: ["origin"],
   components: { EditItem, SelectList },
   computed: {
     ...mapGetters({
-      currentList: "list/currentList" || 'עדכן רשימה',
+      currentList: "list/currentList" || "עדכן רשימה",
     }),
     ...mapState({
-      auth: state => state.user.auth,
-      items: state => state.list.items,
+      auth: (state) => state.user.auth,
+      items: (state) => state.list.items,
     }),
+    isAddItemRoute() {
+      return this.$route.path.includes("add-item");
+    },
     title() {
-      if (this.$route.path.includes('item')) {
+      if (this.$route.path.includes("item")) {
         return this.currentList.name;
       }
-      if (this.$route.path.includes('list')) {
-        return 'עדכון רשימות';
+      if (this.$route.path.includes("list")) {
+        return "עדכון רשימות";
       }
-      if (this.$route.path.includes('categories') || this.origin === 'dialog') {
-        return 'עדכון קטגוריות';
+      if (this.$route.path.includes("categories") || this.origin === "dialog") {
+        return "עדכון קטגוריות";
       }
     },
   },
   methods: {
     onReturn() {
-      if (this.origin === 'dialog') {
-        this.$emit('close')
+      if (this.origin === "dialog") {
+        this.$emit("close");
       } else {
-        window.history.back()
+        window.history.back();
       }
-    }
-  }
+    },
+    onAddItems() {
+      this.$root.$emit("header-add-items");
+    },
+  },
 };
 </script>
 
@@ -57,6 +71,4 @@ export default {
 .empty-element {
   min-width: 33px;
 }
-
 </style>
-

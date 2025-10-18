@@ -1,19 +1,23 @@
 <template>
   <div v-if="items[0]" class="full-width">
-    <div v-for="(item, idx) in items" :key="idx" class="relative-position row no-wrap q-mb-lg">
+    <div
+      v-for="(item, idx) in items"
+      :key="idx"
+      class="relative-position row no-wrap q-mb-lg"
+    >
       <q-input
         v-model="item.name"
         :autofocus="idx === 0"
         placeholder="הוסף פריט"
-        outlined 
+        outlined
         class="name-input bg-white"
-        @input ="addLine"
+        @input="addLine"
       />
-     
-      <q-input 
-        v-model="item.quantity" 
-        type="number" 
-        outlined 
+
+      <q-input
+        v-model="item.quantity"
+        type="number"
+        outlined
         class="quan-input bg-white q-mr-xs"
       />
       <div class="quantity-btns-container absolute column">
@@ -22,17 +26,21 @@
           padding="0"
           class="arrow-btn absolute"
           @click.stop="setQuantity(idx, +1)"
-        >&#9650;</q-btn>
+          >&#9650;</q-btn
+        >
         <q-btn
           flat
           padding="0"
           class="arrow-btn absolute"
           @click.stop="setQuantity(idx, -1)"
-        >&#9660;</q-btn>
+          >&#9660;</q-btn
+        >
       </div>
     </div>
     <div class="footer-container fixed-bottom layout">
-      <q-btn flat size="xl" class="add-btn q-ma-sm" @click="updateItems">עדכן</q-btn>
+      <q-btn flat size="xl" class="add-btn q-ma-sm" @click="updateItems"
+        >עדכן</q-btn
+      >
     </div>
   </div>
 </template>
@@ -42,26 +50,42 @@ import { mapState, mapActions } from "vuex";
 export default {
   name: "AddItem",
   data: () => ({
-    items: [{ quantity: 1, name: "" }]
+    items: [{ quantity: 1, name: "" }],
   }),
+  created() {
+    this.$root.$on("header-add-items", this.addItems);
+  },
+  beforeDestroy() {
+    this.$root.$off("header-add-items", this.addItems);
+  },
   computed: {
     ...mapState({
-      categories: state => state.list.categories,
+      categories: (state) => state.list.categories,
     }),
     category() {
       return this.$route.params.category;
     },
     selectedCategory() {
-      return this.categories.find(category => {
-        return category.id === this.category
-      })
+      return this.categories.find((category) => {
+        return category.id === this.category;
+      });
     },
   },
   methods: {
     ...mapActions({
       addItem: "list/addNewItem",
-      getItems: "list/getItems"
+      getItems: "list/getItems",
     }),
+    async addItems() {
+      for (let item of this.items) {
+        if (item.name) {
+          item = { ...item, category: this.category };
+          await this.addItem(item);
+        }
+      }
+      await this.getItems();
+      this.items = [{ quantity: 1, name: "" }];
+    },
     addLine() {
       const lastIdx = this.items.length - 1;
       if (this.items[lastIdx].name !== "") {
@@ -75,20 +99,13 @@ export default {
       this.items[idx].quantity += diff;
     },
     changeSelect() {
-//
+      //
     },
     async updateItems() {
-      for (let item of this.items) {
-        if (item.name) {
-          item = {...item, category: this.category}
-          await this.addItem(item);
-        }
-      }
-      await this.getItems();
-      this.items = [{ quantity: 1, name: "" }];
+      await this.addItems();
       window.history.back();
-    }
-  }
+    },
+  },
 };
 </script>
 
