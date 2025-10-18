@@ -1,24 +1,24 @@
 import listService from "./service";
 
 export async function login({ dispatch }, id_token) {
-  dispatch('list/setLoading', true, { root: true })
+  dispatch("list/setLoading", true, { root: true });
   const res = await listService.login(id_token);
   await dispatch("loadLists");
-  //  keep in local storage
-  
-  
-  dispatch('list/setLoading', false, { root: true })
-  return res
+  dispatch("list/setLoading", false, { root: true });
+  return res;
 }
 
 export function logout({ commit }) {
-  listService.logout()
-  .then(res => {
-    commit("setAuth", false);
-  })
-  .catch(function(error) {
-    console.log("err",error )
-  })
+  commit("setAuth", false);
+
+  listService
+    .logout()
+    .then((res) => {
+      commit("setAuth", false);
+    })
+    .catch(function (error) {
+      console.log("err", error);
+    });
 }
 
 export async function loadLists({ state, commit, rootState, dispatch }) {
@@ -32,7 +32,7 @@ export async function loadLists({ state, commit, rootState, dispatch }) {
     commit("setLists", lists);
     await dispatch("loadProfile");
     commit("setAuth", true);
-    const lastList = localStorage.getItem('lastList')
+    const lastList = localStorage.getItem("lastList");
     const id = rootState.list.listId || lastList || state.defaultListId;
     if (id) {
       await dispatch("list/getItems", id, { root: true });
@@ -43,7 +43,7 @@ export async function loadLists({ state, commit, rootState, dispatch }) {
 }
 
 export async function loadProfile({ commit, state }) {
-  return listService.loadProfile().then(profile => {
+  return listService.loadProfile().then((profile) => {
     commit("setProfile", profile);
     if (state.lists && state.lists[0]) {
       const defaultList = profile.defaultList || state.lists[0].id;
@@ -53,13 +53,13 @@ export async function loadProfile({ commit, state }) {
 }
 
 export async function addUser({ state }, user) {
-  return listService.addUser(user).then(res => {
+  return listService.addUser(user).then((res) => {
     return res;
   });
 }
 
 export async function deleteUser({ state }, url) {
-  return listService.deleteUser(url).then(res => {
+  return listService.deleteUser(url).then((res) => {
     return res;
   });
 }
@@ -68,15 +68,15 @@ export async function setDefault({ state }, data) {
   const profile = JSON.parse(JSON.stringify(state.profile));
   const defaultValue = data.value ? data.id : null;
   profile.defaultList = defaultValue;
-  return listService.setProfile(profile).then(res => {
+  return listService.setProfile(profile).then((res) => {
     return res;
   });
 }
 
-export function hideList({state, commit}, id) {
+export function hideList({ state, commit }, id) {
   const lists = JSON.parse(JSON.stringify(state.lists));
   lists.filter((list) => {
-    return list.id !== id
-  })
-  commit('setLists', lists)
-} 
+    return list.id !== id;
+  });
+  commit("setLists", lists);
+}

@@ -39,7 +39,8 @@ function editList(list) {
     return axios.put(`${api}/list`, list)
     .then(res => {
       return res;
-    });
+    })
+    .catch((error) => console.log("error @@", error))
   }
   
   function addList(list) {

@@ -3,7 +3,7 @@
     <q-img v-if="auth" src="https://cdn.quasar.dev/img/material.png" style="height: 150px">
       <div v-if="profile" class="bg-transparent">
         <q-avatar size="56px" class="q-mb-sm">
-          <img :src="profile.picture">
+          <img v-if="profile.picture" :src="profile.picture">
         </q-avatar>
         <div class="text-weight-bold">{{profile.auth.name}}</div>
         <div>{{profile.email}}</div>

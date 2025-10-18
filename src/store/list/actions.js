@@ -61,8 +61,7 @@ export function editItem({ state, commit, dispatch }, item) {
 
 export async function editList({ commit, dispatch }, list) {
   commit("setLoading", true);
-  const req = await listService
-    .editList(list)
+  const req = await listService.editList(list)
     .then(res => {
       return res;
     })

@@ -5,25 +5,20 @@
       <p>לכניסה נא הרשמו עם חשבון גוגל</p>
       <div id="buttonDiv" class="q-my-lg"></div> 
     </div>
+
     <div class="google-container row">
-     <div id="g_id_onload"
-      data-client_id="719276631119-jd4backgl6vjdgq82vvdc3uir335p1cn.apps.googleusercontent.com"
-      data-ux_mode="redirect"
-      data-login_uri="https://ztl2svc.appspot.com/login">
-    </div>
-       <div class="g_id_signin"
-         data-type="standard"
-         data-size="large"
-         data-theme="outline"
-         data-text="sign_in_with"
-         data-shape="rectangular"
-         data-logo_alignment="left">
-      </div>
-      <!-- <g-signin-button
-        :params="googleSignInParams"
-        @success="onSignInSuccess"
-        @error="onSignInError"
-      >Sign in with Google</g-signin-button> -->
+      <div id="g_id_onload"
+        data-client_id="719276631119-jd4backgl6vjdgq82vvdc3uir335p1cn.apps.googleusercontent.com"
+        data-ux_mode="redirect"
+        data-login_uri="https://ztl2svc.appspot.com/login" />
+
+      <div class="g_id_signin"
+        data-type="standard"
+        data-size="large"
+        data-theme="outline"
+        data-text="sign_in_with"
+        data-shape="rectangular"
+        data-logo_alignment="left" />
     </div>
   </div>
 </template>
@@ -34,12 +29,7 @@ import { mapState, mapActions } from "vuex";
 
 export default {
   name: "Login",
-  data: () => ({
-     googleSignInParams: {
-      client_id:
-        "719276631119-jd4backgl6vjdgq82vvdc3uir335p1cn.apps.googleusercontent.com"
-    }
-  }),
+  data: () => ({}),
   mounted() {
     this.$nextTick(() => this.initAuth())    
   },
@@ -64,17 +54,17 @@ export default {
         // console.log("res: " + res)
       });
     },
-    onSignInSuccess(googleUser) {
-      const id_token = googleUser.getAuthResponse().id_token;
-      this.login(id_token).then(() => {
-        gapi.load("auth2", function() {
-          gapi.auth2.init();
-        });
-      });
-    },
-    onSignInError(error) {
-      console.log("OH NOES", error);
-    }
+    // onSignInSuccess(googleUser) {
+    //   const id_token = googleUser.getAuthResponse().id_token;
+    //   this.login(id_token).then(() => {
+    //     gapi.load("auth2", function() {
+    //       gapi.auth2.init();
+    //     });
+    //   });
+    // },
+    // onSignInError(error) {
+    //   console.log("OH NOES", error);
+    // }
   }
 };
 </script>

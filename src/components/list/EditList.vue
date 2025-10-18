@@ -193,8 +193,11 @@ export default {
       if (this.isDefault !== this.setAsDefault) {
         await this.setDefault({ id: this.list.id, value: this.setAsDefault });
       }
-      await this.addUsers(list.id);
-      await this.removeUsers(list.id);
+      list.users = this.users;
+      console.log("list", list)
+      await this.editList(list);
+      // await this.addUsers(list.id);
+      // await this.removeUsers(list.id);
     },
 
     async addUsers(parentId) {
@@ -202,7 +205,7 @@ export default {
       if (users[1]) {
         for (let i = 1; i < users.length; i++) {
           const user = { parentId, email: users[i] };
-          await this.addUser(user);
+          await this.editList(user);
         }
       }
     },
