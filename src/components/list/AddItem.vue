@@ -53,10 +53,10 @@ export default {
     items: [{ quantity: 1, name: "" }],
   }),
   created() {
-    this.$root.$on("header-add-items", this.addItems);
+    this.$root.$on("update-items", this.updateItems);
   },
   beforeDestroy() {
-    this.$root.$off("header-add-items", this.addItems);
+    this.$root.$off("update-items", this.updateItems);
   },
   computed: {
     ...mapState({

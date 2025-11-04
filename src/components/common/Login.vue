@@ -32,25 +32,13 @@ export default {
       google.accounts.id.renderButton(document.getElementById("buttonDiv"), {
         size: "large",
       });
-      google.accounts.id.prompt(); // also display the One Tap dialog
+      google.accounts.id.prompt();
     },
     handleCredentialResponse(response) {
-      // console.log("Encoded JWT ID token: " + response.credential);
       this.login(response.credential).then((res) => {
-        // console.log("res: " + res)
+        console.log("login response: " + res);
       });
     },
-    // onSignInSuccess(googleUser) {
-    //   const id_token = googleUser.getAuthResponse().id_token;
-    //   this.login(id_token).then(() => {
-    //     gapi.load("auth2", function() {
-    //       gapi.auth2.init();
-    //     });
-    //   });
-    // },
-    // onSignInError(error) {
-    //   console.log("OH NOES", error);
-    // }
   },
 };
 </script>

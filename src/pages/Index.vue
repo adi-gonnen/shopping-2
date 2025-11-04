@@ -1,29 +1,32 @@
 <template>
   <q-page class="flex q-mt-sm">
-    <q-spinner-hourglass v-if="loading" color="primary" size="4em"/>
+    <q-spinner-hourglass v-if="loading" color="primary" size="4em" />
     <div v-else class="full-width">
-      <Login v-if="!auth"/>
+      <Login v-if="!auth" />
       <div v-else class="full-width">
         <div v-if="items">
-          <category-items 
-            :items="items" 
-            :categories="categories || []" 
-            :selected="selected" 
+          <category-items
+            :items="items"
+            :categories="categories || []"
+            :selected="selected"
             @markItems="markItems"
             @arrangeList="arrangeList"
           />
-          <!-- <list-items v-else :items="items" @markItems="markItems" @arrangeList="arrangeList"/> -->
-          <main-footer :selected="selected" @clear="clear" class="layout fixed-bottom"/>
+          <main-footer
+            :selected="selected"
+            @clear="clear"
+            class="layout fixed-bottom"
+          />
         </div>
-        <Welcome v-else/>
+        <Welcome v-else />
       </div>
     </div>
-    <div v-if="error" class="error-text q-pa-md">{{errorText}}</div>
+    <div v-if="error" class="error-text q-pa-md">{{ errorText }}</div>
   </q-page>
 </template>
 
 <script>
-import { mapState,mapGetters, mapActions } from "vuex";
+import { mapState, mapGetters, mapActions } from "vuex";
 import Login from "components/common/Login.vue";
 import Welcome from "components/common/Welcome.vue";
 import ListItems from "components/list/ListItems.vue";
@@ -38,15 +41,15 @@ export default {
   }),
   computed: {
     ...mapGetters({
-      categoryList: "list/categoryList"
+      categoryList: "list/categoryList",
     }),
     ...mapState({
-      items: state => state.list.items,
-      lists: state => state.user.lists,
-      categories: state => state.list.categories,
-      auth: state => state.user.auth,
-      loading: state => state.list.loading,
-      error: state => state.list.error
+      items: (state) => state.list.items,
+      lists: (state) => state.user.lists,
+      categories: (state) => state.list.categories,
+      auth: (state) => state.user.auth,
+      loading: (state) => state.list.loading,
+      error: (state) => state.list.error,
     }),
     errorText() {
       switch (this.error) {
@@ -63,16 +66,17 @@ export default {
           return "מצטערים, נראה שיש תקלה במערכת";
           break;
       }
-    }
+    },
   },
   mounted() {
+    console.log("mounted home", this.lists);
     if (!this.lists) {
       this.loadLists();
     }
   },
   methods: {
     ...mapActions({
-      loadLists: "user/loadLists"
+      loadLists: "user/loadLists",
     }),
     markItems(val) {
       this.selected = val;
@@ -82,10 +86,9 @@ export default {
     },
     arrangeList(list) {
       this.listItems = list;
-    }
-  }
+    },
+  },
 };
 </script>
 
-<style lang="scss">
-</style>
+<style lang="scss"></style>

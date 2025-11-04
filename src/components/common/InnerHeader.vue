@@ -2,14 +2,7 @@
   <q-toolbar class="header row justify-between">
     <q-btn flat dense round icon="close" @click="onReturn" />
     <div class="header-title items-center q-mx-md">{{ title }}</div>
-    <q-btn
-      v-if="isAddItemRoute"
-      flat
-      dense
-      round
-      icon="add"
-      @click="onAddItems"
-    />
+    <q-btn v-if="isAddItemRoute" flat @click="onAddItems">עדכן</q-btn>
     <div v-else class="empty-element" />
   </q-toolbar>
 </template>
@@ -55,7 +48,7 @@ export default {
       }
     },
     onAddItems() {
-      this.$root.$emit("header-add-items");
+      this.$root.$emit("update-items");
     },
   },
 };
