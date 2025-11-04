@@ -1,22 +1,34 @@
 <template>
-  <div class="login-container">
-    <div class="login-title column">
-      <p>ברוכים הבאים!</p>
-      <p>לכניסה נא הרשמו עם חשבון גוגל</p>
-      <div id="buttonDiv" class="q-my-lg"></div>
-    </div>
+  <div class="login-container text-center q-my-lg">
+    <p class="page-title">ברוכים הבאים!</p>
+    <p class="q-mx-xl q-mb-lg fs-20">לכניסה נא הרשמו עם חשבון גוגל</p>
+    <div id="buttonDiv" class="q-my-lg"></div>
   </div>
 </template>
 
 <script>
-import { setTimeout } from "timers";
 import { mapState, mapActions } from "vuex";
 
 export default {
   name: "Login",
   data: () => ({}),
   mounted() {
-    this.$nextTick(() => this.initAuth());
+    if (window.google) {
+      this.initAuth();
+      return;
+    }
+
+    const script = document.createElement("script");
+    script.src = "https://accounts.google.com/gsi/client";
+    script.async = true;
+    script.defer = true;
+    script.onload = this.initAuth;
+    document.head.appendChild(script);
+  },
+  computed: {
+    clientId() {
+      return "719276631119-jd4backgl6vjdgq82vvdc3uir335p1cn.apps.googleusercontent.com";
+    },
   },
   methods: {
     ...mapActions({
@@ -24,8 +36,7 @@ export default {
     }),
     initAuth() {
       google.accounts.id.initialize({
-        client_id:
-          "719276631119-jd4backgl6vjdgq82vvdc3uir335p1cn.apps.googleusercontent.com",
+        client_id: this.clientId,
         callback: this.handleCredentialResponse,
         auto_select: true,
       });

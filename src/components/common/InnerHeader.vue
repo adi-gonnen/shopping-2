@@ -29,7 +29,7 @@ export default {
     },
     title() {
       if (this.$route.path.includes("item")) {
-        return this.currentList.name;
+        return this.currentList?.name;
       }
       if (this.$route.path.includes("list")) {
         return "עדכון רשימות";
