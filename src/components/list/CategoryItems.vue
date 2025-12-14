@@ -1,37 +1,65 @@
 <template>
   <div class="items-container column full-width">
     <q-list class="category-list">
-      <q-expansion-item 
-        v-for="(category, index) in categoriesToShow" 
-        :key="index" 
-        :value="true" 
-        dense-toggle 
+      <q-expansion-item
+        v-for="(category, index) in categoriesToShow"
+        :key="index"
+        :value="true"
+        dense-toggle
         class="category-header row items-center q-py-none"
       >
         <template v-slot:header>
           <q-item-section avatar class="category-icon">
-            <i :class="category.icon" :style="{color: category.color}"></i>
+            <i :class="category.icon" :style="{ color: category.color }"></i>
           </q-item-section>
           <q-item-section class="item-label">
-            <p class="bold q-mb-none q-px-sm">{{category.name}}</p>
+            <p class="bold q-mb-none q-px-sm">{{ category.name }}</p>
           </q-item-section>
           <q-item-section class="item-label">
-            <q-btn flat class="add-cat-btn" icon="add" @click.stop="addItem(category.id)"></q-btn>
+            <q-btn
+              flat
+              class="add-cat-btn"
+              icon="add"
+              @click.stop="addItem(category.id)"
+            ></q-btn>
           </q-item-section>
         </template>
 
-        <q-separator/>
+        <q-separator />
         <q-list class="category-list">
-          <q-item v-for="(item, idx) in itemsCategory(category.id)" :key="idx" class="list-item-container q-pa-none">
-            <list-item :item="item" :selected="selected" @markItems="markItems" @dblclick="moveToEdit"/>
+          <q-item
+            v-for="(item, idx) in itemsCategory(category.id)"
+            :key="idx"
+            class="list-item-container q-pa-none"
+          >
+            <list-item
+              :item="item"
+              :selected="selected"
+              @markItems="markItems"
+              @dblclick="moveToEdit"
+            />
           </q-item>
         </q-list>
       </q-expansion-item>
     </q-list>
-    <p v-if="showFreeTitle" class="free-items-title bold q-py-xs q-px-md q-mb-sm">מוצרים נוספים:</p>
+    <p
+      v-if="showFreeTitle"
+      class="free-items-title bold q-py-xs q-px-md q-mb-sm"
+    >
+      מוצרים נוספים:
+    </p>
     <q-list class="category-list">
-      <q-item v-for="(item, idx) in freeItems" :key="idx" class="list-item-container q-pa-none">
-        <list-item :item="item" :selected="selected" @markItems="markItems" @dblclick="moveToEdit"/>
+      <q-item
+        v-for="(item, idx) in freeItems"
+        :key="idx"
+        class="list-item-container q-pa-none"
+      >
+        <list-item
+          :item="item"
+          :selected="selected"
+          @markItems="markItems"
+          @dblclick="moveToEdit"
+        />
       </q-item>
     </q-list>
   </div>
@@ -48,42 +76,42 @@ export default {
   data: () => ({}),
   computed: {
     categoriesToShow() {
-      return this.categories.filter(category => {
+      return this.categories.filter((category) => {
         return this.items.find((item) => {
-          return category.id === item.category
-        })
-      })
+          return category.id === item.category;
+        });
+      });
     },
     freeItems() {
-      return this.items.filter(item => {
-        return !item.category
-      })
+      const categoryIds = new Set(this.categories.map((c) => c.id));
+      return this.items.filter((item) => !categoryIds.has(item.category));
     },
     itemsCategory() {
-      return id => {
-        return this.items.filter(item => {
+      return (id) => {
+        return this.items.filter((item) => {
           return item.category === id;
         });
       };
     },
     category() {
-      return id => {
-        return this.categories.find(item => {
+      return (id) => {
+        return this.categories.find((item) => {
           return (item.id = id);
         });
       };
     },
     showFreeTitle() {
-      return this.categoriesToShow[0] && this.freeItems[0]
-    }
+      return this.categoriesToShow[0] && this.freeItems[0];
+    },
   },
   methods: {
     markItems(id) {
       const selected = this.selected;
-      const idx = selected.findIndex(item => {
+      const idx = selected.findIndex((item) => {
         return item === id;
       });
-      if (idx !== -1) {   //item already marked        
+      if (idx !== -1) {
+        //item already marked
         selected.splice(idx, 1);
       } else {
         selected.push(id);
@@ -91,12 +119,12 @@ export default {
       this.$emit("markItems", selected);
     },
     addItem(category) {
-      this.$router.push(`add-item/${category}`)
+      this.$router.push(`add-item/${category}`);
     },
     moveToEdit() {
-      this.$router.push(`edit-item/${this.item.id}`)
+      this.$router.push(`edit-item/${this.item.id}`);
     },
-  }
+  },
 };
 </script>
 
@@ -142,4 +170,3 @@ export default {
   width: 100%;
 }
 </style>
-
