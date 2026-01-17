@@ -1,15 +1,23 @@
 <template>
-  <div :class="list && 'edit-list q-mx-sm'" class="edit-list-container full-width q-mb-xl">
+  <div
+    :class="list && 'edit-list q-mx-sm'"
+    class="edit-list-container full-width q-mb-xl"
+  >
     <div class="main-edit-page q-mb-xl">
       <!-- edit name -->
       <div class="border q-pa-sm q-mb-md">
         <div class="fs-20">עדכן שם רשימה:</div>
-        <q-input v-model="newList" placeholder="שם הרשימה" class="full-width"/>
+        <q-input v-model="newList" placeholder="שם הרשימה" class="full-width" />
       </div>
 
       <!-- set default -->
       <div class="border q-pa-sm q-mb-md">
-        <q-toggle label="סמן כברירת מחדל" v-model="setAsDefault" left-label class="default-toggle"/>
+        <q-toggle
+          label="סמן כברירת מחדל"
+          v-model="setAsDefault"
+          left-label
+          class="default-toggle"
+        />
       </div>
 
       <!-- add user -->
@@ -25,7 +33,13 @@
         >
           <template v-slot:append>
             <q-avatar>
-              <q-btn round dense flat @click="toggleNewUser(n)" :icon="icon(n)"/>
+              <q-btn
+                round
+                dense
+                flat
+                @click="toggleNewUser(n)"
+                :icon="icon(n)"
+              />
             </q-avatar>
           </template>
         </q-input>
@@ -35,17 +49,23 @@
       <div v-if="users" class="border q-pa-sm q-mb-md">
         <div class="fs-20 q-mb-md">הסר שותפים מהרשימה:</div>
         <q-list v-if="users" class="q-mb-sm">
-          <q-item v-for="user in users" :key="user.value" tag="label" class="q-px-none">
+          <q-item
+            v-for="user in users"
+            :key="user.value"
+            tag="label"
+            class="q-px-none"
+          >
             <q-item-section class="users-list">
               <q-item-label caption>
                 <q-avatar size="32px">
-                  <img :src="user.label.picture">
+                  <img :src="user.label.picture" />
                 </q-avatar>
               </q-item-label>
               <q-item-label
                 :class="!isSelect(user.value) && 'line-through'"
                 class="q-ma-xs"
-              >{{user.label.name}}</q-item-label>
+                >{{ user.label.name }}</q-item-label
+              >
             </q-item-section>
             <q-item-section avatar class="q-px-none">
               <q-toggle
@@ -61,14 +81,58 @@
 
       <!-- allow categories -->
       <div class="border q-pa-sm q-mb-md">
-        <q-toggle label="אפשר קטגוריות" v-model="allowCategories" left-label class="default-toggle"/>
+        <q-toggle
+          label="אפשר קטגוריות"
+          v-model="allowCategories"
+          left-label
+          class="default-toggle"
+        />
+      </div>
+
+      <!-- secret code -->
+      <div class="border q-pa-sm q-mb-md">
+        <div class="fs-20">קוד סודי:</div>
+        <q-input
+          v-model="secretCode"
+          placeholder="קוד סודי"
+          class="full-width"
+        />
+      </div>
+
+      <!-- restricted items -->
+      <div class="border q-pa-sm q-mb-md">
+        <div class="fs-20">פריטים מוגבלים:</div>
+        <div class="row q-col-gutter-sm q-mb-sm items-center">
+          <div class="col">
+            <q-input
+              v-model="newRestrictedItem"
+              placeholder="הוסף פריט"
+              @keydown.enter.prevent="addRestrictedItem"
+            />
+          </div>
+          <div class="col-auto">
+            <q-btn round dense flat icon="add" @click="addRestrictedItem" />
+          </div>
+        </div>
+        <div class="restricted-items q-gutter-xs">
+          <q-chip
+            v-for="(item, idx) in restrictedItems"
+            :key="idx"
+            removable
+            class="q-px-md"
+            @remove="removeRestrictedItem(idx)"
+            color="primary"
+            text-color="white"
+            >{{ item }}</q-chip
+          >
+        </div>
       </div>
     </div>
 
     <!-- operate btns -->
     <div class="btns-container layout row fixed-bottom">
-      <q-btn flat class="edit-btn" @click="updateList">{{btnText}}</q-btn>
-      <delete-list v-if="list" :id="list.id" class="bg-white"/>
+      <q-btn flat class="edit-btn" @click="updateList">{{ btnText }}</q-btn>
+      <delete-list v-if="list" :id="list.id" class="bg-white" />
     </div>
   </div>
 </template>
@@ -88,11 +152,14 @@ export default {
     users: null,
     selectUsers: [],
     newUsers: [],
-    countUsers: 1
+    countUsers: 1,
+    secretCode: "",
+    restrictedItems: [],
+    newRestrictedItem: "",
   }),
   computed: {
     ...mapState({
-      defualtId: state => state.user.defaultListId
+      defualtId: (state) => state.user.defaultListId,
     }),
     btnText() {
       return this.list ? "עדכן רשימה" : "הוסף רשימה";
@@ -101,22 +168,26 @@ export default {
       return this.list ? +this.defualtId === +this.list.id : false;
     },
     isSelect() {
-      return id => {
-        return this.selectUsers.find(item => {
+      return (id) => {
+        return this.selectUsers.find((item) => {
           return item === id;
         });
       };
     },
     icon() {
-      return n => {
+      return (n) => {
         return n === this.countUsers ? "add" : "cancel";
       };
-    }
+    },
   },
 
   mounted() {
     if (this.list) {
       this.newList = this.list.name;
+      this.secretCode = this.list.secretCode || "";
+      this.restrictedItems = this.list.restrictedItems
+        ? [...this.list.restrictedItems]
+        : [];
       this.$nextTick(() => this.setUsers());
       if (this.isDefault) {
         this.setAsDefault = true;
@@ -132,14 +203,14 @@ export default {
       loadLists: "user/loadLists",
       addUser: "user/addUser",
       deleteUser: "user/deleteUser",
-      setLoading: "list/setLoading"
+      setLoading: "list/setLoading",
     }),
     setUsers() {
       const data = this.list.usersData;
       const activeUsers = this.list.users;
       if (data && activeUsers.length > 1) {
         const users = [];
-        activeUsers.forEach(value => {
+        activeUsers.forEach((value) => {
           const label = data[value];
           users.push({ value, label });
         });
@@ -161,22 +232,39 @@ export default {
       }
     },
 
+    addRestrictedItem() {
+      const val = this.newRestrictedItem.trim();
+      if (val) {
+        this.restrictedItems.push(val);
+        this.newRestrictedItem = "";
+      }
+    },
+    removeRestrictedItem(index) {
+      this.restrictedItems.splice(index, 1);
+    },
+
     async updateList() {
       if (!this.newList) {
         return;
       }
+      if (this.newRestrictedItem.trim()) {
+        this.addRestrictedItem();
+      }
       this.setLoading(true);
-      this.list
-        ? await this.setEditList()
-        : await this.setAddList();
-        this.$nextTick(() => this.loadLists());
-        this.newList = "";
-        this.setLoading(false);
-        window.history.back();
+      this.list ? await this.setEditList() : await this.setAddList();
+      this.$nextTick(() => this.loadLists());
+      this.newList = "";
+      this.setLoading(false);
+      //window.history.back();
     },
 
     async setAddList() {
-      const list = { name: this.newList, categories: this.allowCategories };
+      const list = {
+        name: this.newList,
+        categories: this.allowCategories,
+        secretCode: this.secretCode,
+        restrictedItems: this.restrictedItems,
+      };
       const id = await this.addNewList(list);
       if (this.setAsDefault) {
         await this.setDefault({ id, value: true });
@@ -194,7 +282,9 @@ export default {
         await this.setDefault({ id: this.list.id, value: this.setAsDefault });
       }
       list.users = this.users;
-      console.log("list", list)
+      list.secretCode = this.secretCode;
+      list.restrictedItems = this.restrictedItems;
+      console.log("list", list);
       await this.editList(list);
       // await this.addUsers(list.id);
       // await this.removeUsers(list.id);
@@ -215,19 +305,19 @@ export default {
       const selectUsers = this.selectUsers;
       if (users && users.length !== selectUsers.length) {
         const userToDelete = users.filter(
-          user => !selectUsers.includes(user.value)
+          (user) => !selectUsers.includes(user.value)
         );
         for (let i = 0; i < userToDelete.length; i++) {
           const url = `${parentId}/${userToDelete[i].value}`;
           await this.deleteUser(url);
         }
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 .q-card {
   margin-top: -230px;
   width: 100%;
@@ -269,5 +359,17 @@ export default {
   font-size: 20px;
   margin: 8px 0 8px 16px;
 }
-
+.restricted-items {
+  &::v-deep {
+    .q-chip {
+      padding: 0 8px;
+    }
+    .q-chip__icon {
+      padding-right: 8px;
+    }
+    .q-chip__content {
+      padding-left: 8px;
+    }
+  }
+}
 </style>
